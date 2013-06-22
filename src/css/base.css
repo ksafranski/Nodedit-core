@@ -1,0 +1,89 @@
+html, body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #1a1a1a;
+    color: #fff;
+    overflow: hidden;
+    font: 12px normal Arial, Helvetica, sans-serif;
+}
+
+/* HEADERS */
+
+h1 {
+    font-size: 28px;
+    padding: 0 0 20px 0;
+}
+
+/* FORM ELEMENTS */
+
+label { display: block; margin: 10px 0 10px 0; font-size: 16px; font-weight: bold; }        
+    
+input, select, textarea {
+    display: block;
+    width: 100%;
+    margin: 5px 0 15px 0;
+    padding: 7px 10px;
+    color: #333;
+    font-size: 1.2em;
+    background-color: #d4d2d4;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: inset 0px 3px 10px 0px rgba(255, 255, 255, .9);
+}
+
+textarea { font-family: Arial, Helvetica, sans-serif; min-height: 150px; }
+
+input:focus, select:focus, textarea:focus{
+    border: 1px solid #999; 
+    outline: none;
+    box-shadow: inset 0px 3px 10px 0px rgba(0, 0, 0, .3);
+}
+
+button { 
+    display: inline-block;      
+    width: auto;
+    margin: 5px 15px 15px 0;
+    padding: 6px 25px 4px 25px;
+    cursor: pointer;
+    color: #6d6d6d;
+    font-weight: bold;
+    font-size: 16px;
+    background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.25, rgb(224,224,224)), color-stop(0.75, rgb(240,240,240)));
+    background-image: -moz-linear-gradient(center bottom, rgb(224,224,224) 25%, rgb(240,240,240) 75%);
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+    
+.btn-left { 
+    margin-right: 0;
+    border-radius: 5px 0 0 5px;
+}
+    
+.btn-mid {
+    margin-left: -4px; /* Inline-block fix */
+    margin-right: 0;
+    border-radius: 0;
+    border-left: 1px solid transparent;
+}
+
+.btn-right {
+    margin-left: -4px; /* Inline-block fix */
+    margin-right: 0;
+    border-radius: 0 5px 5px 0;
+    border-left: 1px solid transparent;
+}
+
+button:hover, button:hover{
+    color: #333;
+    border: 1px solid #999;
+    box-shadow: 1px 1px 1px 0 rgba(100, 100, 100, .3);
+}
+
+/* CONNECT */
+
+#connect {
+    width: 300px;
+    margin: 25% auto 0 auto;
+}
