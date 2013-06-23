@@ -1,5 +1,5 @@
 /**
- * @function nodedit.keybind
+ * @method nodedit.keybind
  * 
  * Instantiated to create keybindings
  * 

@@ -1,10 +1,9 @@
 /**
- * @function nodedit.session()
+ * @method nodedit.session()
  * 
  * Sets or gets session information
  * @param {session} Object - With format { url: 'ENDPOINT', key: 'API_KEY' } sets the session, 'clear' removes it, no value returns current session (or bool false)
  */
-
 nodedit.session = function () {
     
     // Set or get
