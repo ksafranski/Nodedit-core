@@ -52,5 +52,15 @@ nodedit.connect = {
             .fail(function () {
                nodedit.message.error('Could not connect to server');
             });
+    },
+    
+    /**
+     * @method modedit.connect.close
+     * 
+     * Closes the connect by clearing the session
+     */
+    close: function () {
+        nodedit.session('clear');
+        window.location.reload();
     }
 };

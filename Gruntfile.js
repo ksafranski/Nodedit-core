@@ -4,14 +4,14 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
-    concat: {
+    concatjs: {
       options: {
         banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("mm-dd-yyyy") %> */\n',
         separator: ';'
       },
       dist: {
-        src: ['src/js/**/*.js'],
-        dest: 'build/<%= pkg.name %>.js'
+        src: ['src/js/*.js'],
+        dest: 'build/js/<%= pkg.name %>.js'
       }
     },
     uglify: {
@@ -21,14 +21,24 @@ module.exports = function(grunt) {
       },
       dist: {
         files: {
-          'dist/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
+          'build/<%= pkg.name %>.min.js': ['<%= concat.dist.dest %>']
         }
+      }
+    },
+    concatcss: {
+      options: {
+        banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("mm-dd-yyyy") %> */\n',
+        separator: ';'
+      },
+      dist: {
+        src: ['src/css/**/*.css'],
+        dest: 'build/css/<%= pkg.name %>.js'
       }
     },
     cssmin: {
       compress: {
         files: {
-          'dist/<%= pkg.name %>.css': ['src/css/**/*.css']
+          'build/<%= pkg.name %>.css': ['src/css/**/*.css']
         }
       },
       with_banner: {
@@ -44,7 +54,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-cssmin');
 
   // Default task(s).
-  grunt.registerTask('default', ['concat','uglify','cssmin']);
+  grunt.registerTask('default', ['concatjs','uglify','concatcss','cssmin']);
   
 
 };

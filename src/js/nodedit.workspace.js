@@ -21,8 +21,11 @@ nodedit.workspace = {
                     nodedit.$el.html(tmpl);
                     // Start filemanager
                     nodedit.filemanager.init();
+                    // Start editor
+                    nodedit.editor.init();
                 });
         } else {
+            // Failed session
             nodedit.message.error('Could not load session');
         }
         

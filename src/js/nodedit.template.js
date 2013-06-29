@@ -18,7 +18,6 @@ nodedit.template = function (tpl, data, fn) {
                 tmpl = template({'data': data});
                 fn(tmpl);
             }
-            //return tmpl;
         },
         error: function() {
             nodedit.message.error('Could not load template');

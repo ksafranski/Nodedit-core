@@ -23,7 +23,7 @@ nodedit.keybind = function(params){
      * Timeout before cur_combo resets
      */
  
-    this.timeout = params.timeout || 3000;
+    this.timeout = params.timeout || 1000;
     
     /**
      * Callback
@@ -53,7 +53,7 @@ nodedit.keybind = function(params){
             }
             _this.cur_combo += name;
             _this.runTimer();
-            _this.checkCode();
+            _this.checkCode(evt);
         };
         
     };
@@ -79,8 +79,9 @@ nodedit.keybind = function(params){
      * Checks for code match and fires callback
      */
     
-    this.checkCode = function(){
-        if (this.cur_combo===this.code && this.callback){
+    this.checkCode = function(e){
+        if (this.cur_combo.indexOf(this.code)!== -1 && this.callback){
+            e.preventDefault();
             this.cur_combo = '';
             this.callback();
         }
