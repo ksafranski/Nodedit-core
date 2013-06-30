@@ -347,14 +347,14 @@ nodedit.filemanager = {
                         if (res) {
                             // Change object
                             newPath = path.replace(origName, newName);
-                            object.data('path', newPath);
+                            object.data('path',newPath);
                             newObject = object.children('a').html().replace(origName, newName);
                             object.children('a').html(newObject);
                             // Change any children paths
                             if (type==='directory') {
                                 // Change any sub-paths
                                 $.each(nodedit.$el.find(_this.el).find('li'), function () {
-                                    if ($(this).data('path').indexOf(path)===0) {
+                                    if ($(this).data('path').indexOf(path)===0 && $(this).data('path')!==newPath) {
                                         $(this).data('path', $(this).data('path').replace(path, newPath));   
                                     } 
                                 });
