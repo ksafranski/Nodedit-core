@@ -293,6 +293,11 @@ nodedit.filemanager = {
             parentObj = nodedit.$el.find(_this.el).find('li').filterByData('path', parent),
             name = _this.getFileName(object),
             icon;
+            
+        // Prevent duplicates
+        if (parentObj.find('li').filterByData('path', object).length!==0) {
+            return false;
+        }
         
         // Ensure folder is open
         if (parentObj.hasClass('open')) {
