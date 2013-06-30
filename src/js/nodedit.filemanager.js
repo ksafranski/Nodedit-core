@@ -283,7 +283,7 @@ nodedit.filemanager = {
     /**
      * @method nodedit.filemanager.appendObject
      * 
-     * Appends an object to the filemanager
+     * Appends a DOM object to the filemanager parent object
      * @param {string} parent The object to append to
      * @param {string} object The object to append
      * @param {string} type The type of object, file/directory

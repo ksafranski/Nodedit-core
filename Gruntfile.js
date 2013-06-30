@@ -10,7 +10,21 @@ module.exports = function(grunt) {
         separator: ''
       },
       js: {
-        src: ['src/js/*.js'],
+        src: [
+            'src/js/dist.nodedit.js',
+            'src/js/nodedit.keybind.js',
+            'src/js/nodedit.message.js',
+            'src/js/nodedit.template.js',
+            'src/js/nodedit.fsapi.js',
+            'src/js/nodedit.session.js',
+            'src/js/nodedit.store.js',
+            'src/js/nodedit.connect.js',
+            'src/js/nodedit.modal.js',
+            'src/js/nodedit.workspace.js',
+            'src/js/nodedit.tabs.js',
+            'src/js/nodedit.filemanager.js',
+            'src/js/nodedit.editor.js'
+            ],
         dest: 'dist/js/<%= pkg.name %>.js'
       },
       css: {

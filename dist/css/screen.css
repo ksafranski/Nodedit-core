@@ -1,4 +1,4 @@
-/*! Nodedit 0.1.0 06-29-2013 */
+/*! Nodedit 0.1.0 06-30-2013 */
 /* RESET */
 
 html, body, div, span, applet, object, iframe,
@@ -78,11 +78,13 @@ html, body {
 h1 {
     font-size: 26px;
     padding: 0 0 10px 0;
+    text-transform: capitalize;
 }
 
 h2 {
     font-size: 20px;
     padding: 0 0 20px 0;
+    text-transform: capitalize;
 }
 
 a, a:link, a:hover {
@@ -92,7 +94,13 @@ a, a:link, a:hover {
 
 /* FORM ELEMENTS */
 
-label { display: block; margin: 10px 0 10px 0; font-size: 15px; font-weight: normal; }        
+label { 
+    display: block; 
+    margin: 10px 0 10px 0; 
+    font-size: 15px; 
+    font-weight: normal; 
+    text-transform: capitalize; 
+}        
     
 input, select, textarea {
     display: block;
@@ -368,6 +376,7 @@ button:hover, button:hover{
     font-size: 13px;
     overflow: hidden;
     cursor: pointer;
+    text-transform: none;
 }
 
 #tabs li label.changed::before {
@@ -399,7 +408,6 @@ button:hover, button:hover{
     border-radius: 15px 0px 15px 0px;
     box-shadow: 0 0 20px 0 rgba(0, 0, 0, .9);
     z-index: 9999;
-    min-height: 200px;
 }
 
 #modal a.icon-remove {
