@@ -35,7 +35,30 @@ nodedit.tabs = {
      */
     close: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('[data-id="'+id+'"]').remove();
+        nodedit.$el.find(_this.el).children('li').filterByData('id', id).remove();
+    },
+    
+    /**
+     * @method nodedit.tabs.rename
+     * 
+     * Handles rename of any open files and path changes
+     * @param {string} oldPath The existing path
+     * @param {string} newPath The new path
+     * @param {int} id The id of the instance
+     */
+    rename: function (oldPath, newPath, id) {
+        var _this = this,
+            tab = nodedit.$el.find(_this.el).children('li').filterByData('id', id),
+            curPath = tab.attr('title');
+        
+        // Change title attr
+        tab.attr('title', tab.attr('title').replace(oldPath, newPath));
+        
+        if (curPath===oldPath) {
+            // Full path match, change label
+            tab.children('label').text(nodedit.filemanager.getFileName(newPath));
+        }
+        
     },
     
     /**
@@ -47,7 +70,7 @@ nodedit.tabs = {
     setActive: function (id) {
         var _this = this;
         nodedit.$el.find(_this.el).children('li').removeClass('active');
-        nodedit.$el.find(_this.el).children('[data-id="'+id+'"]').addClass('active');
+        nodedit.$el.find(_this.el).children('li').filterByData('id', id).addClass('active');
     },
     
     /**
@@ -72,7 +95,7 @@ nodedit.tabs = {
      */
     bindClose: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('[data-id="'+id+'"]').on('click', 'a', function () {
+        nodedit.$el.find(_this.el).children('li').filterByData('id', id).on('click', 'a', function () {
             nodedit.editor.close(id);
         });
     },
@@ -85,7 +108,7 @@ nodedit.tabs = {
      */
     bindClick: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('[data-id="'+id+'"]').on('click', function () {
+        nodedit.$el.find(_this.el).children('li').filterByData('id', id).on('click', function () {
             nodedit.editor.gotoInstance(id);
         });
     },
@@ -98,7 +121,7 @@ nodedit.tabs = {
      */
     markChanged: function (id) {
         var _this = this,
-            label = nodedit.$el.find(_this.el).children('li[data-id="'+id+'"]').children('label');
+            label = nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label');
         
         // Compare to initial state
         if (nodedit.editor.getContent(id)!=nodedit.editor.instances[id].content) {
@@ -116,7 +139,7 @@ nodedit.tabs = {
      */
     markUnchanged: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('li[data-id="'+id+'"]').children('label').removeClass('changed');
+        nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label').removeClass('changed');
     },
     
     /**
@@ -130,12 +153,12 @@ nodedit.tabs = {
             i;
         if (id) {
             // Check for specific editor with unsaved changes
-            if (nodedit.$el.find(_this.el).children('li[data-id="'+id+'"]').children('label').hasClass('changed')) {
+            if (nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label').hasClass('changed')) {
                 return true;
             }
         } else {
             for (i in nodedit.editor.instances) {
-                if (nodedit.$el.find(_this.el).children('li[data-id="'+i+'"]').children('label').hasClass('changed')) {
+                if (nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label').hasClass('changed')) {
                     return true;
                 }
             }

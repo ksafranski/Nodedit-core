@@ -33,7 +33,10 @@ nodedit.modal = {
             // Load modal template
             nodedit.template('modal.tpl', { title: title }, function (tmpl) {
                 // Show content
-                nodedit.$el.find(_this.el).html(tmpl).children('#modal-content').html(content);
+                nodedit.$el.find(_this.el).html(tmpl).children('#modal-content')
+                    .html(content)
+                    .find('input:first-of-type')
+                    .focus();
                 // Fire callback
                 if (fn) {
                     fn();

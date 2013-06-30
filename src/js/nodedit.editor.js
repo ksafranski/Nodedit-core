@@ -138,11 +138,29 @@ nodedit.editor = {
         // Close tab
         nodedit.tabs.close(id);
         // Remove editor instance from DOM
-        nodedit.$el.find(_this.instance_el).children('li[data-id="'+id+'"]').remove();    
+        nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).remove();    
         // Remove instance
         delete _this.instances[id];
     },
     
+    /**
+     * @method nodedit.editor.rename
+     * 
+     * Handles rename of any open files and path changes
+     * @param {string} oldPath The existing path
+     * @param {string} newPath The new path
+     */
+    rename: function (oldPath, newPath) {
+        var _this = this, i;
+        for (i in _this.instances) {
+            if (_this.instances[i].path.indexOf(oldPath)===0) {
+                // Found, change path
+                _this.instances[i].path = _this.instances[i].path.replace(oldPath, newPath);
+                // Change tab
+                nodedit.tabs.rename(oldPath, newPath, i);
+            }
+        }  
+    },
     
     /**
      * @method nodedit.editor.saveActive
@@ -189,7 +207,7 @@ nodedit.editor = {
         
         // Show editor
         nodedit.$el.find(_this.instance_el).children('li').hide();
-        nodedit.$el.find(_this.instance_el).children('li[data-id="'+id+'"]').show();
+        nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).show();
     },
     
     /**

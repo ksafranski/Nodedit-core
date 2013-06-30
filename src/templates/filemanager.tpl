@@ -2,9 +2,13 @@
     
     <a id="disconnect" title="Close Session" class="icon-power-off"></a>
     
+    <!-- @TODO: build this stuff...
+    
     <a id="settings" title="Settings" class="icon-cogs"></a>
     
     <a id="bookmarks" title="Bookmarks" class="icon-star"></a>
+    
+    -->
     
 </div>
 <ul>
