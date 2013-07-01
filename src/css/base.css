@@ -100,19 +100,13 @@ button {
     margin: 0 15px 5px 0;
     padding: 4px 25px;
     cursor: pointer;
-    color: #383738;
+    color: #fff;
     font-weight: bold;
     font-size: 14px;
-    background: -moz-linear-gradient(-45deg,  rgba(122,122,122,1) 0%, rgba(84,84,84,1) 100%); /* FF3.6+ */
-    background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(122,122,122,1)), color-stop(100%,rgba(84,84,84,1))); /* Chrome,Safari4+ */
-    background: -webkit-linear-gradient(-45deg,  rgba(122,122,122,1) 0%,rgba(84,84,84,1) 100%); /* Chrome10+,Safari5.1+ */
-    background: -o-linear-gradient(-45deg,  rgba(122,122,122,1) 0%,rgba(84,84,84,1) 100%); /* Opera 11.10+ */
-    background: -ms-linear-gradient(-45deg,  rgba(122,122,122,1) 0%,rgba(84,84,84,1) 100%); /* IE10+ */
-    background: linear-gradient(135deg,  rgba(122,122,122,1) 0%,rgba(84,84,84,1) 100%); /* W3C */
-    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a7a7a', endColorstr='#545454',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */ border: 1px solid #ccc;
+    background-color: #424242;
     border-radius: 3px;
     border: 1px solid #999;
-    transition: .3s color;
+    transition: .3s all;
 }
     
 .btn-left { 
@@ -136,6 +130,7 @@ button {
 
 button:hover, button:hover{
     color: #000;
+    background-color: #7a7a7a;
     border: 1px solid #999;
     box-shadow: 1px 1px 1px 0 rgba(100, 100, 100, .3);
 }
@@ -399,4 +394,75 @@ button:hover, button:hover{
     padding: 0 0 10px 0;
     margin: 0 0 15px 0;
     border-bottom: 1px solid #333;
+}
+
+/* DIFFVIEW */
+
+#diffreg {
+    max-height: 350px;
+    margin: 15px 0;
+    overflow: auto;
+    border: 1px solid #333;
+}
+
+table.diff {
+    width: 100%;
+    border-collapse:collapse;
+	border:1px solid #333;
+}
+
+table.diff tbody { 
+	font-family:Courier, monospace
+}
+
+table.diff tbody th {
+	font-family:verdana,arial,'Bitstream Vera Sans',helvetica,sans-serif;
+	background:#262526;
+	font-size:11px;
+	font-weight:normal;
+	border:1px solid #333;
+	color:#fff;
+	padding:.3em .5em .1em 2em;
+	text-align:right;
+	vertical-align:top;
+    width: 30px;
+}
+
+table.diff thead {
+	display: none;
+}
+
+table.diff thead th.texttitle {
+	text-align:left
+}
+
+table.diff tbody td {
+	padding:0px .4em;
+	padding-top:.4em;
+	vertical-align:top;
+}
+
+table.diff .empty {
+	background-color:#DDD;
+}
+
+table.diff .replace {
+	background-color:#FD8
+}
+
+table.diff .delete {
+	background-color:#E99;
+}
+table.diff .skip {
+	background-color:#EFEFEF;
+	border:1px solid #AAA;
+	border-right:1px solid #BBC;
+}
+
+table.diff .insert {
+	background-color:#9E9
+}
+
+table.diff th.author {
+    display: none;
 }

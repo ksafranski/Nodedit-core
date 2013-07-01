@@ -1,4 +1,4 @@
-/*! Nodedit 0.1.0 06-30-2013 */
+/*! Nodedit 0.1.0 07-01-2013 */
 /**
  * @object nodedit
  * 
@@ -1483,12 +1483,26 @@ nodedit.editor = {
      * @param {int} id optional The id of the editor instance (or will change all)
      */
     setConfig: function (config, id) {
-        var _this = this;
-        _this.setTheme(config.theme, id);
-        _this.setFontSize(config.fontsize, id);
-        _this.setPrintMargin(config.printmargin, id);
-        _this.setHighlightLine(config.highlightline, id);
-        _this.setIndentGuides(config.indentguides, id);
+        var _this = this,
+            i,
+            setConf = function(_this, config, id) {
+                _this.setTheme(config.theme, id);
+                _this.setFontSize(config.fontsize, id);
+                _this.setPrintMargin(config.printmargin, id);
+                _this.setHighlightLine(config.highlightline, id);
+                _this.setIndentGuides(config.indentguides, id);    
+            };
+        
+        // Check for ID
+        if (id) {
+            // Single instance
+            setConf(_this,config,id);
+        } else {
+            // All active instances
+            for (i in _this.instances) {
+                setConf(_this, config, i);
+            }
+        }
     },
     
     /**
@@ -1499,12 +1513,61 @@ nodedit.editor = {
      */
     close: function (id) {
         var _this = this;
-        // Close tab
-        nodedit.tabs.close(id);
-        // Remove editor instance from DOM
-        nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).remove();    
-        // Remove instance
-        delete _this.instances[id];
+        
+        // Closes the editor and tab
+        var closeIt = function (_this, id) {
+            // Close tab
+            nodedit.tabs.close(id);
+            // Remove editor instance from DOM
+            nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).remove();    
+            // Remove instance
+            delete _this.instances[id];
+        };
+        
+        // Check for unsaved changes
+        if (nodedit.tabs.checkChanged(id)) {            
+            // Open dialog
+            nodedit.modal.open(500, 'Close Without Saving?', 'editor_confirm_close.tpl', {}, function () {
+                // Show diff
+                $(nodedit.modal.el).find('#diffreg').html(_this.getDiff(id));
+                // Listen for submit
+                nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+                    e.preventDefault();
+                    // Close
+                    closeIt(_this, id);
+                    // Close modal
+                    nodedit.modal.close();
+                });
+            });
+        } else {
+            closeIt(_this, id);
+        }
+    },
+    
+    /**
+     * @method nodedit.editor.getDiff
+     * 
+     * Returns diff table between starting point and current changes
+     * @param {int} id The id of the editor instance
+     */
+    getDiff: function (id) {
+        // Get diff
+        var _this = this,
+            base = difflib.stringAsLines(_this.instances[id].content),
+            newtxt = difflib.stringAsLines(_this.getContent(id)),
+            sm = new difflib.SequenceMatcher(base, newtxt),
+            opcodes = sm.get_opcodes(),
+            diffoutput = diffview.buildView({
+                baseTextLines: base,
+                newTextLines: newtxt,
+                opcodes: opcodes,
+                // set the display titles for each resource
+                baseTextName: "Base Text",
+                newTextName: "New Text",
+                contextSize: null,
+                viewType: 1
+            });
+        return diffoutput;
     },
     
     /**
