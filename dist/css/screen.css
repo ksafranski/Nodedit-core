@@ -1,4 +1,4 @@
-/*! Nodedit 0.1.0 07-01-2013 */
+/*! Nodedit 0.1.0 07-02-2013 */
 /* RESET */
 
 html, body, div, span, applet, object, iframe,
@@ -304,6 +304,14 @@ button:hover, button:hover{
     display: inline-block;
     width: 18px;
     text-align: center;
+}
+
+.icon-folder-open, .icon-folder-close {
+    color: #c4a26a !important;
+}
+
+.icon-file {
+    color: #bdcfff !important;
 }
 
 /* EDITOR */
