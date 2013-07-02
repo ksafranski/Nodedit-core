@@ -35,7 +35,7 @@ nodedit.connect = {
             z = formData.length,
             session = {};
         for (i=0; i<=z-1; i++) {
-            session[formData[i].name] = formData[i].value;
+            session[formData[i].name] = $.trim(formData[i].value);
         }
         // Run connection check
         nodedit.fsapi.check(session)
