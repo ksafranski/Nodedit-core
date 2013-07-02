@@ -311,7 +311,7 @@ button:hover, button:hover{
 }
 
 .icon-file {
-    color: #bdcfff !important;
+    color: #fff !important;
 }
 
 /* EDITOR */
@@ -486,7 +486,7 @@ table.diff .replace {
 }
 
 table.diff .delete {
-	background-color:#E99;
+	background-color:#991717;
 }
 table.diff .skip {
 	background-color:#EFEFEF;
@@ -495,7 +495,7 @@ table.diff .skip {
 }
 
 table.diff .insert {
-	background-color:#9E9
+	background-color:#4f964f
 }
 
 table.diff th.author {
