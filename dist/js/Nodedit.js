@@ -1,4 +1,4 @@
-/*! Nodedit 0.1.0 07-02-2013 */
+/*! Nodedit 0.1.0 07-06-2013 */
 /**
  * @object nodedit
  * 
