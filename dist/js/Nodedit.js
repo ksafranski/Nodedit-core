@@ -1,4 +1,7 @@
-/*! Nodedit 0.1.0 07-06-2013 */
+/*!
+ Nodedit is free software released without warranty under the MIT license by Kent Safranski
+ Build version 0.1.0, 07-06-2013
+*/
 /**
  * @object nodedit
  * 
@@ -657,6 +660,8 @@ nodedit.connect = {
 nodedit.modal = {
     
     el: '#modal',
+    
+    overlay: '#modal-overlay',
 
     /**
      * @method nodedit.modal.open
@@ -674,7 +679,7 @@ nodedit.modal = {
         
         // Declare variables
         var _this = this,
-            modal = nodedit.$el.append('<div id="'+_this.el.replace('#','')+'"></div>');
+            modal = nodedit.$el.append('<div id="'+_this.overlay.replace('#','')+'"></div><div id="'+_this.el.replace('#','')+'"></div>');
         
         // Create DOM element
         nodedit.$el.find(_this.el).css({ 'width': width+'px', 'margin-left':'-'+Math.round(width/2)+'px' });
@@ -695,8 +700,6 @@ nodedit.modal = {
             });
         });
         
-        
-        
         // Bind close
         nodedit.$el.find(_this.el).on('click', 'a.icon-remove', function () {
             _this.close();
@@ -709,7 +712,7 @@ nodedit.modal = {
     close: function () {
         var _this = this;
         // Remove DOM element
-        nodedit.$el.find(_this.el).remove();
+        nodedit.$el.find(_this.el+','+_this.overlay).remove();
     }
 
 };/**

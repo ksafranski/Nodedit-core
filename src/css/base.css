@@ -403,8 +403,19 @@ button:hover, button:hover{
     background-color: #1f1e1f;
     border: 1px solid #333;
     border-radius: 15px 0px 15px 0px;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, .9);
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, .9);
     z-index: 9999;
+}
+
+#modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    opacity: 0.6;
+    z-index: 9998;
 }
 
 #modal a.icon-remove {

@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     concat: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("mm-dd-yyyy") %> */\n',
+        banner: '/*!\n <%= pkg.name %> is free software released without warranty under the MIT license by Kent Safranski\n Build version <%= pkg.version %>, <%= grunt.template.today("mm-dd-yyyy") %>\n*/\n',
         separator: ''
       },
       js: {
@@ -34,7 +34,7 @@ module.exports = function(grunt) {
     },
     uglify: {
       options: {
-        banner: '/*! <%= pkg.name %> <%= pkg.version %> <%= grunt.template.today("mm-dd-yyyy") %> */\n',
+        banner: '/*!\n <%= pkg.name %> is free software released without warranty under the MIT license by Kent Safranski\n Build version <%= pkg.version %>, <%= grunt.template.today("mm-dd-yyyy") %>\n*/\n',
         report: 'gzip'
       },
       dist: {
