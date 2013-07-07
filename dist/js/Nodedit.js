@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-06-2013
+ Build version 0.1.0, 07-07-2013
 */
 /**
  * @object nodedit
