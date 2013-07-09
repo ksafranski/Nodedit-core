@@ -24,7 +24,24 @@ nodedit.tabs = {
             _this.setActive(id);
             _this.bindClose(id);
             _this.bindClick(id);
+            _this.sortable();
         });
+    },
+    
+    /**
+     * @method nodedit.tabs.sortable
+     * 
+     * Initializes tab sortable functionality
+     */
+    sortable: function () {
+        var _this = this;
+        nodedit.$el.find(_this.el).sortable({ 
+            axis: 'x', 
+            items: 'li',
+            containment: 'parent',
+            placeholder: 'tab-sort-placeholder',
+            distance: 5
+        });  
     },
     
     /**

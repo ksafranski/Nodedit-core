@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-07-2013
+ Build version 0.1.0, 07-09-2013
 */
 /**
  * @object nodedit
@@ -774,7 +774,24 @@ nodedit.tabs = {
             _this.setActive(id);
             _this.bindClose(id);
             _this.bindClick(id);
+            _this.sortable();
         });
+    },
+    
+    /**
+     * @method nodedit.tabs.sortable
+     * 
+     * Initializes tab sortable functionality
+     */
+    sortable: function () {
+        var _this = this;
+        nodedit.$el.find(_this.el).sortable({ 
+            axis: 'x', 
+            items: 'li',
+            containment: 'parent',
+            placeholder: 'tab-sort-placeholder',
+            distance: 5
+        });  
     },
     
     /**
