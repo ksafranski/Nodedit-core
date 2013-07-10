@@ -331,11 +331,11 @@ button:hover, button:hover{
 /* TABS */
 
 #tabs {
-    padding: 0;
+    padding: 0 20px 0 0;
     margin: 0;
 }
 
-#tabs li {
+#tabs li, #tabs-reveal-menu li {
     display: block;
     float: left;
     width: 155px;
@@ -352,11 +352,15 @@ button:hover, button:hover{
     cursor: pointer;
 }
 
-#tabs li:hover {
+#tabs-reveal-menu li {
+    border-radius: 5px;
+}
+
+#tabs li:hover, #tabs-reveal-menu li:hover {
     background-color: #545454;
 }
 
-#tabs li.active {
+#tabs li.active, #tabs-reveal-menu li.active {
     background: -moz-linear-gradient(-45deg,  rgba(122,122,122,1) 0%, rgba(84,84,84,1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left top, right bottom, color-stop(0%,rgba(122,122,122,1)), color-stop(100%,rgba(84,84,84,1))); /* Chrome,Safari4+ */
     background: -webkit-linear-gradient(-45deg,  rgba(122,122,122,1) 0%,rgba(84,84,84,1) 100%); /* Chrome10+,Safari5.1+ */
@@ -366,7 +370,7 @@ button:hover, button:hover{
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a7a7a', endColorstr='#545454',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
 }
 
-#tabs li label {
+#tabs li label, #tabs-reveal-menu li label {
     padding: 0;
     margin: 0;
     font-weight: normal;
@@ -377,11 +381,11 @@ button:hover, button:hover{
     text-transform: none;
 }
 
-#tabs li label.changed::before {
+#tabs li label.changed::before, #tabs-reveal-menu li label.changed:before {
     content: '\2217  ';
 }
 
-#tabs li a {
+#tabs li a, #tabs-reveal-menu li a {
     float: right;
     font-size: 14px;
     font-weight: normal;
@@ -390,13 +394,43 @@ button:hover, button:hover{
     transition: .3s color;
 }
 
-#tabs li a:hover {
+#tabs li a:hover, #tabs-reveal-menu li a:hover {
     color: #e01b1b;
 }
 
 #tabs .tab-sort-placeholder {
     border: 1px dashed #666;
     border-bottom: none;
+}
+
+#tabs-reveal {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #a6a6a6;
+    font-size: 24px;
+    padding: 9px 15px;
+    transition: .3s color;
+    font-weight: normal;
+    transition: .3s color;
+}
+
+#tabs-reveal:hover {
+    color: #fff;
+}
+
+#tabs-reveal-menu {
+    display: none;
+    position: absolute;
+    top: 39px;
+    right: 5px;
+    width: 185px;
+    background-color: #1f1e1f;
+    border: 1px solid #333;
+    border-radius: 15px 0px 15px 0px;
+    padding: 15px;
+    box-shadow: 0 10px 20px 0 rgba(0, 0, 0, .9);
+    z-index: 999;
 }
 
 /* MODAL */
