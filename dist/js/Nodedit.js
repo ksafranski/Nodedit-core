@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-09-2013
+ Build version 0.1.0, 07-10-2013
 */
 /**
  * @object nodedit
@@ -757,6 +757,8 @@ nodedit.tabs = {
     
     el: '#tabs',
     
+    overflow_timeout: null,
+    
     /**
      * @method nodedit.tabs.open
      * 
@@ -775,6 +777,7 @@ nodedit.tabs = {
             _this.bindClose(id);
             _this.bindClick(id);
             _this.sortable();
+            _this.overflow();
         });
     },
     
@@ -795,6 +798,85 @@ nodedit.tabs = {
     },
     
     /**
+     * @method nodedit.tabs.overflow
+     * 
+     * Handles overflow of tabs expanding past horizontal space available
+     */
+    overflow: function () {
+        var _this = this,
+            tab_els = nodedit.$el.find(_this.el).children('li'),
+            w_available = nodedit.$el.find(_this.el).outerWidth(),
+            tab_w, tab_count, cur_tab, new_tab, remainder;
+        
+        // Get tab width
+        tab_w = tab_els.outerWidth();
+        // Get tab count
+        tab_count = tab_els.length;
+        
+        // Out of space?
+        if ((tab_w*tab_count) > w_available-30) {
+            // Clear any existing contents
+            nodedit.$el.find('#tabs-reveal-menu').remove();
+            // Find remainder
+            remainder = Math.ceil(((tab_w*tab_count)-(w_available-30))/tab_w);
+            // Create reveal icon
+            nodedit.$el.find(_this.el).append('<a id="tabs-reveal" class="icon-double-angle-right"></a>');
+            // Create reveal menu
+            nodedit.$el.append('<ul id="tabs-reveal-menu"></ul>');
+            
+            // Loop in remainder tabs
+            for (var i=tab_count-remainder, z=tab_count; i<z; i++){
+                // Get current tab
+                cur_tab = nodedit.$el.find(_this.el).children('li:eq('+i+')');
+                
+                // Add element to menu
+                nodedit.$el.find('#tabs-reveal-menu').append('<li data-id="'+cur_tab.data('id')+'">'+cur_tab.html()+'</li>');
+                
+                // Get new tab
+                new_tab = nodedit.$el.find('#tabs-reveal-menu').children('li[data-id="'+cur_tab.data('id')+'"]');
+                
+                // Bind click on tab
+                new_tab.on('click', function () {
+                    nodedit.editor.gotoInstance($(this).data('id'));
+                });
+                
+                // Bind click on close
+                new_tab.on('click','a', function () {
+                   nodedit.editor.close($(this).parent('li').data('id')); 
+                });
+                
+            }
+            
+            // Bind click to show menu
+            nodedit.$el.find(_this.el).children('#tabs-reveal').on('click', function () { 
+                nodedit.$el.find('#tabs-reveal-menu').show();    
+            });
+            
+            // Hide menu on mouseleave
+            nodedit.$el.find('#tabs-reveal-menu').on('mouseleave', function() {
+                $(this).hide();
+            });
+            
+            // Set active pointer
+            _this.setActive(_this.getActive());
+            
+        } else {
+            nodedit.$el.find(_this.el).children('#tabs-reveal').remove();
+            nodedit.$el.find('#tabs-reveal-menu').remove();
+        }
+        
+        // Bind to resize, use timeouts to prevent rapid-fire during resize
+        $(window).resize(function () {
+            window.clearTimeout(_this.overflow_timeout);
+            _this.overflow_timeout = setTimeout(function () {
+                _this.overflow();
+            }, 250);
+            
+        });
+        
+    },
+    
+    /**
      * @method nodedit.tabs.close
      * 
      * Closes a tab
@@ -803,6 +885,8 @@ nodedit.tabs = {
     close: function (id) {
         var _this = this;
         nodedit.$el.find(_this.el).children('li').filterByData('id', id).remove();
+        _this.sortable();
+        _this.overflow();
     },
     
     /**
@@ -837,7 +921,9 @@ nodedit.tabs = {
     setActive: function (id) {
         var _this = this;
         nodedit.$el.find(_this.el).children('li').removeClass('active');
+        nodedit.$el.find('#tabs-reveal-menu').children('li').removeClass('active');
         nodedit.$el.find(_this.el).children('li').filterByData('id', id).addClass('active');
+        nodedit.$el.find('#tabs-reveal-menu').children('li').filterByData('id', id).addClass('active');
     },
     
     /**
@@ -862,7 +948,7 @@ nodedit.tabs = {
      */
     bindClose: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('li').filterByData('id', id).on('click', 'a', function () {
+        nodedit.$el.find(_this.el).find('li').filterByData('id', id).on('click', 'a', function () {
             nodedit.editor.close(id);
         });
     },
@@ -875,7 +961,7 @@ nodedit.tabs = {
      */
     bindClick: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('li').filterByData('id', id).on('click', function () {
+        nodedit.$el.find(_this.el).find('li').filterByData('id', id).on('click', function () {
             nodedit.editor.gotoInstance(id);
         });
     },
