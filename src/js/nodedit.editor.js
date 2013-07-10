@@ -56,7 +56,8 @@ nodedit.editor = {
             editor = [],
             i,
             id,
-            exists = false;
+            exists = false,
+            config = nodedit.settings.get();
         
         // Check for path in instances
         for (i in _this.instances) {
@@ -89,11 +90,11 @@ nodedit.editor = {
             
             // Set editor config
             _this.setConfig({
-                theme: 'twilight',
-                fontsize: 14,
-                printmargin: false,
-                highlightline: true,
-                indentguides: true
+                theme: config.theme,
+                fontsize: config.fontsize,
+                printmargin: config.printmargin,
+                highlightline: config.highlightline,
+                indentguides: config.indentguides
             }, id);
             
             // Bind change liistener

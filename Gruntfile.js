@@ -20,6 +20,7 @@ module.exports = function(grunt) {
             'src/js/nodedit.store.js',
             'src/js/nodedit.connect.js',
             'src/js/nodedit.modal.js',
+            'src/js/nodedit.settings.js',
             'src/js/nodedit.workspace.js',
             'src/js/nodedit.tabs.js',
             'src/js/nodedit.filemanager.js',

@@ -49,6 +49,11 @@ nodedit.filemanager = {
         nodedit.$el.find(_this.el).on('click', '#disconnect', function () {
             nodedit.connect.close();
         });
+        
+        // Bind Settings Button
+        nodedit.$el.find(_this.el).on('click', '#settings', function () {
+            nodedit.settings.edit();
+        });
     },
     
     /**

@@ -19,6 +19,8 @@ nodedit.workspace = {
                 .done(function (tmpl) {
                     // Load DOM
                     nodedit.$el.html(tmpl);
+                    // Initial Settings
+                    nodedit.settings.init();
                     // Start filemanager
                     nodedit.filemanager.init();
                     // Start editor

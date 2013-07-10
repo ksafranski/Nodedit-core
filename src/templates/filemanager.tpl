@@ -4,11 +4,11 @@
     
     <!-- @TODO: build this stuff...
     
-    <a id="settings" title="Settings" class="icon-cogs"></a>
-    
     <a id="bookmarks" title="Bookmarks" class="icon-star"></a>
     
     -->
+    
+    <a id="settings" title="Settings" class="icon-cogs"></a>
     
 </div>
 <ul>
