@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-10-2013
+ Build version 0.1.0, 07-11-2013
 */
 /**
  * @object nodedit
@@ -341,6 +341,26 @@ Handlebars.registerHelper('eachkeys', function (context, options) {
         ret = inverse(this);
     }
     return ret;
+});
+
+// Hanldebars helper for comparison operators
+Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+    switch (operator) {
+        case '==':
+            return (v1 == v2) ? options.fn(this) : options.inverse(this);
+        case '===':
+            return (v1 === v2) ? options.fn(this) : options.inverse(this);
+        case '<':
+            return (v1 < v2) ? options.fn(this) : options.inverse(this);
+        case '<=':
+            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+        case '>':
+            return (v1 > v2) ? options.fn(this) : options.inverse(this);
+        case '>=':
+            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+        default:
+            return options.inverse(this);
+    }
 });/**
  * @object nodedit.fsapi
  * 
@@ -716,6 +736,81 @@ nodedit.modal = {
     }
 
 };/**
+ * @object nodedit.settings
+ * 
+ * Hanldes settings get and set
+ */
+nodedit.settings = {
+    
+    /**
+     * @method nodedit.settings.init
+     * 
+     * Checks for saved settings or sets defaults
+     */
+    init: function () {
+        // Check for local storage
+        if (!nodedit.store('nodedit_settings')) {
+            // Set defaults
+            nodedit.store('nodedit_settings', {
+                theme: 'twilight',
+                fontsize: 14,
+                printmargin: false,
+                highlightline: true,
+                indentguides: true
+            });
+        }
+    },
+    
+    /**
+     * @method nodedit.settings.get
+     * 
+     * Returns the settings from localstorage
+     */
+    get: function () {
+        return JSON.parse(nodedit.store('nodedit_settings'));
+    },
+    
+    /**
+     * @method nodedit.settings.set
+     * 
+     * Stores settings
+     * @param {object} settings The object with user settings
+     */
+    set: function (settings) {
+        nodedit.store('nodedit_settings', settings);
+        // Update editors
+        nodedit.editor.setConfig();
+    },
+    
+    /**
+     * @method nodedit.settings.edit
+     * 
+     * Opens the settings dialog and handles for response
+     */
+    edit: function () {
+        var _this = this,
+            settings = _this.get();
+        
+        // Open settings dialog in modal
+        nodedit.modal.open(500, 'Settings', 'settings.tpl', settings, function () {
+            // Listen for changes - update settings real-time
+            var isBool = function (v) {
+                if (v==='true') {
+                    return true;
+                } else if (v==='false') {
+                    return false;
+                } else {
+                    return v;
+                }
+            };
+            nodedit.$el.find(nodedit.modal.el).on('change', 'select', function (e) {
+                settings[$(this).attr('name')] = isBool($(this).val());
+                _this.set(settings);
+            });
+        });
+    }
+    
+};/**
  * @object nodedit.workspace
  * 
  * Used to manage the nodedit workspace (filemanager and editor) loading
@@ -736,6 +831,8 @@ nodedit.workspace = {
                 .done(function (tmpl) {
                     // Load DOM
                     nodedit.$el.html(tmpl);
+                    // Initial Settings
+                    nodedit.settings.init();
                     // Start filemanager
                     nodedit.filemanager.init();
                     // Start editor
@@ -1072,6 +1169,11 @@ nodedit.filemanager = {
         // Bind Exit Button
         nodedit.$el.find(_this.el).on('click', '#disconnect', function () {
             nodedit.connect.close();
+        });
+        
+        // Bind Settings Button
+        nodedit.$el.find(_this.el).on('click', '#settings', function () {
+            nodedit.settings.edit();
         });
     },
     
@@ -1526,7 +1628,8 @@ nodedit.editor = {
             editor = [],
             i,
             id,
-            exists = false;
+            exists = false,
+            config = nodedit.settings.get();
         
         // Check for path in instances
         for (i in _this.instances) {
@@ -1557,14 +1660,8 @@ nodedit.editor = {
             // Set editor mode
             _this.setMode(mode, id);
             
-            // Set editor config
-            _this.setConfig({
-                theme: 'twilight',
-                fontsize: 14,
-                printmargin: false,
-                highlightline: true,
-                indentguides: true
-            }, id);
+            // Set editor config from settings
+            _this.setConfig(id);
             
             // Bind change liistener
             _this.bindChange(id);
@@ -1588,12 +1685,13 @@ nodedit.editor = {
      * @param {object} config Object containing config properties
      * @param {int} id optional The id of the editor instance (or will change all)
      */
-    setConfig: function (config, id) {
+    setConfig: function (id) {
         var _this = this,
+            config = nodedit.settings.get(),
             i,
             setConf = function(_this, config, id) {
                 _this.setTheme(config.theme, id);
-                _this.setFontSize(config.fontsize, id);
+                _this.setFontSize(parseInt(config.fontsize), id);
                 _this.setPrintMargin(config.printmargin, id);
                 _this.setHighlightLine(config.highlightline, id);
                 _this.setIndentGuides(config.indentguides, id);    

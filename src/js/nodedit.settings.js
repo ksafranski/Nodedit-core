@@ -19,7 +19,7 @@ nodedit.settings = {
                 fontsize: 14,
                 printmargin: false,
                 highlightline: true,
-                indentguides: true    
+                indentguides: true
             });
         }
     },
@@ -41,6 +41,8 @@ nodedit.settings = {
      */
     set: function (settings) {
         nodedit.store('nodedit_settings', settings);
+        // Update editors
+        nodedit.editor.setConfig();
     },
     
     /**
@@ -53,10 +55,20 @@ nodedit.settings = {
             settings = _this.get();
         
         // Open settings dialog in modal
-        nodedit.modal.open(500, 'Rename', 'settings.tpl', settings, function () {
-            // Listen for submit
-            nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
-                
+        nodedit.modal.open(500, 'Settings', 'settings.tpl', settings, function () {
+            // Listen for changes - update settings real-time
+            var isBool = function (v) {
+                if (v==='true') {
+                    return true;
+                } else if (v==='false') {
+                    return false;
+                } else {
+                    return v;
+                }
+            };
+            nodedit.$el.find(nodedit.modal.el).on('change', 'select', function (e) {
+                settings[$(this).attr('name')] = isBool($(this).val());
+                _this.set(settings);
             });
         });
     }

@@ -88,14 +88,8 @@ nodedit.editor = {
             // Set editor mode
             _this.setMode(mode, id);
             
-            // Set editor config
-            _this.setConfig({
-                theme: config.theme,
-                fontsize: config.fontsize,
-                printmargin: config.printmargin,
-                highlightline: config.highlightline,
-                indentguides: config.indentguides
-            }, id);
+            // Set editor config from settings
+            _this.setConfig(id);
             
             // Bind change liistener
             _this.bindChange(id);
@@ -119,12 +113,13 @@ nodedit.editor = {
      * @param {object} config Object containing config properties
      * @param {int} id optional The id of the editor instance (or will change all)
      */
-    setConfig: function (config, id) {
+    setConfig: function (id) {
         var _this = this,
+            config = nodedit.settings.get(),
             i,
             setConf = function(_this, config, id) {
                 _this.setTheme(config.theme, id);
-                _this.setFontSize(config.fontsize, id);
+                _this.setFontSize(parseInt(config.fontsize), id);
                 _this.setPrintMargin(config.printmargin, id);
                 _this.setHighlightLine(config.highlightline, id);
                 _this.setIndentGuides(config.indentguides, id);    
