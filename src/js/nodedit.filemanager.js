@@ -16,15 +16,25 @@ nodedit.filemanager = {
      */
     init: function () {
         var _this = this,
-            root;
-        nodedit.template('filemanager.tpl')
-            .done(function (tmpl) {
-                // Load DOM
-                nodedit.$el.find(_this.el).html(tmpl);
-                // Open root 
-                _this.openDirectory('/'); 
-            });
+            root = "/",
+            root_name = "Node Root"
+            isBookmark = false;
+            
+        // Check for bookmark
+        if (nodedit.bookmarks.getCurrent()) {
+            root = nodedit.bookmarks.getCurrent().path;
+            root_name = nodedit.bookmarks.getCurrent().name;
+            isBookmark = true;
+        }
         
+        // Load up filemanager
+        nodedit.template('filemanager.tpl', {root: root, root_name: root_name, bookmark: isBookmark}, function (tmpl) {
+            // Load DOM
+            nodedit.$el.find(_this.el).html(tmpl);
+            // Open root 
+            _this.openDirectory(root); 
+        });
+
         // Bind directory click
         nodedit.$el.find(_this.el).on('click', 'a.directory', function () {
             var path = $(this).parent('li').data('path');
@@ -91,6 +101,9 @@ nodedit.filemanager = {
                         break;
                     case 'new_directory':
                         _this.createObject(path, 'directory');
+                        break;
+                    case 'bookmark':
+                        nodedit.bookmarks.addBookmark({ name: _this.getFileName(path), path: path });
                         break;
                     case 'rename':
                         _this.renameObject(path);

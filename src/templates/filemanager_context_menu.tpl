@@ -2,6 +2,7 @@
     {{#if data.dir}}
     <li><a id="new_file"><span class="icon-file-alt"></span> New File</a></li>
     <li><a id="new_directory"><span class="icon-folder-close-alt"></span> New Directory</a></li>
+    <li><a id="bookmark"><span class="icon-star"></span> Bookmark</a></li>
     {{/if}}
     <li><a id="copy"><span class="icon-copy"></span> Copy</a></li>
     {{#if data.dir}}

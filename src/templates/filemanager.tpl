@@ -12,5 +12,5 @@
     
 </div>
 <ul>
-   <li id="root" data-path="/"><a class="directory"><span class="icon-cloud"></span>Node Root</a></li> 
+   <li id="root" data-path="{{data.root}}"><a class="directory"><span class="{{#if data.bookmark}}icon-star{{else}}icon-cloud{{/if}}"></span>{{data.root_name}}</a></li> 
 </ul>

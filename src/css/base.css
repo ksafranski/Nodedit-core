@@ -65,6 +65,13 @@ a, a:link, a:hover {
     cursor: pointer;
 }
 
+/* GLOBAL CLASSES */
+
+.max-height-350 {
+    max-height: 350px;
+    overflow: auto;
+}
+
 /* FORM ELEMENTS */
 
 label { 
@@ -148,6 +155,25 @@ button:hover, button:hover{
     background:-o-linear-gradient(top, #434343 5%, #636363 100%);
     background:-ms-linear-gradient(top, #434343 5%, #636363 100%);
     background:linear-gradient(to bottom, #434343 5%, #636363 100%);
+}
+
+/* TABLES */
+
+table { 
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 3px;
+}
+
+table tr td:first-of-type {
+    padding-left: 0;
+}
+
+table th {
+    font-weight: bold;
+    text-align: left;
 }
 
 /* NODEDIT */

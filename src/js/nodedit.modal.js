@@ -37,7 +37,7 @@ nodedit.modal = {
                 // Show content
                 nodedit.$el.find(_this.el).html(tmpl).children('#modal-content')
                     .html(content)
-                    .find('input:first-of-type')
+                    .find('input:not([type=hidden]):first')
                     .focus();
                 // Fire callback
                 if (fn) {
