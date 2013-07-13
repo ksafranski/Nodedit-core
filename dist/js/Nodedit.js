@@ -1356,7 +1356,7 @@ nodedit.filemanager = {
     
     el: '#filemanager',
     
-    clipboard: '',
+    clipboard: null,
     
     root_name: 'Node Root',
 
@@ -1388,41 +1388,61 @@ nodedit.filemanager = {
             // Open root 
             _this.openDirectory(root); 
         });
-
-        // Bind directory click
-        nodedit.$el.find(_this.el).on('click', 'a.directory', function () {
-            var path = $(this).parent('li').data('path');
-            if($(this).parent('li').hasClass('open')) {
-                _this.closeDirectory(path);
-            } else {
-                _this.openDirectory(path);
-            }
-        });
         
-        // Bind file click
-        nodedit.$el.find(_this.el).on('click', 'a.file', function () {
-            nodedit.filemanager.openFile($(this).parent('li').data('path'));
-        });
+        // Bind actions
+        _this.bindActions();
+    },
+    
+    /**
+     * @method nodedit.filemanager.bindActions
+     * 
+     * Binds dom elements to actions
+     */
+    bindActions: function () {
+        var _this = this;
         
-        // Bind context menu
-        nodedit.$el.find(_this.el).on('contextmenu', 'a', function (e) {
-            _this.contextMenu($(this).attr('class'), $(this).parent('li').data('path'), e);
-        });
-        
-        // Bind Exit Button
-        nodedit.$el.find(_this.el).on('click', '#disconnect', function () {
-            nodedit.connect.close();
-        });
-        
-        // Bind Bookmarks Button
-        nodedit.$el.find(_this.el).on('click', '#bookmarks', function (e) {
-            nodedit.bookmarks.showList(e);
-        });
-        
-        // Bind Settings Button
-        nodedit.$el.find(_this.el).on('click', '#settings', function () {
-            nodedit.settings.edit();
-        });
+        // Prevent re-bind
+        if (!_this.hasOwnProperty('bound')) {
+            
+            // Bind directory click
+            nodedit.$el.find(_this.el).on('click', 'a.directory', function () {
+                var path = $(this).parent('li').data('path');
+                if($(this).parent('li').hasClass('open')) {
+                    _this.closeDirectory(path);
+                } else {
+                    _this.openDirectory(path);
+                }
+            });
+            
+            // Bind file click
+            nodedit.$el.find(_this.el).on('click', 'a.file', function () {
+                nodedit.filemanager.openFile($(this).parent('li').data('path'));
+            });
+            
+            // Bind context menu
+            nodedit.$el.find(_this.el).on('contextmenu', 'a', function (e) {
+                _this.contextMenu($(this).attr('class'), $(this).parent('li').data('path'), e);
+            });
+            
+            // Bind Exit Button
+            nodedit.$el.find(_this.el).on('click', '#disconnect', function () {
+                nodedit.connect.close();
+            });
+            
+            // Bind Bookmarks Button
+            nodedit.$el.find(_this.el).on('click', '#bookmarks', function (e) {
+                nodedit.bookmarks.showList(e);
+            });
+            
+            // Bind Settings Button
+            nodedit.$el.find(_this.el).on('click', '#settings', function () {
+                nodedit.settings.edit();
+            });
+            
+            // Set re-bind prevention property
+            _this.bound = true;
+            
+        }
     },
     
     /**
@@ -1433,6 +1453,10 @@ nodedit.filemanager = {
      * @param {path} The path of the element
      */
     contextMenu: function (type, path, e) {
+        
+        // Remove existing context menus
+        nodedit.$el.find(this.el).find('.context-menu').remove();
+        
         // Prevent default context menu
         e.preventDefault();
         
