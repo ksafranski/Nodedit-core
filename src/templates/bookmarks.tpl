@@ -11,7 +11,7 @@
     <tr>
         <td><input name="name" value="{{name}}"></td>
         <td><input name="path" value="{{path}}"></td>
-        <td style="padding-top: 5px;"><a class="icon-trash"></a></td>
+        <td style="padding-top: 5px;"><a class="icon-trash icon-large"></a></td>
     </tr>
     {{/each}}
     </table>

@@ -8,6 +8,8 @@ nodedit.filemanager = {
     el: '#filemanager',
     
     clipboard: '',
+    
+    root_name: 'Node Root',
 
     /**
      * @method nodedit.filemanager.init
@@ -17,8 +19,11 @@ nodedit.filemanager = {
     init: function () {
         var _this = this,
             root = "/",
-            root_name = "Node Root"
+            root_name = _this.root_name,
             isBookmark = false;
+            
+        // Clear out filemanager
+        nodedit.$el.find(_this.el).html('');
             
         // Check for bookmark
         if (nodedit.bookmarks.getCurrent()) {
@@ -58,6 +63,11 @@ nodedit.filemanager = {
         // Bind Exit Button
         nodedit.$el.find(_this.el).on('click', '#disconnect', function () {
             nodedit.connect.close();
+        });
+        
+        // Bind Bookmarks Button
+        nodedit.$el.find(_this.el).on('click', '#bookmarks', function (e) {
+            nodedit.bookmarks.showList(e);
         });
         
         // Bind Settings Button

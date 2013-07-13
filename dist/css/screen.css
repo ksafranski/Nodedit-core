@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-11-2013
+ Build version 0.1.0, 07-13-2013
 */
 /* RESET */
 
@@ -90,9 +90,28 @@ h2 {
     text-transform: capitalize;
 }
 
-a, a:link, a:hover {
+a, a:link {
     font-weight: normal;
     cursor: pointer;
+    color: #9e9c9e;
+    transition: .3s color;
+}
+
+a:hover {
+    color: #fff;
+}
+
+hr {
+    height: 0;
+    border: none;
+    border-top: 1px solid #333;
+}
+
+/* GLOBAL CLASSES */
+
+.max-height-350 {
+    max-height: 350px;
+    overflow: auto;
 }
 
 /* FORM ELEMENTS */
@@ -178,6 +197,30 @@ button:hover, button:hover{
     background:-o-linear-gradient(top, #434343 5%, #636363 100%);
     background:-ms-linear-gradient(top, #434343 5%, #636363 100%);
     background:linear-gradient(to bottom, #434343 5%, #636363 100%);
+}
+
+/* TABLES */
+
+table { 
+    border-collapse: collapse;
+}
+
+table th, table td {
+    padding: 3px;
+    border-bottom: 1px solid #333;
+}
+
+table tr td:first-of-type {
+    padding-left: 0;
+}
+
+table th {
+    font-weight: bold;
+    text-align: left;
+}
+
+table label, table input, table select {
+    margin: 5px 0;
 }
 
 /* NODEDIT */
@@ -504,6 +547,45 @@ button:hover, button:hover{
     padding: 0 0 10px 0;
     margin: 0 0 15px 0;
     border-bottom: 1px solid #333;
+}
+
+/* BOOKMARKS */
+
+#bookmark-menu {
+    display: none;
+    position: absolute;
+    z-index: 999;
+    width: 180px;
+    padding: 10px;
+    background-color: #1f1e1f;
+    border: 1px solid #333;
+    border-radius: 15px 0px 15px 0px;
+    box-shadow: 0 0 25px 0 rgba(0, 0, 0, .9);
+}
+
+#bookmark-menu ul {
+    max-height: 400px;
+    overflow: auto;
+}
+
+#bookmark-menu a {
+    display: block;
+    padding: 6px 10px;
+    cursor: pointer;
+    transition: .3s ease all;
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+
+#bookmark-menu a:hover {
+    background-color: #2e2e2e;
+    border: 1px solid #3d3d3d;
+}
+
+#bookmark-menu a span {
+    display: inline-block;
+    width: 18px;
+    text-align: center;
 }
 
 /* DIFFVIEW */
