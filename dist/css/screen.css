@@ -402,6 +402,83 @@ table label, table input, table select {
     height: 100%;
 }
 
+/* ACE SEARCH OVERRIDES */
+/* Yes, you need all the !importants... */
+
+.ace_search {
+    background-color: #424242 !important;
+    border: 1px solid #333 !important;
+    width: 350px !important;
+    padding: 10px !important;
+    box-shadow: 0px 0px 15px 0px rgba(0, 0, 0, .9);
+}
+
+.ace_searchbtn_close {
+    position: absolute !important;
+    content: 'x' !important;
+    right: 10px !important;
+    width: 20px !important;
+    height: 20px !important;
+    padding-top: 5px !important;
+    background-position: center 2px !important;
+    margin-top: 1px !important;
+}
+
+.ace_search_form {
+    border: none !important;
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+}
+
+.ace_search_options {
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+    margin: 10px 0 0 0 !important;
+}
+
+.ace_search_options span {
+    border-radius: 3px !important;
+    border: 1px solid #666 !important;
+}
+
+.ace_search input {
+    background-color: #333 !important;
+    width: 60% !important;
+    margin-right: 5px !important;
+}
+
+.ace_search button {
+    background-color: #ccc !important;
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+    transition: none !important;
+    color: #333 !important;
+    font-weight: normal !important;
+    text-shadow: none !important;
+    font-size: 13px !important;
+    margin-left: 3px !important;
+    border: 1px solid #8c8c8c !important;
+}
+
+.ace_search button:hover {
+    /*background: none !important;*/
+    background-color: #ccc !important;
+    border: 1px solid #ccc !important;
+    color: #fff !important;
+}
+
+.ace_replace_form {
+    border: none !important;
+    padding: 10px 0 0 0 !important;
+    margin: 10px 0 0 0 !important;
+    border-top: 1px solid #333 !important;
+    display: block !important;
+    width: 100% !important;
+    float: none !important;
+}
+
 /* TABS */
 
 #tabs {
