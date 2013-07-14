@@ -538,7 +538,7 @@ table label, table input, table select {
 }
 
 #tabs li label.changed::before, #tabs-reveal-menu li label.changed:before {
-    content: '\2217  ';
+    content: '\2217\00a0';
 }
 
 #tabs li a, #tabs-reveal-menu li a {
