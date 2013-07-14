@@ -32,16 +32,20 @@ nodedit.filemanager = {
             isBookmark = true;
         }
         
+        // Check and destroy resize binding
+        if (_this.hasOwnProperty('bound')) {
+            nodedit.$el.find(_this.el).resizable( "destroy" );
+        }
+        
         // Load up filemanager
         nodedit.template('filemanager.tpl', {root: root, root_name: root_name, bookmark: isBookmark}, function (tmpl) {
             // Load DOM
             nodedit.$el.find(_this.el).html(tmpl);
             // Open root 
             _this.openDirectory(root); 
+            // Bind actions
+            _this.bindActions();
         });
-        
-        // Bind actions
-        _this.bindActions();
     },
     
     /**
@@ -52,7 +56,17 @@ nodedit.filemanager = {
     bindActions: function () {
         var _this = this;
         
-        // Prevent re-bind
+        // Resize
+        nodedit.$el.find(_this.el).resizable({  
+            handles: { 'e': '#resize-handle', 'w': '#resize-handle' },
+            minWidth: 65,
+            resize: function(event, ui){
+                // Resize editors
+                nodedit.editor.resize(ui.size.width+'px');
+            }
+        });
+        
+        // Prevent re-binds
         if (!_this.hasOwnProperty('bound')) {
             
             // Bind directory click

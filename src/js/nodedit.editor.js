@@ -137,6 +137,17 @@ nodedit.editor = {
         }
     },
     
+    
+    resize : function(w){
+        var _this = this;
+        nodedit.$el.find(_this.el).css({ 
+            'margin-left': w
+        });
+        for (i in _this.instances) {
+            _this.instances[i].editor.resize();
+        }
+    },
+    
     /**
      * @method nodedit.editor.close
      * 
