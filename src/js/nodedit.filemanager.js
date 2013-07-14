@@ -84,6 +84,24 @@ nodedit.filemanager = {
                 nodedit.filemanager.openFile($(this).parent('li').data('path'));
             });
             
+            // Bind Upload Handlers
+            nodedit.$el.find(_this.el).on('dragover', 'a.directory', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                $('.dragover').removeClass('dragover');
+                $(this).addClass('dragover');
+                // Remove class
+                nodedit.$el.on('mouseover dragover', function () {
+                    $('.dragover').removeClass('dragover');
+                });
+            });
+            
+            nodedit.$el.find(_this.el).on('drop', 'a.directory', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                console.log('Upload to: '+$(this).parent('li').data('path'));
+            });
+            
             // Bind context menu
             nodedit.$el.find(_this.el).on('contextmenu', 'a', function (e) {
                 _this.contextMenu($(this).attr('class'), $(this).parent('li').data('path'), e);
