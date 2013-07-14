@@ -137,7 +137,12 @@ nodedit.editor = {
         }
     },
     
-    
+    /**
+     * @method nodedit.editor.resize
+     * 
+     * Resizes the editor when the sidebar is resized
+     * @param {int} w The width of the sidebar (translates to margin-left of #editor)
+     */
     resize : function(w){
         var _this = this;
         nodedit.$el.find(_this.el).css({ 
