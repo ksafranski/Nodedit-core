@@ -358,6 +358,11 @@ table label, table input, table select {
     border: 1px solid #3d3d3d;
 }
 
+#filemanager ul a.dragover {
+    background-color: #2e2e2e;
+    border: 1px dashed #6b6b6b;
+}
+
 #filemanager ul a span {
     padding-right: 8px;
     color: #ccc;

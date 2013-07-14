@@ -1433,6 +1433,28 @@ nodedit.filemanager = {
                 nodedit.filemanager.openFile($(this).parent('li').data('path'));
             });
             
+            // Add data transfer to jQ props
+            $.event.props.push("dataTransfer");
+            // Bind Upload Handlers
+            nodedit.$el.find(_this.el).on('dragover', 'a.directory', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                e.dataTransfer.dropEffect = 'copy';
+                $('.dragover').removeClass('dragover');
+                $(this).addClass('dragover');
+                // Remove class
+                nodedit.$el.on('mouseover dragover', function () {
+                    $('.dragover').removeClass('dragover');
+                });
+            });
+            
+            // Bind drop of files
+            nodedit.$el.find(_this.el).on('drop', 'a.directory', function (e) {
+                e.stopPropagation();
+                e.preventDefault();
+                _this.uploadDropFiles(e, $(this).parent('li').data('path'));
+            });
+            
             // Bind context menu
             nodedit.$el.find(_this.el).on('contextmenu', 'a', function (e) {
                 _this.contextMenu($(this).attr('class'), $(this).parent('li').data('path'), e);
@@ -1531,6 +1553,51 @@ nodedit.filemanager = {
                 object.removeClass('menu-open');
             });
         });
+    },
+    
+    /**
+     * @method nodedit.filemanager.uploadDropFiles
+     * 
+     * Handles uploading of files dropped
+     * @param {object} e The event
+     * @param {string} path The drop path
+     */
+    uploadDropFiles: function (e, path) {        
+        var _this = this;
+        
+        $.each(e.dataTransfer.files, function () {
+            var file = this, reader = new FileReader(), content, object;
+            reader.onload = function () {
+                content = this.result;
+                (path!=='/') ? object = path+'/'+file.name : object = path+file.name;
+                
+                nodedit.fsapi.createFile(object, function (res) {
+                    if (res) {
+                        nodedit.fsapi.save(object, content, function (res) {
+                            if (res) {
+                                // Success, save object
+                                _this.appendObject(path, object, 'file');
+                                nodedit.message.success('Successfully uploaded '+file.name);
+                            } else {
+                                nodedit.message.error('Could not save contents of '+type);
+                            }
+                        })
+                    } else {
+                        // Error
+                        nodedit.message.error('Could not create '+type);
+                    }
+                });
+            };
+            
+            if (file.type.match('image.*')) {
+                //reader.readAsBinaryString(file);
+                reader.readAsDataURL(file);
+            } else {
+                reader.readAsText(file);
+            }
+            
+        });
+
     },
     
     /**
@@ -1998,7 +2065,12 @@ nodedit.editor = {
         }
     },
     
-    
+    /**
+     * @method nodedit.editor.resize
+     * 
+     * Resizes the editor when the sidebar is resized
+     * @param {int} w The width of the sidebar (translates to margin-left of #editor)
+     */
     resize : function(w){
         var _this = this;
         nodedit.$el.find(_this.el).css({ 
