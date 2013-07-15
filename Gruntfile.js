@@ -4,6 +4,14 @@ module.exports = function(grunt) {
   // Project configuration.
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+    templates: {
+      main: {
+        header: '\n<!-- {{tplbasename}} -->\n<div data-tpl="{{tplbasename}}">\n',
+        footer: '\n</div>\n',
+        src: ['src/templates/*.tpl'],
+        dest: 'dist/templates/system.tpl'
+      }
+    },
     concat: {
       options: {
         banner: '/*!\n <%= pkg.name %> is free software released without warranty under the MIT license by Kent Safranski\n Build version <%= pkg.version %>, <%= grunt.template.today("mm-dd-yyyy") %>\n*/\n',
@@ -11,7 +19,7 @@ module.exports = function(grunt) {
       },
       js: {
         src: [
-            'src/js/dist.nodedit.js',
+            'src/js/nodedit.js',
             'src/js/nodedit.keybind.js',
             'src/js/nodedit.message.js',
             'src/js/nodedit.template.js',
@@ -56,9 +64,25 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-
-  // Default task(s).
-  grunt.registerTask('default', ['concat','uglify','cssmin']);
   
+  grunt.registerMultiTask('templates', 'Wraps templates with header and footer, then concats into single file', function() {
+        var data = this.data,
+            path = require('path'),
+            dest = grunt.template.process(data.dest),
+            files = grunt.file.expand(data.src),
+            header = data.header,
+            footer = data.footer,
+            contents = '';
+
+        files.forEach(function(f) {
+            contents += header.replace(/\{\{tplbasename\}\}/g, path.basename(f)) + grunt.file.read(f) + footer;
+        });
+        
+        grunt.file.write(dest, header + contents + footer);
+        grunt.log.writeln('Template created');
+  });
+  
+  // Default task(s).
+  grunt.registerTask('default', ['templates','concat','uglify','cssmin']);
 
 };

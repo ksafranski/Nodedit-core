@@ -17,6 +17,16 @@ $(function(){
     // Cache the main container
     nodedit.$el = $(nodedit.el);
     
+    // Determine environment (dist or src)
+    nodedit.env = $('body').attr('data-env');
+    
+    // If dist env, load templates into DOM
+    if (nodedit.env==='dist') {
+        $.get('dist/templates/system.tpl', function (tpls) {
+            $('body').append('<div id="nodedit-templates">'+tpls+'</div>');
+        });
+    }
+    
     // Check sessions
     if (nodedit.session()) {
         // Session exists, start workspace

@@ -1,3 +1,156 @@
+
+<!-- {{tplbasename}} -->
+<div data-tpl="{{tplbasename}}">
+
+<!-- bookmarks.tpl -->
+<div data-tpl="bookmarks.tpl">
+<form>
+    
+    <div class="max-height-350">
+    <table width="100%">
+    <tr>
+        <th>Name</th>
+        <th>Path</th>
+        <th width="5"></th>
+    </tr>
+    {{#each data}}
+    <tr>
+        <td><input name="name" value="{{name}}"></td>
+        <td><input name="path" value="{{path}}"></td>
+        <td style="padding-top: 5px;"><a class="icon-trash icon-large"></a></td>
+    </tr>
+    {{/each}}
+    </table>
+    </div>
+    
+    <button class="btn-left">Save</button>
+    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Close</button>
+</form>
+</div>
+
+<!-- connect.tpl -->
+<div data-tpl="connect.tpl">
+<form id="connect">
+    
+    <h1><span class="icon-cloud"></span>Connect To Server</h1>
+    
+    <label>Server:</label>
+    <input name="url" placeholder="http://www.server.com">
+    
+    <label>Key:</label>
+    <input name="key" placeholder="API Key">
+    
+    <button>Connect</button>
+    
+</form>
+</div>
+
+<!-- editor.tpl -->
+<div data-tpl="editor.tpl">
+<ul id="tabs" class="top-bar"></ul>
+<ul id="instances"></ul>
+</div>
+
+<!-- editor_confirm_close.tpl -->
+<div data-tpl="editor_confirm_close.tpl">
+<form>
+    <div id="diffreg">
+    </div>
+    
+    <button class="btn-left">Discard</button>
+    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Cancel</button>
+</form>
+</div>
+
+<!-- filemanager.tpl -->
+<div data-tpl="filemanager.tpl">
+<div id="resize-handle" class="ui-resizable-handle ui-resizable-e ui-resizable-w" style="float: right">||</div>
+
+<div class="top-bar">
+
+    <a id="disconnect" title="Close Session" class="icon-power-off"></a>
+    
+    <a id="bookmarks" title="Bookmarks" class="icon-star"></a>
+    
+    <a id="settings" title="Settings" class="icon-cogs"></a>
+    
+</div>
+<div id="fm-container">
+<ul>
+   <li id="root" data-path="{{data.root}}"><a class="directory"><span class="icon-{{#if data.bookmark}}star{{else}}cloud{{/if}}"></span>{{data.root_name}}</a></li> 
+</ul>
+</div>
+</div>
+
+<!-- filemanager_context_menu.tpl -->
+<div data-tpl="filemanager_context_menu.tpl">
+<ul class="context-menu">
+    {{#if data.dir}}
+    <li><a id="new_file"><span class="icon-file-alt"></span> New File</a></li>
+    <li><a id="new_directory"><span class="icon-folder-close-alt"></span> New Directory</a></li>
+    <li><a id="bookmark"><span class="icon-star"></span> Bookmark</a></li>
+    {{/if}}
+    <li><a id="copy"><span class="icon-copy"></span> Copy</a></li>
+    {{#if data.dir}}
+        {{#if data.clipboard}}
+        <li><a id="paste"><span class="icon-signout"></span> Paste</a></li>
+        {{/if}}
+    {{/if}}
+    <li><a id="rename"><span class="icon-edit"></span> Rename</a></li>
+    <li><a id="delete"><span class="icon-trash"></span> Delete</a></li>
+</ul>
+</div>
+
+<!-- filemanager_create.tpl -->
+<div data-tpl="filemanager_create.tpl">
+<form>
+    <label>{{data.type}} Name:</label>
+    <input type="text" name="name" placeholder="{{data.type}}_name">
+    
+    <button>Save</button>
+</form>
+</div>
+
+<!-- filemanager_delete.tpl -->
+<div data-tpl="filemanager_delete.tpl">
+<form>
+    <div style="overflow: auto; margin: 0 0 15px 0;">
+        {{data.path}}
+    </div>
+    
+    <button>Confirm</button>
+</form>
+</div>
+
+<!-- filemanager_dir.tpl -->
+<div data-tpl="filemanager_dir.tpl">
+<ul>
+{{#eachkeys data}}
+    <li data-path="{{this.value.path}}"><a class="{{this.value.type}}"><span class="{{this.value.icon}}"></span>{{this.key}}</a></li>
+{{/eachkeys}}
+</ul>
+</div>
+
+<!-- filemanager_rename.tpl -->
+<div data-tpl="filemanager_rename.tpl">
+<form>
+    <label>New Name:</label>
+    <input type="text" name="name" value="{{data.name}}">
+    
+    <button>Save</button>
+</form>
+</div>
+
+<!-- modal.tpl -->
+<div data-tpl="modal.tpl">
+<a class="icon-remove"></a>
+<h2>{{data.title}}</h2>
+
+<div id="modal-content"></div>
+</div>
+
+<!-- settings.tpl -->
+<div data-tpl="settings.tpl">
 <form>
     
     <table>
@@ -100,3 +253,20 @@
     <button onclick="nodedit.modal.close(); return false;">Close</button>
     
 </form>
+</div>
+
+<!-- tab.tpl -->
+<div data-tpl="tab.tpl">
+<li data-id="{{data.id}}" title="{{data.path}}">
+    <a class="icon-remove"></a>
+    <label>{{data.name}}</label>
+</li>
+</div>
+
+<!-- workspace.tpl -->
+<div data-tpl="workspace.tpl">
+<div id="filemanager"></div>
+<div id="editor"></div>
+</div>
+
+</div>

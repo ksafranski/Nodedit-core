@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-14-2013
+ Build version 0.1.0, 07-15-2013
 */
 /**
  * @object nodedit
@@ -9,7 +9,7 @@
  */
 var nodedit = {
 
-    templates: 'dist/templates/',
+    templates: 'templates/',
     
     el: '#nodedit'
 
@@ -20,6 +20,16 @@ $(function(){
 
     // Cache the main container
     nodedit.$el = $(nodedit.el);
+    
+    // Determine environment (dist or src)
+    nodedit.env = $('body').attr('data-env');
+    
+    // If dist env, load templates into DOM
+    if (nodedit.env==='dist') {
+        $.get('dist/templates/system.tpl', function (tpls) {
+            $('body').append('<div id="nodedit-templates">'+tpls+'</div>');
+        });
+    }
     
     // Check sessions
     if (nodedit.session()) {
