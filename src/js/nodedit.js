@@ -7,7 +7,18 @@ var nodedit = {
 
     templates: 'templates/',
     
-    el: '#nodedit'
+    el: '#nodedit',
+
+    init: function () {
+        // Check sessions
+        if (nodedit.session()) {
+            // Session exists, start workspace
+            nodedit.workspace.init();
+        } else {
+            // No session, show connect view
+            nodedit.connect.view();
+        }
+    }
 
 };
 
@@ -24,16 +35,12 @@ $(function(){
     if (nodedit.env==='dist') {
         $.get('dist/templates/system.tpl', function (tpls) {
             $('body').append('<div id="nodedit-templates">'+tpls+'</div>');
+        }).done(function () {
+            // call init after we have populated the templates inline.
+            nodedit.init();
         });
-    }
-    
-    // Check sessions
-    if (nodedit.session()) {
-        // Session exists, start workspace
-        nodedit.workspace.init();
     } else {
-        // No session, show connect view
-        nodedit.connect.view();
+        nodedit.init();
     }
 
 });

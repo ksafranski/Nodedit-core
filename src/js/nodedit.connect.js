@@ -11,7 +11,6 @@ nodedit.connect = {
      * Loads the connect template and handles form submission
      */
     view: function() {
-        
         nodedit.template('connect.tpl')
             .done(function (tmpl) {
                 // Load DOM

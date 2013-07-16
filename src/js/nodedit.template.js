@@ -7,22 +7,49 @@
  * @param {function} fn (optional) If passing in data, callback will return compiled template
  */
 nodedit.template = function (tpl, data, fn) {
+    var template,
+        defer,
+        tmpl;
     
-    return $.ajax({
-        url: nodedit.templates+tpl,
-        type: 'GET',
-        success: function(tmpl){ 
-            // Insert data
-            if (data) {
-                var template = Handlebars.compile(tmpl);
-                tmpl = template({'data': data});
-                fn(tmpl);
+    if (nodedit.env === 'src') {
+    
+        return $.ajax({
+            url: nodedit.templates+tpl,
+            type: 'GET',
+            success: function (tmpl){ 
+                // Insert data
+                if (data) {
+                    template = Handlebars.compile(tmpl);
+                    tmpl = template({'data': data});
+                    fn(tmpl);
+                }
+            },
+            error: function (){
+                nodedit.message.error('Could not load template');
             }
-        },
-        error: function() {
-            nodedit.message.error('Could not load template');
+        });
+        
+    } else {
+
+        // return a Deferred after the promise has been completed.
+        defer = new $.Deferred();
+        
+        // Setup template
+        tmpl = $('div[data-tpl="' + tpl + '"]').html();
+        template = Handlebars.compile(tmpl);
+        tmpl = template({'data' : data });
+        
+        // Resolve the defer, pass in tmpl to call .done()
+        defer.resolve(tmpl);
+        
+        // Check for callback if not using .done()
+        if ( typeof fn === 'function' ) {
+            fn(tmpl);
         }
-    });
+        
+        // Return promise to callee
+        return defer.promise();
+    }
 
 };
 

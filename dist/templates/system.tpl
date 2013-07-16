@@ -1,7 +1,4 @@
 
-<!-- {{tplbasename}} -->
-<div data-tpl="{{tplbasename}}">
-
 <!-- bookmarks.tpl -->
 <div data-tpl="bookmarks.tpl">
 <form>
@@ -267,6 +264,4 @@
 <div data-tpl="workspace.tpl">
 <div id="filemanager"></div>
 <div id="editor"></div>
-</div>
-
 </div>

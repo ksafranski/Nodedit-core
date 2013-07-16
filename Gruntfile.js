@@ -78,7 +78,7 @@ module.exports = function(grunt) {
             contents += header.replace(/\{\{tplbasename\}\}/g, path.basename(f)) + grunt.file.read(f) + footer;
         });
         
-        grunt.file.write(dest, header + contents + footer);
+        grunt.file.write(dest, contents);
         grunt.log.writeln('Template created');
   });
   

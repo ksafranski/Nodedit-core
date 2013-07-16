@@ -202,6 +202,10 @@ table label, table input, table select {
     height: 100%;
 }
 
+#nodedit-templates {
+    display: none;
+}
+
 /* CONNECT */
 
 #connect {

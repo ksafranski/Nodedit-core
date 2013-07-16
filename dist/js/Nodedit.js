@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-15-2013
+ Build version 0.1.0, 07-16-2013
 */
 /**
  * @object nodedit
@@ -11,7 +11,18 @@ var nodedit = {
 
     templates: 'templates/',
     
-    el: '#nodedit'
+    el: '#nodedit',
+
+    init: function () {
+        // Check sessions
+        if (nodedit.session()) {
+            // Session exists, start workspace
+            nodedit.workspace.init();
+        } else {
+            // No session, show connect view
+            nodedit.connect.view();
+        }
+    }
 
 };
 
@@ -28,16 +39,12 @@ $(function(){
     if (nodedit.env==='dist') {
         $.get('dist/templates/system.tpl', function (tpls) {
             $('body').append('<div id="nodedit-templates">'+tpls+'</div>');
+        }).done(function () {
+            // call init after we have populated the templates inline.
+            nodedit.init();
         });
-    }
-    
-    // Check sessions
-    if (nodedit.session()) {
-        // Session exists, start workspace
-        nodedit.workspace.init();
     } else {
-        // No session, show connect view
-        nodedit.connect.view();
+        nodedit.init();
     }
 
 });
@@ -47,7 +54,8 @@ $.fn.filterByData = function(prop, val) {
     return this.filter(
         function() { return $(this).data(prop)==val; }
     );
-};/**
+};
+/**
  * @method nodedit.keybind
  * 
  * Instantiated to create keybindings
@@ -316,22 +324,49 @@ nodedit.message = {
  * @param {function} fn (optional) If passing in data, callback will return compiled template
  */
 nodedit.template = function (tpl, data, fn) {
+    var template,
+        defer,
+        tmpl;
     
-    return $.ajax({
-        url: nodedit.templates+tpl,
-        type: 'GET',
-        success: function(tmpl){ 
-            // Insert data
-            if (data) {
-                var template = Handlebars.compile(tmpl);
-                tmpl = template({'data': data});
-                fn(tmpl);
+    if (nodedit.env === 'src') {
+    
+        return $.ajax({
+            url: nodedit.templates+tpl,
+            type: 'GET',
+            success: function (tmpl){ 
+                // Insert data
+                if (data) {
+                    template = Handlebars.compile(tmpl);
+                    tmpl = template({'data': data});
+                    fn(tmpl);
+                }
+            },
+            error: function (){
+                nodedit.message.error('Could not load template');
             }
-        },
-        error: function() {
-            nodedit.message.error('Could not load template');
+        });
+        
+    } else {
+
+        // return a Deferred after the promise has been completed.
+        defer = new $.Deferred();
+        
+        // Setup template
+        tmpl = $('div[data-tpl="' + tpl + '"]').html();
+        template = Handlebars.compile(tmpl);
+        tmpl = template({'data' : data });
+        
+        // Resolve the defer, pass in tmpl to call .done()
+        defer.resolve(tmpl);
+        
+        // Check for callback if not using .done()
+        if ( typeof fn === 'function' ) {
+            fn(tmpl);
         }
-    });
+        
+        // Return promise to callee
+        return defer.promise();
+    }
 
 };
 
@@ -371,7 +406,8 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
         default:
             return options.inverse(this);
     }
-});/**
+});
+/**
  * @object nodedit.fsapi
  * 
  * Handles all remote filesystem requests and responses
@@ -630,7 +666,6 @@ nodedit.connect = {
      * Loads the connect template and handles form submission
      */
     view: function() {
-        
         nodedit.template('connect.tpl')
             .done(function (tmpl) {
                 // Load DOM
