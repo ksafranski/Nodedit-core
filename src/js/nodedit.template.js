@@ -11,6 +11,7 @@ nodedit.template = function (tpl, data, fn) {
         defer,
         tmpl;
     
+    // In src environment, load each template via xhr
     if (nodedit.env === 'src') {
     
         return $.ajax({
@@ -28,10 +29,11 @@ nodedit.template = function (tpl, data, fn) {
                 nodedit.message.error('Could not load template');
             }
         });
-        
+    
+    // In dist environment, templates loaded as single file into DOM, pulled from DOM when needed
     } else {
 
-        // return a Deferred after the promise has been completed.
+        // Return a Deferred after the promise has been completed.
         defer = new $.Deferred();
         
         // Setup template
