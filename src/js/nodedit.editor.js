@@ -67,6 +67,13 @@ nodedit.editor = {
             }
         }
         
+        // Check for invalid mode/extension
+        if (!mode) {
+            // Mode not supported
+            nodedit.message.error('Can not open file type '+ext);
+            return false;
+        }
+        
         // Check that file instance not already present
         if (!exists) {
             
@@ -338,14 +345,21 @@ nodedit.editor = {
             case 'html': case 'htm': case 'tpl': return 'html';
             case 'js': return 'javascript';
             case 'css': return 'css';
+            case 'txt': return 'text';
             case 'scss': case 'sass': return 'scss';
             case 'less': return 'less';
             case 'php': case 'php5': return 'php';
+            case 'jsp': return 'jsp';
+            case 'coffee': return 'coffee';
             case 'json': return 'json';
             case 'xml': return 'xml';
             case 'sql': return 'sql';
             case 'md': return 'markdown';
-            default: return 'text';
+            case 'py': return 'python';
+            case 'sql': return 'sql';
+            case 'xml': return 'xml';
+            case 'sh': return 'sh';
+            default: return false;
         }
     },
     
