@@ -1,97 +1,53 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset='utf-8'>
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
-
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
-
-    <title>Nodedit by Fluidbyte</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nodedit - Thin Client Web IDE</title>
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="css/screen.css" type="text/css">
+    <link rel="stylesheet" href="css/icons.css" type="text/css">
+    <link rel="stylesheet" href="css/rainbow_twilight.css" type="text/css">
   </head>
-
   <body>
-    <header>
-      <div class="inner">
-        <h1>Nodedit</h1>
-        <h2>Thin client IDE for working with remote file systems</h2>
-        <a href="https://github.com/Fluidbyte/Nodedit" class="button"><small>View project on</small>GitHub</a>
-      </div>
-    </header>
-
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
-<a name="nodedit---thin-client-ide" class="anchor" href="#nodedit---thin-client-ide"><span class="octicon octicon-link"></span></a>Nodedit - Thin-Client IDE</h1>
-
-<p><strong>Nodedit is a web-based, thin-client IDE.</strong></p>
-
-<p>Nodedit is a thin-client IDE that runs completely in the browser. To work with files you connect to an instance of the <a href="https://github.com/Fluidbyte/Nodedit-Server">Nodedit-Server</a> which controls I/O with the remote filesystem. Simply provide the URL (and port) as well as an API key and that's it.</p>
-
-<h2>
-<a name="running-nodedit" class="anchor" href="#running-nodedit"><span class="octicon octicon-link"></span></a>Running Nodedit</h2>
-
-<p>As mentioned above, ensure that you have an instance of <a href="https://github.com/Fluidbyte/Nodedit-Server">Nodedit-Server</a> running on a server.</p>
-
-<p>Once you have a server to connect to just open the client. You can run it locally or serve it from a webserver, it has no rquirements except a modern web browser.</p>
-
-<p>You can also access an instance with the latest build at <a href="http://noded.it">Noded.it</a>.</p>
-
-<h2>
-<a name="license--usage" class="anchor" href="#license--usage"><span class="octicon octicon-link"></span></a>License &amp; Usage</h2>
-
-<p>Both the Nodedit Client and Server are released under the MIT-style open source license and are free to use, modify, break, tweak, etc to your hearts content. All that is asked is you mention your use of the code somewhere.</p>
-
-<h2>
-<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
-
-<p>The system is still very new. While there has been extensive testing and building of stuff to prevent any data-breaking there still are a myriad of things that can be tested, improved upon, added to, and so on and so forth.</p>
-
-<p>If you'd like to contribute please follow these steps:</p>
-
-<ol>
-<li>Create an issue. Select an appropriate label from the list and describe what you've found, intend to change, add, etc...</li>
-<li>Fork and create a branch. Won't get to picky here, but good branching results in easier (and faster) pulls</li>
-<li>Follow code conventions. They're pretty obvious. Also, comment your code. No comments === No pull.</li>
-<li>Make good commits. Don't just put "fixed it", if we need to revert or just follow the path of changes to identify an issue we want some details</li>
-<li>Submit a pull request. Please don't just submit something crappy. Give a title, some moderately in-depth description and maybe some testing criteria.</li>
-</ol><p>Good open-source (and code in general) is well organized. Taking a little extra time to ensure your code is understandable goes a long way in keeping things in order and growing a solid application instead of a monolithic beast.</p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/Fluidbyte/Nodedit/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/Fluidbyte/Nodedit/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/Fluidbyte/Nodedit"></a> is maintained by <a href="https://github.com/Fluidbyte">Fluidbyte</a>.</p>
-
-          <p>This page was generated by <a href="pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+  
+    <script src="js/libs/require.2.1.4.min.js" data-main="js/main"></script>
+    
+    
+    <header id="header"></header>
+    
+    <div class="sidebar clear-all">
+        
+        <nav id="main_nav"></nav>
+        
     </div>
+    
+    <div class="primary">
+        
+        <div id="page_content"></div>
+        
+    </div>
+    
+    <footer id="footer"></footer>
+    
+    <script type="text/javascript">
 
-            <script type="text/javascript">
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-          </script>
-          <script type="text/javascript">
-            try {
-              var pageTracker = _gat._getTracker("UA-42478029-1");
-            pageTracker._trackPageview();
-            } catch(err) {}
-          </script>
-
+      var _gaq = _gaq || [];
+      _gaq.push(['_setAccount', 'UA-42478029-1']);
+      _gaq.push(['_trackPageview']);
+      _gaq.push(["_trackPageview",location.pathname + location.search + location.hash]);
+      
+      function logHash () {
+          _gaq.push(["_trackPageview",location.pathname + location.search + location.hash]);
+      }
+      
+      (function() {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+      })();
+    
+    </script>
+        
   </body>
 </html>
