@@ -1626,22 +1626,18 @@ nodedit.filemanager = {
                                 _this.appendObject(path, object, 'file');
                                 nodedit.message.success('Successfully uploaded '+file.name);
                             } else {
-                                nodedit.message.error('Could not save contents of '+type);
+                                nodedit.message.error('Could not save contents of '+file.name);
                             }
                         })
                     } else {
                         // Error
-                        nodedit.message.error('Could not create '+type);
+                        nodedit.message.error('Could not create '+file.name);
                     }
                 });
             };
             
-            if (file.type.match('image.*')) {
-                //reader.readAsBinaryString(file);
-                reader.readAsDataURL(file);
-            } else {
-                reader.readAsText(file);
-            }
+            // Always read binary to send to server
+            reader.readAsBinaryString(file);
             
         });
 
