@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-16-2013
+ Build version 0.1.0, 07-17-2013
 */
 /**
  * @object nodedit
@@ -354,7 +354,7 @@ nodedit.template = function (tpl, data, fn) {
         defer = new $.Deferred();
         
         // Setup template
-        tmpl = $('div[data-tpl="' + tpl + '"]').html();
+        tmpl = $('script[id="' + tpl + '"]').html();
         template = Handlebars.compile(tmpl);
         tmpl = template({'data' : data });
         

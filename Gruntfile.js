@@ -6,8 +6,8 @@ module.exports = function(grunt) {
     pkg: grunt.file.readJSON('package.json'),
     templates: {
       main: {
-        header: '\n<!-- {{tplbasename}} -->\n<div data-tpl="{{tplbasename}}">\n',
-        footer: '\n</div>\n',
+        header: '\n<!-- {{tplbasename}} -->\n<script id="{{tplbasename}}" type="text/x-handlebars-template">\n',
+        footer: '\n</script>\n',
         src: ['src/templates/*.tpl'],
         dest: 'dist/templates/system.tpl'
       }

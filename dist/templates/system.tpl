@@ -1,6 +1,6 @@
 
 <!-- bookmarks.tpl -->
-<div data-tpl="bookmarks.tpl">
+<script id="bookmarks.tpl" type="text/x-handlebars-template">
 <form>
     
     <div class="max-height-350">
@@ -23,10 +23,10 @@
     <button class="btn-left">Save</button>
     <button class="btn-right" onclick="nodedit.modal.close(); return false;">Close</button>
 </form>
-</div>
+</script>
 
 <!-- connect.tpl -->
-<div data-tpl="connect.tpl">
+<script id="connect.tpl" type="text/x-handlebars-template">
 <form id="connect">
     
     <h1><span class="icon-cloud"></span>Connect To Server</h1>
@@ -40,16 +40,16 @@
     <button>Connect</button>
     
 </form>
-</div>
+</script>
 
 <!-- editor.tpl -->
-<div data-tpl="editor.tpl">
+<script id="editor.tpl" type="text/x-handlebars-template">
 <ul id="tabs" class="top-bar"></ul>
 <ul id="instances"></ul>
-</div>
+</script>
 
 <!-- editor_confirm_close.tpl -->
-<div data-tpl="editor_confirm_close.tpl">
+<script id="editor_confirm_close.tpl" type="text/x-handlebars-template">
 <form>
     <div id="diffreg">
     </div>
@@ -57,10 +57,10 @@
     <button class="btn-left">Discard</button>
     <button class="btn-right" onclick="nodedit.modal.close(); return false;">Cancel</button>
 </form>
-</div>
+</script>
 
 <!-- filemanager.tpl -->
-<div data-tpl="filemanager.tpl">
+<script id="filemanager.tpl" type="text/x-handlebars-template">
 <div id="resize-handle" class="ui-resizable-handle ui-resizable-e ui-resizable-w" style="float: right">||</div>
 
 <div class="top-bar">
@@ -77,10 +77,10 @@
    <li id="root" data-path="{{data.root}}"><a class="directory"><span class="icon-{{#if data.bookmark}}star{{else}}cloud{{/if}}"></span>{{data.root_name}}</a></li> 
 </ul>
 </div>
-</div>
+</script>
 
 <!-- filemanager_context_menu.tpl -->
-<div data-tpl="filemanager_context_menu.tpl">
+<script id="filemanager_context_menu.tpl" type="text/x-handlebars-template">
 <ul class="context-menu">
     {{#if data.dir}}
     <li><a id="new_file"><span class="icon-file-alt"></span> New File</a></li>
@@ -96,20 +96,20 @@
     <li><a id="rename"><span class="icon-edit"></span> Rename</a></li>
     <li><a id="delete"><span class="icon-trash"></span> Delete</a></li>
 </ul>
-</div>
+</script>
 
 <!-- filemanager_create.tpl -->
-<div data-tpl="filemanager_create.tpl">
+<script id="filemanager_create.tpl" type="text/x-handlebars-template">
 <form>
     <label>{{data.type}} Name:</label>
     <input type="text" name="name" placeholder="{{data.type}}_name">
     
     <button>Save</button>
 </form>
-</div>
+</script>
 
 <!-- filemanager_delete.tpl -->
-<div data-tpl="filemanager_delete.tpl">
+<script id="filemanager_delete.tpl" type="text/x-handlebars-template">
 <form>
     <div style="overflow: auto; margin: 0 0 15px 0;">
         {{data.path}}
@@ -117,37 +117,37 @@
     
     <button>Confirm</button>
 </form>
-</div>
+</script>
 
 <!-- filemanager_dir.tpl -->
-<div data-tpl="filemanager_dir.tpl">
+<script id="filemanager_dir.tpl" type="text/x-handlebars-template">
 <ul>
 {{#eachkeys data}}
     <li data-path="{{this.value.path}}"><a class="{{this.value.type}}"><span class="{{this.value.icon}}"></span>{{this.key}}</a></li>
 {{/eachkeys}}
 </ul>
-</div>
+</script>
 
 <!-- filemanager_rename.tpl -->
-<div data-tpl="filemanager_rename.tpl">
+<script id="filemanager_rename.tpl" type="text/x-handlebars-template">
 <form>
     <label>New Name:</label>
     <input type="text" name="name" value="{{data.name}}">
     
     <button>Save</button>
 </form>
-</div>
+</script>
 
 <!-- modal.tpl -->
-<div data-tpl="modal.tpl">
+<script id="modal.tpl" type="text/x-handlebars-template">
 <a class="icon-remove"></a>
 <h2>{{data.title}}</h2>
 
 <div id="modal-content"></div>
-</div>
+</script>
 
 <!-- settings.tpl -->
-<div data-tpl="settings.tpl">
+<script id="settings.tpl" type="text/x-handlebars-template">
 <form>
     
     <table>
@@ -250,18 +250,18 @@
     <button onclick="nodedit.modal.close(); return false;">Close</button>
     
 </form>
-</div>
+</script>
 
 <!-- tab.tpl -->
-<div data-tpl="tab.tpl">
+<script id="tab.tpl" type="text/x-handlebars-template">
 <li data-id="{{data.id}}" title="{{data.path}}">
     <a class="icon-remove"></a>
     <label>{{data.name}}</label>
 </li>
-</div>
+</script>
 
 <!-- workspace.tpl -->
-<div data-tpl="workspace.tpl">
+<script id="workspace.tpl" type="text/x-handlebars-template">
 <div id="filemanager"></div>
 <div id="editor"></div>
-</div>
+</script>
