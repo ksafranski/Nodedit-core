@@ -57,14 +57,6 @@ $.fn.filterByData = function(prop, val) {
 /**
  * Instantiated to create keybindings
  * @method nodedit.keybind
- * 
- * var konami = new nodedit.keybind({
- *      code: 'up up down down left right left right b a',
- *      timeout: 5000,
- *      callback: function(){
- *           alert('KONAMI!');
- *      }
- *   });
  */
 nodedit.keybind = function(params){
     

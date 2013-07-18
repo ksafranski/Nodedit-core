@@ -1,44 +1,27 @@
 /**
  * Instantiated to create keybindings
  * @method nodedit.keybind
- * 
- * var konami = new nodedit.keybind({
- *      code: 'up up down down left right left right b a',
- *      timeout: 5000,
- *      callback: function(){
- *           alert('KONAMI!');
- *      }
- *   });
+ * @param {object} params Object containing code, timeout and callback
  */
 nodedit.keybind = function(params){
     
-    /**
-     * Assign combo code
-     */
+    // Assign combo code
  
     this.code = params.code || null;
     
-    /**
-     * Timeout before cur_combo resets
-     */
+    // Timeout before cur_combo resets
  
     this.timeout = params.timeout || 1000;
     
-    /**
-     * Callback
-     */
+    // Callback
  
     this.callback = params.callback || false;
     
-    /**
-     * Holds currently entered combo
-     */
+    // Holds currently entered combo
  
     this.cur_combo = '';
     
-    /**
-     * Starts the key listener, timer and check
-     */
+    // Starts the key listener, timer and check
  
     this.init = function(){
         
@@ -57,9 +40,7 @@ nodedit.keybind = function(params){
         
     };
     
-    /**
-     * Controls duration of time available to complete code
-     */
+    // Controls duration of time available to complete code
     
     this.runTimer = function(){
         var _this = this;
@@ -74,9 +55,7 @@ nodedit.keybind = function(params){
         }, this.timeout);
     };
     
-    /**
-     * Checks for code match and fires callback
-     */
+    // Checks for code match and fires callback
     
     this.checkCode = function(e){
         if (this.cur_combo.indexOf(this.code)!== -1 && this.callback){
@@ -86,9 +65,7 @@ nodedit.keybind = function(params){
         }
     };
     
-    /**
-     * Library of keycodes
-     */
+    // Library of keycodes
     
     this.keycodes = {
         8: "backspace",
@@ -185,9 +162,7 @@ nodedit.keybind = function(params){
         222: "quote"
     };
     
-    /**
-     * Start up on instantiation
-     */
+    // Start up on instantiation
     
     this.init();   
     
