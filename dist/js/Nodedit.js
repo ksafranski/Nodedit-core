@@ -3,9 +3,8 @@
  Build version 0.1.0, 07-18-2013
 */
 /**
- * @object nodedit
- * 
  * Creates the application object and initial configuration
+ * @namespace nodedit
  */
 var nodedit = {
 
@@ -56,9 +55,8 @@ $.fn.filterByData = function(prop, val) {
     );
 };
 /**
- * @method nodedit.keybind
- * 
  * Instantiated to create keybindings
+ * @method nodedit.keybind
  * 
  * var konami = new nodedit.keybind({
  *      code: 'up up down down left right left right b a',
@@ -250,16 +248,14 @@ nodedit.keybind = function(params){
     this.init();   
     
 };/**
- * @object nodedit.message
- * 
  * Hanldes notifications and messaging
+ * @namespace nodedit.message
  */
 nodedit.message = {
     
     /**
-     * @method nodedit.message.show
-     * 
      * Visibly displays the message
+     * @method nodedit.message.show
      * @param {string} msg The message
      * @param {string} type Error or success
      * 
@@ -297,9 +293,8 @@ nodedit.message = {
     },
     
     /**
-     * @method nodedit.message.error
-     * 
      * Shows error message
+     * @method nodedit.message.error
      * @param {string} msg Message to display
      */
     error: function (msg) {
@@ -307,21 +302,19 @@ nodedit.message = {
     },
     
     /**
-     * @method nodedit.message.success
-     * 
      * Shows success message
+     * @method nodedit.message.success
      * @param {string} msg Message to display
      */
     success: function (msg) {
         nodedit.message.show(msg, 'success');
     }
 }/**
- * @method nodedit.template
- * 
  * Load the template
+ * @method nodedit.template
  * @param {string} tpl The template file to be loaded
- * @param {object} data (optional) Data to be loaded via Handlebars
- * @param {function} fn (optional) If passing in data, callback will return compiled template
+ * @param {object} [data] Data to be loaded via Handlebars
+ * @param {requestCallback} [fn] If passing in data, callback will return compiled template
  */
 nodedit.template = function (tpl, data, fn) {
     var template,
@@ -410,16 +403,14 @@ Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
     }
 });
 /**
- * @object nodedit.fsapi
- * 
  * Handles all remote filesystem requests and responses
+ * @namespace nodedit.fsapi
  */
 nodedit.fsapi = {
     
     /**
-     * @method nodedit.fsapi.check
-     * 
      * Used by nodedit.connect to check if session is valid
+     * @method nodedit.fsapi.check
      * @param {object} session The object containing remote url and key
      */
     check: function (session) {
@@ -427,13 +418,12 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.request
-     * 
      * Makes request against remote server
+     * @method nodedit.fsapi.request
      * @param {string} url The remote url with key
      * @param {string} type The type of request (GET, POST, PUT, DELETE)
      * @param {object} params Any data (POST/PUT) to be sent
-     * @param {function} fn The callback after success or error
+     * @param {{requestCallback}} fn The callback after success or error
      */
     request: function (url, type, params, fn) {
         $.ajax({
@@ -462,11 +452,10 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.open
-     * 
      * Opens and returns contents of file
+     * @method nodedit.fsapi.open
      * @param {string} path The full path to the file
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     open: function (path, fn) {
         var url = nodedit.session().url + "/" + nodedit.session().key + "/file" + path;
@@ -474,11 +463,10 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.list
-     * 
      * Returns the contens of a directory
+     * @method nodedit.fsapi.list
      * @param {string} path The full path to the file
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     list: function (path, fn) {
         var url = nodedit.session().url + "/" + nodedit.session().key + "/dir" + path;
@@ -490,12 +478,11 @@ nodedit.fsapi = {
      */
     
     /**
-     * @method nodedit.fsapi.create
-     * 
      * Creates a file or directory
+     * @method nodedit.fsapi.create
      * @param {string} path The full path to the file
      * @param {string} type Either 'file' or 'dir'
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     create: function (path, type, fn) {
         var url = nodedit.session().url + "/" + nodedit.session().key + "/" + type + path;
@@ -503,34 +490,31 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.createFile
-     * 
      * Proxy for create
+     * @method nodedit.fsapi.createFile
      * @param {string} path The full path to the file
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     createFile: function (path, fn) {
         this.create(path, "file", fn);
     },
     
     /**
-     * @method nodedit.fsapi.createDirectory
-     * 
      * Proxy for create
+     * @method nodedit.fsapi.createDirectory
      * @param {string} path The full path to the file
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     createDirectory: function (path, fn) {
         this.create(path, "dir", fn);
     },
     
     /**
-     * @method nodedit.fsapi.copy
-     * 
      * Copies a file or directory (and all contents)
+     * @method nodedit.fsapi.copy
      * @param {string} path The full path to the file
      * @param {string} detsination The full path of the copy destination
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     copy: function (path, destination, fn) {
         var url = nodedit.session().url + "/" + nodedit.session().key + "/copy" + path;
@@ -538,12 +522,11 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.move
-     * 
      * Similar to 'Cut+Paste', copies the file, then deletes original
+     * @method nodedit.fsapi.move
      * @param {string} path The full path to the file
      * @param {string} destination The full path of the move-to destination
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     move: function (path, destination, fn) {
         var _this = this;
@@ -557,12 +540,11 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.save
-     * 
      * Saves contents to a file
+     * @method nodedit.fsapi.save
      * @param {string} path The full path to the file
      * @param {sting} data The data to be placed in the file
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     save: function (path, data, fn) {
         var url = nodedit.session().url + "/" + nodedit.session().key + "/save" + path;
@@ -570,12 +552,11 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.rename
-     * 
      * Renames a file or directory
+     * @method nodedit.fsapi.rename
      * @param {string} path The full path to the file
      * @param {string} name The new name of the file or directory
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     rename: function (path, name, fn) {
         var url = nodedit.session().url + "/" + nodedit.session().key + "/rename" + path;
@@ -583,11 +564,10 @@ nodedit.fsapi = {
     },
     
     /**
-     * @method nodedit.fsapi.delete
-     * 
      * Deletes a file or directory
+     * @method nodedit.fsapi.delete
      * @param {string} path The full path to the file
-     * @param {function} fn The callback on success
+     * @param {requestCallback} fn The callback on success
      */
     delete: function (path, fn) {
         var url = nodedit.session().url + "/" + nodedit.session().key + path;
@@ -595,10 +575,9 @@ nodedit.fsapi = {
     } 
     
 };/**
- * @method nodedit.session()
- * 
  * Sets or gets session information
- * @param {session} Object - With format { url: 'ENDPOINT', key: 'API_KEY' } sets the session, 'clear' removes it, no value returns current session (or bool false)
+ * @method nodedit.session()
+ * @param {object|string} arg With format { url: 'ENDPOINT', key: 'API_KEY' } sets the session, 'clear' removes it, no value returns current session (or bool false)
  */
 nodedit.session = function () {
     
@@ -627,11 +606,10 @@ nodedit.session = function () {
     }
     
 };/**
- * @method nodedit.store()
- * 
  * Stores and retrieves data from localstorage
- * @param {key} The key used to identify the storage obejct
- * @param {value} Optional - The value to set, null to remove object, or not specified to get
+ * @method nodedit.store
+ * @param {string} The key used to identify the storage obejct
+ * @param {object|string} [value] The value to set, null to remove object, or not specified to get
  */
 nodedit.store = function (key, value) {
 
@@ -656,18 +634,16 @@ nodedit.store = function (key, value) {
     }
 
 };/**
- * @object nodedit.connect
- * 
  * Handles loading of the connection view and processing of form submission
+ * @namespace nodedit.connect
  */
 nodedit.connect = {
     
     /**
-     * @method nodedit.connect.view
-     * 
      * Loads the connect template and handles form submission
+     * @method nodedit.connect.view
      */
-    view: function() {
+    view: function () {
         nodedit.template('connect.tpl')
             .done(function (tmpl) {
                 // Load DOM
@@ -681,9 +657,8 @@ nodedit.connect = {
     },
     
     /**
-     * @method nodedit.connect.process
-     * 
      * Handles procesing of form data
+     * @method nodedit.connect.process
      * @param {object} formData Data passed from connect.view form submission
      */
     process: function (formData) {
@@ -711,18 +686,16 @@ nodedit.connect = {
     },
     
     /**
-     * @method modedit.connect.close
-     * 
      * Closes the connect by clearing the session
+     * @method modedit.connect.close
      */
     close: function () {
         nodedit.session('clear');
         window.location.reload();
     }
 };/**
- * @method nodedit.modal
- * 
  * Controls for modal window actions
+ * @namespace nodedit.modal
  */
 nodedit.modal = {
     
@@ -731,14 +704,13 @@ nodedit.modal = {
     overlay: '#modal-overlay',
 
     /**
-     * @method nodedit.modal.open
-     * 
      * Opens an instance of the modal
-     * @param {int} width The width of the modal
+     * @method nodedit.modal.open
+     * @param {number} width The width of the modal
      * @param {string} title The title to display
      * @param {string} template The template to load
      * @param {string|object} data optional Any data to be loaded into the template
-     * @param {function} fn optional Callback function
+     * @param {requestCallback} [fn] Callback function
      */
     open: function (width, title, template, data, fn) {
         // Close any open modals
@@ -774,6 +746,7 @@ nodedit.modal = {
     },
     
     /**
+     * Closes the modal window
      * @method nodedit.modal.close
      */
     close: function () {
@@ -783,16 +756,14 @@ nodedit.modal = {
     }
 
 };/**
- * @object nodedit.settings
- * 
  * Hanldes settings get and set
+ * @namespace nodedit.settings
  */
 nodedit.settings = {
     
     /**
-     * @method nodedit.settings.init
-     * 
      * Checks for saved settings or sets defaults
+     * @method nodedit.settings.init
      */
     init: function () {
         // Check for local storage
@@ -809,18 +780,16 @@ nodedit.settings = {
     },
     
     /**
+     * Returns the settings from localStorage
      * @method nodedit.settings.get
-     * 
-     * Returns the settings from localstorage
      */
     get: function () {
         return JSON.parse(nodedit.store('nodedit_settings'));
     },
     
     /**
+     * Stores settings in localStorage
      * @method nodedit.settings.set
-     * 
-     * Stores settings
      * @param {object} settings The object with user settings
      */
     set: function (settings) {
@@ -830,9 +799,8 @@ nodedit.settings = {
     },
     
     /**
-     * @method nodedit.settings.edit
-     * 
      * Opens the settings dialog and handles for response
+     * @method nodedit.settings.edit
      */
     edit: function () {
         var _this = this,
@@ -858,16 +826,14 @@ nodedit.settings = {
     }
     
 };/**
- * @object nodedit.workspace
- * 
  * Used to manage the nodedit workspace (filemanager and editor) loading
+ * @namespace nodedit.workspace
  */
 nodedit.workspace = {
     
     /**
-     * @method nodedit.workspace.init
-     * 
      * Starts up the workspace after a successful session is establshed
+     * @method nodedit.workspace.init
      */
     init: function () {
         
@@ -893,9 +859,8 @@ nodedit.workspace = {
     }
     
 };/**
- * @object nodedit.tabs
- * 
  * Controls for the editor tabs
+ * @namespace nodedit.tabs
  */
 nodedit.tabs = {
     
@@ -904,10 +869,9 @@ nodedit.tabs = {
     overflow_timeout: null,
     
     /**
-     * @method nodedit.tabs.open
-     * 
      * Opens a new tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.open
+     * @param {number} id The id of the editor/tab instance
      */
     open: function (id) {
         var _this = this,
@@ -926,9 +890,8 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.sortable
-     * 
      * Initializes tab sortable functionality
+     * @method nodedit.tabs.sortable
      */
     sortable: function () {
         var _this = this;
@@ -942,9 +905,8 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.overflow
-     * 
      * Handles overflow of tabs expanding past horizontal space available
+     * @method nodedit.tabs.overflow
      */
     overflow: function () {
         var _this = this,
@@ -1021,10 +983,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.close
-     * 
      * Closes a tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.close
+     * @param {number} id The id of the editor/tab instance
      */
     close: function (id) {
         var _this = this;
@@ -1034,12 +995,11 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.rename
-     * 
      * Handles rename of any open files and path changes
+     * @method nodedit.tabs.rename
      * @param {string} oldPath The existing path
      * @param {string} newPath The new path
-     * @param {int} id The id of the instance
+     * @param {number} id The id of the instance
      */
     rename: function (oldPath, newPath, id) {
         var _this = this,
@@ -1057,10 +1017,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.setActive
-     * 
      * Sets active tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.setActive
+     * @param {number} id The id of the editor/tab instance
      */
     setActive: function (id) {
         var _this = this;
@@ -1071,9 +1030,8 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.getActive
-     * 
      * Return the active tab or false
+     * @method nodedit.tabs.getActive
      */
     getActive: function () {
         var _this = this;
@@ -1085,10 +1043,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.bindClose
-     * 
      * Binds click to close button
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.bindClose
+     * @param {number} id The id of the editor/tab instance
      */
     bindClose: function (id) {
         var _this = this;
@@ -1098,10 +1055,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.bindClick
-     * 
      * Binds click to the tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.bindClick
+     * @param {number} id The id of the editor/tab instance
      */
     bindClick: function (id) {
         var _this = this;
@@ -1111,10 +1067,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.markChanged
-     * 
      * Marks the tab to show editor has unsaved changes
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.markChanged
+     * @param {number} id The id of the editor/tab instance
      */
     markChanged: function (id) {
         var _this = this,
@@ -1129,10 +1084,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.markUnchanged
-     * 
      * Marks the tab to show editor has NO unsaved changes
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.markUnchanged
+     * @param {number} id The id of the editor/tab instance
      */
     markUnchanged: function (id) {
         var _this = this;
@@ -1140,10 +1094,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.checkChanged
-     * 
      * Checks if tab reports unsaved changes
-     * @param {int} id Optional - either specifies id of editor/tab or checks all
+     * @method nodedit.tabs.checkChanged
+     * @param {number} [id] Either specifies id of editor/tab or checks all (if not specified)
      */
     checkChanged: function (id) {
         var _this = this,
@@ -1167,9 +1120,8 @@ nodedit.tabs = {
     }
     
 };/**
- * @object nodedit.bookmarks
- * 
- * Controls for bookmarks
+ * Bookmark controller
+ * @namespace nodedit.bookmarks
  */
 nodedit.bookmarks = {
     
@@ -1177,9 +1129,9 @@ nodedit.bookmarks = {
     nebfile: '/.nebmarks',
     
     /**
+     * Retreives list of bookmarks from node
      * @method nodedit.bookmarks.getList
-     * 
-     * Retrieves list of bookmarks from root of node
+     * @param {requestCallback} fn Processed after sucessful return
      */
     getList: function (fn) {
         var _this = this;
@@ -1196,9 +1148,9 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.showList
-     * 
      * Loads and displays the bookmark select list
+     * @method nodedit.bookmarks.showList
+     * @param {object} e The event triggering the list display
      */
     showList: function (e) {
         // Create element
@@ -1256,10 +1208,9 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.openDialog
-     * 
      * Opens the bookmark manager dialog
-     * @param {object} add Optional object containing 'name' and 'path' of a new bookmark
+     * @method nodedit.bookmarks.openDialog
+     * @param {object} [add] Object containing name and path of a new bookmark
      */
     openDialog: function (add) {
         var _this = this,
@@ -1338,10 +1289,9 @@ nodedit.bookmarks = {
     },
 
     /**
-     * @method nodedit.bookmarks.addBookmark
-     * 
      * Checks if bookmark already exists before sending through to openDialog
-     * @param {object} add Optional object containing 'name' and 'path' of a new bookmark
+     * @method nodedit.bookmarks.addBookmark
+     * @param {object} [add] Object containing name and path of a new bookmark
      */
     addBookmark: function (add) {
         var _this = this,
@@ -1367,9 +1317,9 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.saveList
-     * 
      * Saves JSON-formatted list back to root of node
+     * @method nodedit.bookmarks.saveList
+     * @param {object} bookmarks The object retrutned from the serialized array of the form
      */
     saveList: function (bookmarks) {
         var _this = this;
@@ -1383,9 +1333,8 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.setCurrent
-     * 
      * Sets the current bookmark in localStorage
+     * @method nodedit.bookmarks.setCurrent
      * @param {string} name The name of the bookmark
      * @param {string} path The path (from root)
      */
@@ -1396,9 +1345,8 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.clearCurrent
-     * 
      * Clears out the current bookmark
+     * @method nodedit.bookmarks.clearCurrent
      */
     clearCurrent: function () {
         nodedit.store('nodedit_bookmark', null);
@@ -1407,18 +1355,16 @@ nodedit.bookmarks = {
     },
     
     /**
+     * Returns object containing current bookmark name and path
      * @method nodedit.bookmarks.getCurrent
-     * 
-     * Returns object containing current bookmark 'name' and 'path'
      */
     getCurrent: function () {
         return JSON.parse(nodedit.store('nodedit_bookmark'));
     }
     
 };/**
- * @object nodedit.filemanager
- * 
  * Handles all filemanager related actions
+ * @namespace nodedit.filemanager
  */
 nodedit.filemanager = {
     
@@ -1429,9 +1375,8 @@ nodedit.filemanager = {
     root_name: 'Node Root',
 
     /**
-     * @method nodedit.filemanager.init
-     * 
      * Starts the filemanager
+     * @method nodedit.filemanager.init
      */
     init: function () {
         var _this = this,
@@ -1466,9 +1411,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.bindActions
-     * 
      * Binds dom elements to actions
+     * @method nodedit.filemanager.bindActions
      */
     bindActions: function () {
         var _this = this;
@@ -1550,11 +1494,11 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.contextMenu
-     * 
      * Shows the appropriate context menu
+     * @method nodedit.filemanager.contextMenu
      * @param {string} type Directory or file
-     * @param {path} The path of the element
+     * @param {string} path The path of the element
+     * @param {object} e The event object
      */
     contextMenu: function (type, path, e) {
         
@@ -1624,10 +1568,9 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.uploadDropFiles
-     * 
      * Handles uploading of files dropped
-     * @param {object} e The event
+     * @method nodedit.filemanager.uploadDropFiles
+     * @param {object} e The event object
      * @param {string} path The drop path
      */
     uploadDropFiles: function (e, path) {        
@@ -1665,9 +1608,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.openDirectory
-     * 
      * Opens a directory and displays contents
+     * @method nodedit.filemanager.openDirectory
      * @param {string} path The path to load contents of
      */
     openDirectory: function (path) {
@@ -1699,9 +1641,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.closeDirectory
-     * 
      * Closes a directory
+     * @method nodedit.filemanager.closeDirectory
      * @param {string} path The path to close contents of
      */
     closeDirectory: function (path) {
@@ -1720,9 +1661,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.openFile
-     * 
      * Opens a file and instantiates new nodeditor.editor
+     * @method nodedit.filemanager.openFile
      * @param {string} path The path of the file
      */
     openFile: function (path) {
@@ -1738,12 +1678,11 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.saveFile
-     * 
      * Saves a file contents
+     * @method nodedit.filemanager.saveFile
      * @param {string} path The path of the file
      * @param {string} contents The contents to be saved
-     * @param {function} fn optional - Callback with status returned
+     * @param {requestCallback} [fn] Callback with status returned
      */
     saveFile: function (path, content, fn) {
         nodedit.fsapi.save(path, content, function (status) {
@@ -1765,9 +1704,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.getName
-     * 
      * Returns (only) the name of the file
+     * @method nodedit.filemanager.getName
      * @param {string} path The path of the file
      */
     getFileName: function (path) {
@@ -1776,9 +1714,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.getFileExtension
-     * 
      * Returns the file extension
+     * @method nodedit.filemanager.getFileExtension
      * @param {string} path The path of the file
      */
     getFileExtension: function (path) {
@@ -1787,9 +1724,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.createObject
-     * 
      * Opens dialog and processes new file/directory creation
+     * @method nodedit.filemanager.createObject
      * @param {string} path The path of the directory
      * @param {string} type Type of create, file or directory
      */
@@ -1827,9 +1763,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.appendObject
-     * 
      * Appends a DOM object to the filemanager parent object
+     * @method nodedit.filemanager.appendObject
      * @param {string} parent The object to append to
      * @param {string} object The object to append
      * @param {string} type The type of object, file/directory
@@ -1854,9 +1789,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.renameObject
-     * 
      * Opens dialog and processes file/directory rename
+     * @method nodedit.filemanager.renameObject
      * @param {string} path The path of the object
      */
     renameObject: function (path) {
@@ -1919,9 +1853,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.copyObject
-     * 
      * Adds file/directory to the clipboard
+     * @method nodedit.filemanager.copyObject
      * @param {string} path The path of the object
      */
     copyObject: function (path) {
@@ -1931,9 +1864,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.pasteObject
-     * 
      * Pastes object to path from path stored in clipboard
+     * @method nodedit.filemanager.pasteObject
      * @param {string} path The path of the object
      */
     pasteObject: function (path) {
@@ -1954,9 +1886,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.deleteObject
-     * 
      * Opens dialog and processes file/directory delete
+     * @method nodedit.filemanager.deleteObject
      * @param {string} path The path of the object
      */
     deleteObject: function (path) {
@@ -1991,9 +1922,8 @@ nodedit.filemanager = {
     }
 
 };/**
- * @object nodedit.editor
- * 
  * Handles all functions for the editor
+ * @namespace nodedit.editor
  */
 nodedit.editor = {
     
@@ -2005,9 +1935,8 @@ nodedit.editor = {
     instance_modes: {},
 
     /**
-     * @method nodedit.editor.init
-     * 
      * Starts the editor
+     * @method nodedit.editor.init
      */
     init: function () {
         var _this = this,
@@ -2034,9 +1963,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.open
-     * 
      * Starts a new editor instance and loads any contents
+     * @method nodedit.editor.open
      * @param {string} path The path of the file
      * @param {string} contents The contents of the file
      */
@@ -2106,11 +2034,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setConfig
-     * 
      * Sets the configuration of the editor
+     * @method nodedit.editor.setConfig
      * @param {object} config Object containing config properties
-     * @param {int} id optional The id of the editor instance (or will change all)
+     * @param {number} [id] The id of the editor instance (or will change all)
      */
     setConfig: function (id) {
         var _this = this,
@@ -2137,12 +2064,11 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.resize
-     * 
      * Resizes the editor when the sidebar is resized
-     * @param {int} w The width of the sidebar (translates to margin-left of #editor)
+     * @method nodedit.editor.resize
+     * @param {number} w The width of the sidebar (translates to margin-left of #editor)
      */
-    resize : function(w){
+    resize: function(w){
         var _this = this;
         nodedit.$el.find(_this.el).css({ 
             'margin-left': w
@@ -2153,10 +2079,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.close
-     * 
      * Closes an instance of the editor and associated tab
-     * @param {string} path The path of the file
+     * @method nodedit.editor.close
+     * @param {number} id The id of the editor instance
      */
     close: function (id) {
         var _this = this;
@@ -2192,10 +2117,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.getDiff
-     * 
      * Returns diff table between starting point and current changes
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.getDiff
+     * @param {number} id The id of the editor instance
      */
     getDiff: function (id) {
         // Get diff
@@ -2218,9 +2142,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.rename
-     * 
      * Handles rename of any open files and path changes
+     * @method nodedit.editor.rename
      * @param {string} oldPath The existing path
      * @param {string} newPath The new path
      */
@@ -2237,9 +2160,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.saveActive
-     * 
      * Saves the active instance
+     * @method nodedit.editor.saveActive
      */
     saveActive: function () {
         
@@ -2268,10 +2190,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.gotoInstance
-     * 
      * Goes to a specific instance (tab)
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.gotoInstance
+     * @param {number} id The id of the editor instance
      */
     gotoInstance: function (id) {
         var _this = this;
@@ -2285,10 +2206,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.getPath
-     * 
      * Returns the path associated with the editor instance
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.getPath
+     * @param {number} id The id of the editor instance
      */
     getPath: function(id){
         var _this = this,
@@ -2303,9 +2223,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setContent
-     * 
      * Sets the content of the editor instance
+     * @method nodedit.editor.setContent
      * @param {sting} c The content to set
      * @param {int} id The id of the editor instance
      */
@@ -2315,9 +2234,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.getContent
-     * 
      * Returns the contents from the editor instance
+     * @method nodedit.editor.getContent
      * @param {int} id The id of the editor instance
      */
     getContent: function(id){
@@ -2327,9 +2245,8 @@ nodedit.editor = {
     
     
     /**
-     * @method nodedit.editor.getMode
-     * 
      * Returns the correct mode based on extension
+     * @method nodedit.editor.getMode
      * @param {string} ext The extension of the file
      */
     getMode: function (ext) {
@@ -2356,11 +2273,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setMode
-     * 
      * Sets the mode of the editor instance
+     * @method nodedit.editor.setMode
      * @param {sting} m The mode to set
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setMode: function (m,id) {
         var _this = this;
@@ -2368,11 +2284,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setTheme
-     * 
      * Sets the theme of the editor instance
+     * @method nodedit.editor.setTheme
      * @param {sting} t The theme to set
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setTheme: function (t,id) {
         var _this = this;
@@ -2380,11 +2295,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setFontSize
-     * 
      * Sets the font size for the editor
-     * @param {int} s The size of the font
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.setFontSize
+     * @param {number} s The size of the font
+     * @param {number} id The id of the editor instance
      */
     setFontSize: function (s,id) {
         var _this = this;
@@ -2392,11 +2306,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setHighlightLine
-     * 
      * Sets whether or not the active line will be highlighted
+     * @method nodedit.editor.setHighlightLine
      * @param {bool} h Whether or not to highlight active line
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setHighlightLine: function (h,id) {
         var _this = this;
@@ -2404,11 +2317,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setPrintMargin
-     * 
      * Sets whether or not the print margin will be shown
+     * @method nodedit.editor.setPrintMargin
      * @param {bool} p The mode to set
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setPrintMargin: function (p,id) {
         var _this = this;
@@ -2416,11 +2328,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setIndentGuides
-     * 
      * Sets whether or not indent guides will be shown
+     * @method nodedit.editor.setIndentGuides
      * @param {bool} g Whether or not to show indent guides
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setIndentGuides: function (g,id) {
         var _this = this;
@@ -2428,10 +2339,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.bindChange
-     * 
      * Binds to change event on editor instance
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.bindChange
+     * @param {number} id The id of the editor instance
      */
     bindChange: function (id) {
         var _this = this;
