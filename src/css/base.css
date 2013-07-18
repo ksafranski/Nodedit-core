@@ -180,6 +180,7 @@ table {
 table th, table td {
     padding: 3px;
     border-bottom: 1px solid #333;
+    border-top: 1px solid #333;
 }
 
 table tr td:first-of-type {

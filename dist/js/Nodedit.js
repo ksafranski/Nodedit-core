@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-17-2013
+ Build version 0.1.0, 07-18-2013
 */
 /**
  * @object nodedit
@@ -1287,10 +1287,31 @@ nodedit.bookmarks = {
             
             // Open modal and load template
             nodedit.modal.open(500, 'Bookmarks', 'bookmarks.tpl', tmpl_data, function () {
+                
                 // Bind to delete icons
                 nodedit.$el.find(nodedit.modal.el).on('click', '.icon-trash', function (e) {
                     $(this).parent('td').parent('tr').remove();
                 });
+                
+                var fixHelper = function(e, tr) {
+                    var $originals = tr.children();
+                    var $helper = tr.clone();
+                    $helper.children().each(function(index)
+                    {
+                      $(this).width($originals.eq(index).width())
+                    });
+                    return $helper;
+                };
+                
+                nodedit.$el.find(nodedit.modal.el).find('table tbody').sortable({ 
+                    items: 'tr',
+                    handle: '.icon-resize-vertical',
+                    start: function(e, ui){
+                        ui.placeholder.height(ui.item.height());
+                        ui.item.css('border','none');
+                    },
+                    helper: fixHelper
+                }).disableSelection(); 
                 
                 // Handle form submission
                 nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
