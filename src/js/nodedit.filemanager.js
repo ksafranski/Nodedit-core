@@ -1,7 +1,6 @@
 /**
- * @object nodedit.filemanager
- * 
  * Handles all filemanager related actions
+ * @namespace nodedit.filemanager
  */
 nodedit.filemanager = {
     
@@ -12,9 +11,8 @@ nodedit.filemanager = {
     root_name: 'Node Root',
 
     /**
-     * @method nodedit.filemanager.init
-     * 
      * Starts the filemanager
+     * @method nodedit.filemanager.init
      */
     init: function () {
         var _this = this,
@@ -49,9 +47,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.bindActions
-     * 
      * Binds dom elements to actions
+     * @method nodedit.filemanager.bindActions
      */
     bindActions: function () {
         var _this = this;
@@ -133,11 +130,11 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.contextMenu
-     * 
      * Shows the appropriate context menu
+     * @method nodedit.filemanager.contextMenu
      * @param {string} type Directory or file
-     * @param {path} The path of the element
+     * @param {string} path The path of the element
+     * @param {object} e The event object
      */
     contextMenu: function (type, path, e) {
         
@@ -207,10 +204,9 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.uploadDropFiles
-     * 
      * Handles uploading of files dropped
-     * @param {object} e The event
+     * @method nodedit.filemanager.uploadDropFiles
+     * @param {object} e The event object
      * @param {string} path The drop path
      */
     uploadDropFiles: function (e, path) {        
@@ -248,9 +244,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.openDirectory
-     * 
      * Opens a directory and displays contents
+     * @method nodedit.filemanager.openDirectory
      * @param {string} path The path to load contents of
      */
     openDirectory: function (path) {
@@ -282,9 +277,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.closeDirectory
-     * 
      * Closes a directory
+     * @method nodedit.filemanager.closeDirectory
      * @param {string} path The path to close contents of
      */
     closeDirectory: function (path) {
@@ -303,9 +297,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.openFile
-     * 
      * Opens a file and instantiates new nodeditor.editor
+     * @method nodedit.filemanager.openFile
      * @param {string} path The path of the file
      */
     openFile: function (path) {
@@ -321,12 +314,11 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.saveFile
-     * 
      * Saves a file contents
+     * @method nodedit.filemanager.saveFile
      * @param {string} path The path of the file
      * @param {string} contents The contents to be saved
-     * @param {function} fn optional - Callback with status returned
+     * @param {requestCallback} [fn] Callback with status returned
      */
     saveFile: function (path, content, fn) {
         nodedit.fsapi.save(path, content, function (status) {
@@ -348,9 +340,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.getName
-     * 
      * Returns (only) the name of the file
+     * @method nodedit.filemanager.getName
      * @param {string} path The path of the file
      */
     getFileName: function (path) {
@@ -359,9 +350,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.getFileExtension
-     * 
      * Returns the file extension
+     * @method nodedit.filemanager.getFileExtension
      * @param {string} path The path of the file
      */
     getFileExtension: function (path) {
@@ -370,9 +360,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.createObject
-     * 
      * Opens dialog and processes new file/directory creation
+     * @method nodedit.filemanager.createObject
      * @param {string} path The path of the directory
      * @param {string} type Type of create, file or directory
      */
@@ -410,9 +399,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.appendObject
-     * 
      * Appends a DOM object to the filemanager parent object
+     * @method nodedit.filemanager.appendObject
      * @param {string} parent The object to append to
      * @param {string} object The object to append
      * @param {string} type The type of object, file/directory
@@ -437,9 +425,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.renameObject
-     * 
      * Opens dialog and processes file/directory rename
+     * @method nodedit.filemanager.renameObject
      * @param {string} path The path of the object
      */
     renameObject: function (path) {
@@ -502,9 +489,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.copyObject
-     * 
      * Adds file/directory to the clipboard
+     * @method nodedit.filemanager.copyObject
      * @param {string} path The path of the object
      */
     copyObject: function (path) {
@@ -514,9 +500,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.pasteObject
-     * 
      * Pastes object to path from path stored in clipboard
+     * @method nodedit.filemanager.pasteObject
      * @param {string} path The path of the object
      */
     pasteObject: function (path) {
@@ -537,9 +522,8 @@ nodedit.filemanager = {
     },
     
     /**
-     * @method nodedit.filemanager.deleteObject
-     * 
      * Opens dialog and processes file/directory delete
+     * @method nodedit.filemanager.deleteObject
      * @param {string} path The path of the object
      */
     deleteObject: function (path) {
