@@ -1,16 +1,14 @@
 /**
- * @object nodedit.connect
- * 
  * Handles loading of the connection view and processing of form submission
+ * @namespace nodedit.connect
  */
 nodedit.connect = {
     
     /**
-     * @method nodedit.connect.view
-     * 
      * Loads the connect template and handles form submission
+     * @method nodedit.connect.view
      */
-    view: function() {
+    view: function () {
         nodedit.template('connect.tpl')
             .done(function (tmpl) {
                 // Load DOM
@@ -24,9 +22,8 @@ nodedit.connect = {
     },
     
     /**
-     * @method nodedit.connect.process
-     * 
      * Handles procesing of form data
+     * @method nodedit.connect.process
      * @param {object} formData Data passed from connect.view form submission
      */
     process: function (formData) {
@@ -54,9 +51,8 @@ nodedit.connect = {
     },
     
     /**
-     * @method modedit.connect.close
-     * 
      * Closes the connect by clearing the session
+     * @method modedit.connect.close
      */
     close: function () {
         nodedit.session('clear');
