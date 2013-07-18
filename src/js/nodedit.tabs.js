@@ -1,7 +1,6 @@
 /**
- * @object nodedit.tabs
- * 
  * Controls for the editor tabs
+ * @namespace nodedit.tabs
  */
 nodedit.tabs = {
     
@@ -10,10 +9,9 @@ nodedit.tabs = {
     overflow_timeout: null,
     
     /**
-     * @method nodedit.tabs.open
-     * 
      * Opens a new tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.open
+     * @param {number} id The id of the editor/tab instance
      */
     open: function (id) {
         var _this = this,
@@ -32,9 +30,8 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.sortable
-     * 
      * Initializes tab sortable functionality
+     * @method nodedit.tabs.sortable
      */
     sortable: function () {
         var _this = this;
@@ -48,9 +45,8 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.overflow
-     * 
      * Handles overflow of tabs expanding past horizontal space available
+     * @method nodedit.tabs.overflow
      */
     overflow: function () {
         var _this = this,
@@ -127,10 +123,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.close
-     * 
      * Closes a tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.close
+     * @param {number} id The id of the editor/tab instance
      */
     close: function (id) {
         var _this = this;
@@ -140,12 +135,11 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.rename
-     * 
      * Handles rename of any open files and path changes
+     * @method nodedit.tabs.rename
      * @param {string} oldPath The existing path
      * @param {string} newPath The new path
-     * @param {int} id The id of the instance
+     * @param {number} id The id of the instance
      */
     rename: function (oldPath, newPath, id) {
         var _this = this,
@@ -163,10 +157,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.setActive
-     * 
      * Sets active tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.setActive
+     * @param {number} id The id of the editor/tab instance
      */
     setActive: function (id) {
         var _this = this;
@@ -177,9 +170,8 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.getActive
-     * 
      * Return the active tab or false
+     * @method nodedit.tabs.getActive
      */
     getActive: function () {
         var _this = this;
@@ -191,10 +183,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.bindClose
-     * 
      * Binds click to close button
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.bindClose
+     * @param {number} id The id of the editor/tab instance
      */
     bindClose: function (id) {
         var _this = this;
@@ -204,10 +195,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.bindClick
-     * 
      * Binds click to the tab
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.bindClick
+     * @param {number} id The id of the editor/tab instance
      */
     bindClick: function (id) {
         var _this = this;
@@ -217,10 +207,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.markChanged
-     * 
      * Marks the tab to show editor has unsaved changes
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.markChanged
+     * @param {number} id The id of the editor/tab instance
      */
     markChanged: function (id) {
         var _this = this,
@@ -235,10 +224,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.markUnchanged
-     * 
      * Marks the tab to show editor has NO unsaved changes
-     * @param {int} id The id of the editor/tab instance
+     * @method nodedit.tabs.markUnchanged
+     * @param {number} id The id of the editor/tab instance
      */
     markUnchanged: function (id) {
         var _this = this;
@@ -246,10 +234,9 @@ nodedit.tabs = {
     },
     
     /**
-     * @method nodedit.tabs.checkChanged
-     * 
      * Checks if tab reports unsaved changes
-     * @param {int} id Optional - either specifies id of editor/tab or checks all
+     * @method nodedit.tabs.checkChanged
+     * @param {number} [id] Either specifies id of editor/tab or checks all (if not specified)
      */
     checkChanged: function (id) {
         var _this = this,

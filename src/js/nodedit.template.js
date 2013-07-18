@@ -1,10 +1,9 @@
 /**
- * @method nodedit.template
- * 
  * Load the template
+ * @method nodedit.template
  * @param {string} tpl The template file to be loaded
- * @param {object} data (optional) Data to be loaded via Handlebars
- * @param {function} fn (optional) If passing in data, callback will return compiled template
+ * @param {object} [data] Data to be loaded via Handlebars
+ * @param {requestCallback} [fn] If passing in data, callback will return compiled template
  */
 nodedit.template = function (tpl, data, fn) {
     var template,

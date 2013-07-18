@@ -1,6 +1,6 @@
 /**
  * Stores and retrieves data from localstorage
- * @method nodedit.store()
+ * @method nodedit.store
  * @param {string} The key used to identify the storage obejct
  * @param {object|string} [value] The value to set, null to remove object, or not specified to get
  */

@@ -1,14 +1,12 @@
 /**
- * @object nodedit.workspace
- * 
  * Used to manage the nodedit workspace (filemanager and editor) loading
+ * @namespace nodedit.workspace
  */
 nodedit.workspace = {
     
     /**
-     * @method nodedit.workspace.init
-     * 
      * Starts up the workspace after a successful session is establshed
+     * @method nodedit.workspace.init
      */
     init: function () {
         
