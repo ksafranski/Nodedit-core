@@ -1,14 +1,12 @@
 /**
- * @object nodedit.settings
- * 
  * Hanldes settings get and set
+ * @namespace nodedit.settings
  */
 nodedit.settings = {
     
     /**
-     * @method nodedit.settings.init
-     * 
      * Checks for saved settings or sets defaults
+     * @method nodedit.settings.init
      */
     init: function () {
         // Check for local storage
@@ -25,18 +23,16 @@ nodedit.settings = {
     },
     
     /**
+     * Returns the settings from localStorage
      * @method nodedit.settings.get
-     * 
-     * Returns the settings from localstorage
      */
     get: function () {
         return JSON.parse(nodedit.store('nodedit_settings'));
     },
     
     /**
+     * Stores settings in localStorage
      * @method nodedit.settings.set
-     * 
-     * Stores settings
      * @param {object} settings The object with user settings
      */
     set: function (settings) {
@@ -46,9 +42,8 @@ nodedit.settings = {
     },
     
     /**
-     * @method nodedit.settings.edit
-     * 
      * Opens the settings dialog and handles for response
+     * @method nodedit.settings.edit
      */
     edit: function () {
         var _this = this,
