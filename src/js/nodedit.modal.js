@@ -1,7 +1,6 @@
 /**
- * @method nodedit.modal
- * 
  * Controls for modal window actions
+ * @namespace nodedit.modal
  */
 nodedit.modal = {
     
@@ -10,14 +9,13 @@ nodedit.modal = {
     overlay: '#modal-overlay',
 
     /**
-     * @method nodedit.modal.open
-     * 
      * Opens an instance of the modal
-     * @param {int} width The width of the modal
+     * @method nodedit.modal.open
+     * @param {number} width The width of the modal
      * @param {string} title The title to display
      * @param {string} template The template to load
      * @param {string|object} data optional Any data to be loaded into the template
-     * @param {function} fn optional Callback function
+     * @param {requestCallback} [fn] Callback function
      */
     open: function (width, title, template, data, fn) {
         // Close any open modals
@@ -53,6 +51,7 @@ nodedit.modal = {
     },
     
     /**
+     * Closes the modal window
      * @method nodedit.modal.close
      */
     close: function () {
