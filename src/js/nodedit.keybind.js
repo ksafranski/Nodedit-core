@@ -1,7 +1,6 @@
 /**
- * @method nodedit.keybind
- * 
  * Instantiated to create keybindings
+ * @method nodedit.keybind
  * 
  * var konami = new nodedit.keybind({
  *      code: 'up up down down left right left right b a',

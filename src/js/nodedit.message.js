@@ -1,14 +1,12 @@
 /**
- * @object nodedit.message
- * 
  * Hanldes notifications and messaging
+ * @namespace nodedit.message
  */
 nodedit.message = {
     
     /**
-     * @method nodedit.message.show
-     * 
      * Visibly displays the message
+     * @method nodedit.message.show
      * @param {string} msg The message
      * @param {string} type Error or success
      * 
@@ -46,9 +44,8 @@ nodedit.message = {
     },
     
     /**
-     * @method nodedit.message.error
-     * 
      * Shows error message
+     * @method nodedit.message.error
      * @param {string} msg Message to display
      */
     error: function (msg) {
@@ -56,9 +53,8 @@ nodedit.message = {
     },
     
     /**
-     * @method nodedit.message.success
-     * 
      * Shows success message
+     * @method nodedit.message.success
      * @param {string} msg Message to display
      */
     success: function (msg) {

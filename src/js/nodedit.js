@@ -1,7 +1,6 @@
 /**
- * @object nodedit
- * 
  * Creates the application object and initial configuration
+ * @namespace nodedit
  */
 var nodedit = {
 
