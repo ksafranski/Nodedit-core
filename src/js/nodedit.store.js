@@ -1,9 +1,8 @@
 /**
- * @method nodedit.store()
- * 
  * Stores and retrieves data from localstorage
- * @param {key} The key used to identify the storage obejct
- * @param {value} Optional - The value to set, null to remove object, or not specified to get
+ * @method nodedit.store()
+ * @param {string} The key used to identify the storage obejct
+ * @param {object|string} [value] The value to set, null to remove object, or not specified to get
  */
 nodedit.store = function (key, value) {
 
