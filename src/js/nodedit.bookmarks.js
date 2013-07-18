@@ -1,7 +1,6 @@
 /**
- * @object nodedit.bookmarks
- * 
- * Controls for bookmarks
+ * Bookmark controller
+ * @namespace nodedit.bookmarks
  */
 nodedit.bookmarks = {
     
@@ -9,9 +8,9 @@ nodedit.bookmarks = {
     nebfile: '/.nebmarks',
     
     /**
+     * Retreives list of bookmarks from node
      * @method nodedit.bookmarks.getList
-     * 
-     * Retrieves list of bookmarks from root of node
+     * @param {requestCallback} fn Processed after sucessful return
      */
     getList: function (fn) {
         var _this = this;
@@ -28,9 +27,9 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.showList
-     * 
      * Loads and displays the bookmark select list
+     * @method nodedit.bookmarks.showList
+     * @param {object} e The event triggering the list display
      */
     showList: function (e) {
         // Create element
@@ -88,10 +87,9 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.openDialog
-     * 
      * Opens the bookmark manager dialog
-     * @param {object} add Optional object containing 'name' and 'path' of a new bookmark
+     * @method nodedit.bookmarks.openDialog
+     * @param {object} [add] Object containing name and path of a new bookmark
      */
     openDialog: function (add) {
         var _this = this,
@@ -170,10 +168,9 @@ nodedit.bookmarks = {
     },
 
     /**
-     * @method nodedit.bookmarks.addBookmark
-     * 
      * Checks if bookmark already exists before sending through to openDialog
-     * @param {object} add Optional object containing 'name' and 'path' of a new bookmark
+     * @method nodedit.bookmarks.addBookmark
+     * @param {object} [add] Object containing name and path of a new bookmark
      */
     addBookmark: function (add) {
         var _this = this,
@@ -199,9 +196,9 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.saveList
-     * 
      * Saves JSON-formatted list back to root of node
+     * @method nodedit.bookmarks.saveList
+     * @param {object} bookmarks The object retrutned from the serialized array of the form
      */
     saveList: function (bookmarks) {
         var _this = this;
@@ -215,9 +212,8 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.setCurrent
-     * 
      * Sets the current bookmark in localStorage
+     * @method nodedit.bookmarks.setCurrent
      * @param {string} name The name of the bookmark
      * @param {string} path The path (from root)
      */
@@ -228,9 +224,8 @@ nodedit.bookmarks = {
     },
     
     /**
-     * @method nodedit.bookmarks.clearCurrent
-     * 
      * Clears out the current bookmark
+     * @method nodedit.bookmarks.clearCurrent
      */
     clearCurrent: function () {
         nodedit.store('nodedit_bookmark', null);
@@ -239,9 +234,8 @@ nodedit.bookmarks = {
     },
     
     /**
+     * Returns object containing current bookmark name and path
      * @method nodedit.bookmarks.getCurrent
-     * 
-     * Returns object containing current bookmark 'name' and 'path'
      */
     getCurrent: function () {
         return JSON.parse(nodedit.store('nodedit_bookmark'));
