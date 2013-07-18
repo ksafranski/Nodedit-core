@@ -1,7 +1,6 @@
 /**
- * @object nodedit.editor
- * 
  * Handles all functions for the editor
+ * @namespace nodedit.editor
  */
 nodedit.editor = {
     
@@ -13,9 +12,8 @@ nodedit.editor = {
     instance_modes: {},
 
     /**
-     * @method nodedit.editor.init
-     * 
      * Starts the editor
+     * @method nodedit.editor.init
      */
     init: function () {
         var _this = this,
@@ -42,9 +40,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.open
-     * 
      * Starts a new editor instance and loads any contents
+     * @method nodedit.editor.open
      * @param {string} path The path of the file
      * @param {string} contents The contents of the file
      */
@@ -114,11 +111,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setConfig
-     * 
      * Sets the configuration of the editor
+     * @method nodedit.editor.setConfig
      * @param {object} config Object containing config properties
-     * @param {int} id optional The id of the editor instance (or will change all)
+     * @param {number} [id] The id of the editor instance (or will change all)
      */
     setConfig: function (id) {
         var _this = this,
@@ -145,12 +141,11 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.resize
-     * 
      * Resizes the editor when the sidebar is resized
-     * @param {int} w The width of the sidebar (translates to margin-left of #editor)
+     * @method nodedit.editor.resize
+     * @param {number} w The width of the sidebar (translates to margin-left of #editor)
      */
-    resize : function(w){
+    resize: function(w){
         var _this = this;
         nodedit.$el.find(_this.el).css({ 
             'margin-left': w
@@ -161,10 +156,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.close
-     * 
      * Closes an instance of the editor and associated tab
-     * @param {string} path The path of the file
+     * @method nodedit.editor.close
+     * @param {number} id The id of the editor instance
      */
     close: function (id) {
         var _this = this;
@@ -200,10 +194,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.getDiff
-     * 
      * Returns diff table between starting point and current changes
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.getDiff
+     * @param {number} id The id of the editor instance
      */
     getDiff: function (id) {
         // Get diff
@@ -226,9 +219,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.rename
-     * 
      * Handles rename of any open files and path changes
+     * @method nodedit.editor.rename
      * @param {string} oldPath The existing path
      * @param {string} newPath The new path
      */
@@ -245,9 +237,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.saveActive
-     * 
      * Saves the active instance
+     * @method nodedit.editor.saveActive
      */
     saveActive: function () {
         
@@ -276,10 +267,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.gotoInstance
-     * 
      * Goes to a specific instance (tab)
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.gotoInstance
+     * @param {number} id The id of the editor instance
      */
     gotoInstance: function (id) {
         var _this = this;
@@ -293,10 +283,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.getPath
-     * 
      * Returns the path associated with the editor instance
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.getPath
+     * @param {number} id The id of the editor instance
      */
     getPath: function(id){
         var _this = this,
@@ -311,9 +300,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setContent
-     * 
      * Sets the content of the editor instance
+     * @method nodedit.editor.setContent
      * @param {sting} c The content to set
      * @param {int} id The id of the editor instance
      */
@@ -323,9 +311,8 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.getContent
-     * 
      * Returns the contents from the editor instance
+     * @method nodedit.editor.getContent
      * @param {int} id The id of the editor instance
      */
     getContent: function(id){
@@ -335,9 +322,8 @@ nodedit.editor = {
     
     
     /**
-     * @method nodedit.editor.getMode
-     * 
      * Returns the correct mode based on extension
+     * @method nodedit.editor.getMode
      * @param {string} ext The extension of the file
      */
     getMode: function (ext) {
@@ -364,11 +350,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setMode
-     * 
      * Sets the mode of the editor instance
+     * @method nodedit.editor.setMode
      * @param {sting} m The mode to set
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setMode: function (m,id) {
         var _this = this;
@@ -376,11 +361,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setTheme
-     * 
      * Sets the theme of the editor instance
+     * @method nodedit.editor.setTheme
      * @param {sting} t The theme to set
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setTheme: function (t,id) {
         var _this = this;
@@ -388,11 +372,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setFontSize
-     * 
      * Sets the font size for the editor
-     * @param {int} s The size of the font
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.setFontSize
+     * @param {number} s The size of the font
+     * @param {number} id The id of the editor instance
      */
     setFontSize: function (s,id) {
         var _this = this;
@@ -400,11 +383,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setHighlightLine
-     * 
      * Sets whether or not the active line will be highlighted
+     * @method nodedit.editor.setHighlightLine
      * @param {bool} h Whether or not to highlight active line
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setHighlightLine: function (h,id) {
         var _this = this;
@@ -412,11 +394,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setPrintMargin
-     * 
      * Sets whether or not the print margin will be shown
+     * @method nodedit.editor.setPrintMargin
      * @param {bool} p The mode to set
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setPrintMargin: function (p,id) {
         var _this = this;
@@ -424,11 +405,10 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.setIndentGuides
-     * 
      * Sets whether or not indent guides will be shown
+     * @method nodedit.editor.setIndentGuides
      * @param {bool} g Whether or not to show indent guides
-     * @param {int} id The id of the editor instance
+     * @param {number} id The id of the editor instance
      */
     setIndentGuides: function (g,id) {
         var _this = this;
@@ -436,10 +416,9 @@ nodedit.editor = {
     },
     
     /**
-     * @method nodedit.editor.bindChange
-     * 
      * Binds to change event on editor instance
-     * @param {int} id The id of the editor instance
+     * @method nodedit.editor.bindChange
+     * @param {number} id The id of the editor instance
      */
     bindChange: function (id) {
         var _this = this;
