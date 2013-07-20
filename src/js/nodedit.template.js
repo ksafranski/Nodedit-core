@@ -10,11 +10,12 @@ nodedit.template = function (tpl, data, fn) {
         defer,
         tmpl;
     
-    // In src environment, load each template via xhr
-    if (nodedit.env === 'src') {
-    
+    // Check for pathing - indicates a plugin template
+    if (tpl.indexOf('/') >= 0) {
+        
+        // This is a template, always load via XHR
         return $.ajax({
-            url: nodedit.templates+tpl,
+            url: tpl,
             type: 'GET',
             success: function (tmpl){ 
                 // Insert data
@@ -28,28 +29,53 @@ nodedit.template = function (tpl, data, fn) {
                 nodedit.message.error('Could not load template');
             }
         });
-    
-    // In dist environment, templates loaded as single file into DOM, pulled from DOM when needed
+        
     } else {
-
-        // Return a Deferred after the promise has been completed.
-        defer = new $.Deferred();
         
-        // Setup template
-        tmpl = $('script[id="' + tpl + '"]').html();
-        template = Handlebars.compile(tmpl);
-        tmpl = template({'data' : data });
+        // This is a system template
+    
+        // In src environment, load each template via xhr
+        if (nodedit.env === 'src') {
         
-        // Resolve the defer, pass in tmpl to call .done()
-        defer.resolve(tmpl);
+            return $.ajax({
+                url: nodedit.templates+tpl,
+                type: 'GET',
+                success: function (tmpl){ 
+                    // Insert data
+                    if (data) {
+                        template = Handlebars.compile(tmpl);
+                        tmpl = template({'data': data});
+                        fn(tmpl);
+                    }
+                },
+                error: function (){
+                    nodedit.message.error('Could not load template');
+                }
+            });
         
-        // Check for callback if not using .done()
-        if ( typeof fn === 'function' ) {
-            fn(tmpl);
+        // In dist environment, templates loaded as single file into DOM, pulled from DOM when needed
+        } else {
+    
+            // Return a Deferred after the promise has been completed.
+            defer = new $.Deferred();
+            
+            // Setup template
+            tmpl = $('script[id="' + tpl + '"]').html();
+            template = Handlebars.compile(tmpl);
+            tmpl = template({'data' : data });
+            
+            // Resolve the defer, pass in tmpl to call .done()
+            defer.resolve(tmpl);
+            
+            // Check for callback if not using .done()
+            if ( typeof fn === 'function' ) {
+                fn(tmpl);
+            }
+            
+            // Return promise to callee
+            return defer.promise();
         }
         
-        // Return promise to callee
-        return defer.promise();
     }
 
 };

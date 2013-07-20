@@ -14,12 +14,15 @@ nodedit.modal = {
      * @param {number} width The width of the modal
      * @param {string} title The title to display
      * @param {string} template The template to load
-     * @param {string|object} data optional Any data to be loaded into the template
+     * @param {string|object} [data] Any data to be loaded into the template
      * @param {requestCallback} [fn] Callback function
      */
     open: function (width, title, template, data, fn) {
         // Close any open modals
         this.close();
+        
+        data = data || {};
+        fn = fn || null;
         
         // Declare variables
         var _this = this,
