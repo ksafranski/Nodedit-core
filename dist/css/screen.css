@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-18-2013
+ Build version 0.1.0, 07-20-2013
 */
 /* RESET */
 
@@ -667,9 +667,9 @@ table label, table input, table select {
     border-bottom: 1px solid #333;
 }
 
-/* BOOKMARKS */
+/* TOP MENUS */
 
-#bookmark-menu {
+#bookmark-menu, #plugin-menu {
     display: none;
     position: absolute;
     z-index: 999;
@@ -681,12 +681,12 @@ table label, table input, table select {
     box-shadow: 0 0 25px 0 rgba(0, 0, 0, .9);
 }
 
-#bookmark-menu ul {
+#bookmark-menu ul, #plugin-menu ul {
     max-height: 400px;
     overflow: auto;
 }
 
-#bookmark-menu a {
+#bookmark-menu a, #plugin-menu a {
     display: block;
     padding: 6px 10px;
     cursor: pointer;
@@ -695,12 +695,12 @@ table label, table input, table select {
     border: 1px solid transparent;
 }
 
-#bookmark-menu a:hover {
+#bookmark-menu a:hover, #plugin-menu a:hover {
     background-color: #2e2e2e;
     border: 1px solid #3d3d3d;
 }
 
-#bookmark-menu a span {
+#bookmark-menu a span, #plugin-menu a span {
     display: inline-block;
     width: 18px;
     text-align: center;

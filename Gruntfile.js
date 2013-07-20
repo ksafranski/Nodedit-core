@@ -33,7 +33,8 @@ module.exports = function(grunt) {
             'src/js/nodedit.tabs.js',
             'src/js/nodedit.bookmarks.js',
             'src/js/nodedit.filemanager.js',
-            'src/js/nodedit.editor.js'
+            'src/js/nodedit.editor.js',
+            'src/js/nodedit.plugins.js'
             ],
         dest: 'dist/js/<%= pkg.name %>.js'
       },
