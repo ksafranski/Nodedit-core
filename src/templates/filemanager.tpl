@@ -6,6 +6,8 @@
     
     <a id="bookmarks" title="Bookmarks" class="icon-star"></a>
     
+    <a id="plugins" title="Plugins" class="icon-puzzle-piece"></a>
+    
     <a id="settings" title="Settings" class="icon-cogs"></a>
     
 </div>

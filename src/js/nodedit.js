@@ -17,6 +17,8 @@ var nodedit = {
             // No session, show connect view
             nodedit.connect.view();
         }
+        // Init plugins
+        nodedit.plugins.init();
     }
 
 };

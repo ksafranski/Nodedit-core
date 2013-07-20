@@ -61,6 +61,14 @@
 						</li>
 						
 						<li>
+							<a href="nodedit.plugin.html">plugin</a>
+						</li>
+						
+						<li>
+							<a href="nodedit.plugins.html">plugins</a>
+						</li>
+						
+						<li>
 							<a href="nodedit.settings.html">settings</a>
 						</li>
 						
@@ -95,7 +103,7 @@
         <article>
             <pre class="sunlight-highlight-javascript linenums">/*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-18-2013
+ Build version 0.1.0, 07-20-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -116,6 +124,8 @@ var nodedit = {
             // No session, show connect view
             nodedit.connect.view();
         }
+        // Init plugins
+        nodedit.plugins.init();
     }
 
 };
@@ -391,11 +401,12 @@ nodedit.template = function (tpl, data, fn) {
         defer,
         tmpl;
     
-    // In src environment, load each template via xhr
-    if (nodedit.env === 'src') {
-    
+    // Check for pathing - indicates a plugin template
+    if (tpl.indexOf('/') >= 0) {
+        
+        // This is a template, always load via XHR
         return $.ajax({
-            url: nodedit.templates+tpl,
+            url: tpl,
             type: 'GET',
             success: function (tmpl){ 
                 // Insert data
@@ -409,28 +420,53 @@ nodedit.template = function (tpl, data, fn) {
                 nodedit.message.error('Could not load template');
             }
         });
-    
-    // In dist environment, templates loaded as single file into DOM, pulled from DOM when needed
+        
     } else {
-
-        // Return a Deferred after the promise has been completed.
-        defer = new $.Deferred();
         
-        // Setup template
-        tmpl = $('script[id="' + tpl + '"]').html();
-        template = Handlebars.compile(tmpl);
-        tmpl = template({'data' : data });
+        // This is a system template
+    
+        // In src environment, load each template via xhr
+        if (nodedit.env === 'src') {
         
-        // Resolve the defer, pass in tmpl to call .done()
-        defer.resolve(tmpl);
+            return $.ajax({
+                url: nodedit.templates+tpl,
+                type: 'GET',
+                success: function (tmpl){ 
+                    // Insert data
+                    if (data) {
+                        template = Handlebars.compile(tmpl);
+                        tmpl = template({'data': data});
+                        fn(tmpl);
+                    }
+                },
+                error: function (){
+                    nodedit.message.error('Could not load template');
+                }
+            });
         
-        // Check for callback if not using .done()
-        if ( typeof fn === 'function' ) {
-            fn(tmpl);
+        // In dist environment, templates loaded as single file into DOM, pulled from DOM when needed
+        } else {
+    
+            // Return a Deferred after the promise has been completed.
+            defer = new $.Deferred();
+            
+            // Setup template
+            tmpl = $('script[id="' + tpl + '"]').html();
+            template = Handlebars.compile(tmpl);
+            tmpl = template({'data' : data });
+            
+            // Resolve the defer, pass in tmpl to call .done()
+            defer.resolve(tmpl);
+            
+            // Check for callback if not using .done()
+            if ( typeof fn === 'function' ) {
+                fn(tmpl);
+            }
+            
+            // Return promise to callee
+            return defer.promise();
         }
         
-        // Return promise to callee
-        return defer.promise();
     }
 
 };
@@ -779,12 +815,15 @@ nodedit.modal = {
      * @param {number} width The width of the modal
      * @param {string} title The title to display
      * @param {string} template The template to load
-     * @param {string|object} data optional Any data to be loaded into the template
+     * @param {string|object} [data] Any data to be loaded into the template
      * @param {requestCallback} [fn] Callback function
      */
     open: function (width, title, template, data, fn) {
         // Close any open modals
         this.close();
+        
+        data = data || {};
+        fn = fn || null;
         
         // Declare variables
         var _this = this,
@@ -1550,6 +1589,11 @@ nodedit.filemanager = {
             // Bind Bookmarks Button
             nodedit.$el.find(_this.el).on('click', '#bookmarks', function (e) {
                 nodedit.bookmarks.showList(e);
+            });
+            
+            // Bind Plugins Button
+            nodedit.$el.find(_this.el).on('click', '#plugins', function (e) {
+                nodedit.plugins.showList(e);
             });
             
             // Bind Settings Button
@@ -2421,6 +2465,202 @@ nodedit.editor = {
     }
     
     
+};/**
+ * Creates namespace for individual plugins, no additional native methods or properties
+ * @namespace nodedit.plugin
+ */
+nodedit.plugin = {};
+
+/**
+ * Handles activation and integration of plugins
+ * @namespace nodedit.plugins
+ */
+nodedit.plugins = {
+    
+    plugin_menu: {},
+    
+    /**
+     * Checks plugins/plugins.json and loads up plugins
+     * @method nodedit.plugins.init
+     */
+    init: function () {
+        var _this = this,
+            plugin;
+        
+        // Set plugin_dir based on environment
+        if(nodedit.env==='dist') {
+            nodedit.plugins.plugin_dir = 'plugins/';
+        } else {
+            nodedit.plugins.plugin_dir = '../plugins/';
+        }
+        
+        // Get plugins
+        $.get(nodedit.plugins.plugin_dir+'plugins.json', function (list) {
+            for (plugin in list) {
+                // Send to register method
+                _this.register(plugin, list[plugin]);
+            }
+        });
+    },
+    
+    /**
+     * Registers a plugin by loading plugin.js file
+     * @method nodedit.plugins.register
+     * @param {string} name The name of the plugin
+     * @param {string} directory The directory name inside of /plugins
+     */
+    register: function (name, directory) {
+        var _this = this,
+            script = document.createElement( 'script' ),
+            plugin,
+            i, z,
+            deps = [],
+            tpl;
+        
+        $.get(_this.plugin_dir+directory+'/plugin.js', function (plugin) {
+            // This is an appropriate use-case for eval(). I don't want to see an issue in GitHub about
+            // eval === evil unless you have imperical proof and code showing a more efficient way to 
+            // accomplish this...
+            plugin = eval(plugin);
+            
+            // Add to menu list
+            if (plugin.hasOwnProperty('onMenu')) {
+                _this.plugin_menu[name] = {
+                    icon: plugin.icon,
+                    object: directory
+                };
+            }
+            
+            // Properly path templates
+            if (plugin.hasOwnProperty('templates')) {
+                for (tpl in plugin.templates) {
+                    plugin.templates[tpl] = nodedit.plugins.plugin_dir + directory + '/' + plugin.templates[tpl];
+                }
+            }
+            
+            // Check for and load dependencies
+            if (plugin.hasOwnProperty('dependencies') && plugin.dependencies.length>0) {
+                // Load dep's
+                _this.loadDependencies(plugin.dependencies, nodedit.plugins.plugin_dir+directory+'/', function () {
+                    // Fire init (if available)
+                    if (plugin.hasOwnProperty('init')) {
+                        plugin.init();
+                    }
+                });
+            } else {
+                // No dep's, fire init (if available)
+                if (plugin.hasOwnProperty('init')) {
+                    plugin.init();
+                }
+            }
+        });
+    },
+    
+    /**
+     * Adds menu object for plugin
+     * @param {string} name The name of the plugin
+     * @param {string} directory The directory of the plugin
+     * @param {string} icon The icon for the plugin
+     * @param {function} fn The function to call when menu object is clicked
+     */
+    addMenuObject: function (name, directory, icon, fn) {
+    
+    },
+    
+    /**
+     * Load plugin dependencies
+     * @method nodedit.plugins.loadDependencies
+     * @param {array} scripts The paths to the dependencies
+     * @param {requestCallback} fn The callback to fire on completion
+     */
+    loadDependencies: function(scripts, base_path, fn) {
+        var _this = this,
+            loadCount = 0,
+            totalRequired = scripts.length;
+        
+        // Record loaded and callback once all scripts loaded
+        var loaded = function (evt) {
+            loadCount++;
+            if (loadCount == totalRequired && typeof fn == 'function') fn.call();
+        };
+        
+        // Writes out dependency
+        var writeScript = function (src) {
+            var ext = src.split('.').pop(),
+                s;
+                
+            if (ext === 'js') {
+                // Create script ref
+                s = document.createElement('script');
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = base_path+src;
+                s.addEventListener('load', function (e) { loaded(e); }, false);
+                var body = document.getElementsByTagName('body')[0];
+                body.appendChild(s);
+            } else if (ext === 'css') {
+                // Create css link
+                s = document.createElement('link');    
+                s.type = "text/css";
+                s.rel = "stylesheet";
+                s.href = base_path+src;
+                s.async = true;
+                s.addEventListener('load', function (e) { loaded(e); }, false);
+                var head = document.getElementsByTagName('head')[0];
+                head.appendChild(s);
+            } else {
+                // Not supported, call loaded
+                loaded({});
+            }
+        };
+        
+        // Loop through dep's
+        for (var i = 0; i &lt; scripts.length; i++) {
+            writeScript(scripts[i]);
+        }
+    },
+    
+    /**
+     * Loads and displays the plugins select list
+     * @method nodedit.plugins.showList
+     * @param {object} e The event triggering the list display
+     */
+    showList: function (e) {
+        // Create element
+        nodedit.$el.append('&lt;div id="plugin-menu">&lt;ul>&lt;/ul>&lt;/div>');
+        
+        var _this = this,
+            item,
+            output = '',
+            menu = nodedit.$el.find('#plugin-menu'),
+            trigger = nodedit.$el.find(e.target),
+            trigger_pos = trigger.position();
+            
+        if ($.isEmptyObject(_this.plugin_menu)) {
+            nodedit.message.error('No plugins have been installed');
+            menu.remove();
+        } else {
+            menu.css({
+                // Set top and left relative to trigger
+                top: (trigger_pos.top + trigger.outerHeight() + 5)+'px', 
+                left: trigger_pos.left-10+'px' 
+            })
+            .on('mouseleave click', function () {
+                // Remove on mouseleave
+                menu.remove();
+            });
+            
+            // Loop through and create DOM elements
+            for (var plugin in _this.plugin_menu) {
+                output += '&lt;li>&lt;a onclick="nodedit.plugin.'+_this.plugin_menu[plugin].object+'.onMenu();">&lt;span class="'+_this.plugin_menu[plugin].icon+'">&lt;/span> '+plugin+'&lt;/a>&lt;/li>';
+            }
+            
+            // Set in menu and show
+            menu.show().children('ul').html(output);
+            
+        }
+    }
+    
 };</pre>
         </article>
     </section>
@@ -2437,7 +2677,7 @@ nodedit.editor = {
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a>
-		on Thu Jul 18 2013 15:54:28 GMT-0000 (UTC) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		on Sat Jul 20 2013 18:05:36 GMT-0000 (UTC) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
 			</div>

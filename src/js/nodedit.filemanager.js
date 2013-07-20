@@ -118,6 +118,11 @@ nodedit.filemanager = {
                 nodedit.bookmarks.showList(e);
             });
             
+            // Bind Plugins Button
+            nodedit.$el.find(_this.el).on('click', '#plugins', function (e) {
+                nodedit.plugins.showList(e);
+            });
+            
             // Bind Settings Button
             nodedit.$el.find(_this.el).on('click', '#settings', function () {
                 nodedit.settings.edit();
