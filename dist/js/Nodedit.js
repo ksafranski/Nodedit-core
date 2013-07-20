@@ -1883,6 +1883,11 @@ nodedit.filemanager = {
         var _this = this,
             name = _this.getFileName(_this.clipboard),
             type = nodedit.$el.find(_this.el).find('li').filterByData('path', _this.clipboard).children('a').attr('class');
+            
+        // Check for duplicate condition
+        if(nodedit.$el.find(_this.el).find('li').filterByData('path', path+'/'+name).length>0) {
+            name = 'copy_of_'+name;
+        }
         
         // Create copy
         nodedit.fsapi.copy(_this.clipboard, path+'/'+name, function (res) {
