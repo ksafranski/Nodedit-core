@@ -2380,7 +2380,7 @@ nodedit.editor = {
         (ext.length>4) ? ext = 'text' : ext = ext;
         // Switch to check extension
         switch (ext) {
-            case 'html': case 'htm': case 'tpl': case 'twig': return 'html';
+            case 'html': case 'htm': case 'tpl': return 'html';
             case 'js': return 'javascript';
             case 'css': return 'css';
             case 'txt': case 'text': return 'text';
