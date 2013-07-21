@@ -17,7 +17,8 @@ nodedit.settings = {
                 fontsize: 14,
                 printmargin: false,
                 highlightline: true,
-                indentguides: true
+                indentguides: true,
+                wrapping: false
             });
         }
     },

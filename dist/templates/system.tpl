@@ -253,6 +253,18 @@
             </td>
         </tr>
         
+        <tr>
+            <td>
+                <label>Wrap Lines</label>
+            </td>
+            <td>
+                <select name="wrapping">
+                    <option value="false">No</option>
+                    <option {{#if data.wrapping}} selected="selected" {{/if}} value="true">Yes</option>
+                </select>
+            </td>
+        </tr>
+        
     </table>
     
     <button onclick="nodedit.modal.close(); return false;">Close</button>

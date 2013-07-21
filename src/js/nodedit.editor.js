@@ -125,7 +125,8 @@ nodedit.editor = {
                 _this.setFontSize(parseInt(config.fontsize), id);
                 _this.setPrintMargin(config.printmargin, id);
                 _this.setHighlightLine(config.highlightline, id);
-                _this.setIndentGuides(config.indentguides, id);    
+                _this.setIndentGuides(config.indentguides, id);
+                _this.setWrapping(config.wrapping, id);
             };
         
         // Check for ID
@@ -413,6 +414,17 @@ nodedit.editor = {
     setIndentGuides: function (g,id) {
         var _this = this;
         _this.instances[id].editor.setDisplayIndentGuides(g);
+    },
+    
+    /**
+     * Sets whether or not to wrap lines
+     * @method nodedit.editor.setWrapping
+     * @param {bool} w Whether or not to wrap lines
+     * @param {number} id The id of the editor instance
+     */
+    setWrapping: function(w, id){
+        var _this = this;
+        _this.instances[id].editor.getSession().setUseWrapMode(w);
     },
     
     /**
