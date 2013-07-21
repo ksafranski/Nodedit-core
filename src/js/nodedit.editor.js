@@ -17,7 +17,8 @@ nodedit.editor = {
      */
     init: function () {
         var _this = this,
-            savebind;
+            savebind,
+            observer = nodedit.observer;
         
         // Load editor template
         nodedit.template('editor.tpl')
@@ -35,6 +36,11 @@ nodedit.editor = {
             callback: function () {
                 nodedit.editor.saveActive();
             }
+        });
+        
+        // Subscribe to changes to editors
+        observer.subscribe('editor_change', function (id) {
+            nodedit.tabs.markChanged(id);
         });
         
     },
@@ -94,15 +100,18 @@ nodedit.editor = {
             
             // Set editor config from settings
             _this.setConfig(id);
-            
-            // Bind change liistener
-            _this.bindChange(id);
+
+            // Bind to emitter
+            _this.emitter(id);
             
             // Set contents
             _this.setContent(content, id);
             
             // New tab
             nodedit.tabs.open(id, nodedit.filemanager.getFileName(path));
+            
+            // Focus
+            _this.instances[id].editor.focus();
             
         }
         
@@ -431,16 +440,28 @@ nodedit.editor = {
     },
     
     /**
-     * Binds to change event on editor instance
-     * @method nodedit.editor.bindChange
+     * Binds events to emit through nodedit.observer
+     * @method nodedit.editor.emitter
      * @param {number} id The id of the editor instance
      */
-    bindChange: function (id) {
-        var _this = this;
+    emitter: function (id) {
+        var _this = this,
+            observer = nodedit.observer;
+        
+        // Change
         _this.instances[id].editor.on('change', function () {
-            nodedit.tabs.markChanged(id);
+            observer.publish('editor_change', id);
+        });
+        
+        // Blur
+        _this.instances[id].editor.on('blur', function () {
+            observer.publish('editor_blur', id);
+        });
+        
+        // Focus
+        _this.instances[id].editor.on('focus', function () {
+            observer.publish('editor_focus', id);
         });
     }
-    
     
 };
