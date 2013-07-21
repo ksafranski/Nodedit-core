@@ -7,6 +7,11 @@ var nodedit = {
     templates: 'templates/',
     
     el: '#nodedit',
+    
+    /**
+     * Initializes application
+     * @method nodedit.init
+     */
 
     init: function () {
         // Check sessions
