@@ -2367,11 +2367,14 @@ nodedit.editor = {
      * @param {string} ext The extension of the file
      */
     getMode: function (ext) {
+        // Check for hidden (.xxxxxx) files
+        (ext.length>4) ? ext = 'text' : ext = ext;
+        // Switch to check extension
         switch (ext) {
             case 'html': case 'htm': case 'tpl': return 'html';
             case 'js': return 'javascript';
             case 'css': return 'css';
-            case 'txt': return 'text';
+            case 'txt': case 'text': return 'text';
             case 'scss': case 'sass': return 'scss';
             case 'less': return 'less';
             case 'php': case 'php5': return 'php';
