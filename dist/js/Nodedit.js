@@ -2482,6 +2482,9 @@ nodedit.editor = {
      * Binds events to emit through nodedit.observer
      * @method nodedit.editor.emitter
      * @param {number} id The id of the editor instance
+     * @fires nodedit.observer.publish#editor_change
+     * @fires nodedit.observer.publish#editor_blur
+     * @fires nodedit.observer.publish#editor_focus
      */
     emitter: function (id) {
         var _this = this,
