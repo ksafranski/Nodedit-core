@@ -211,6 +211,10 @@ nodedit.editor = {
             nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).remove();    
             // Remove instance
             delete _this.instances[id];
+            // Go to first Tab
+            setTimeout(function() {
+            	_this.gotoInstance(nodedit.$el.find(_this.instance_el).find('li:first-child').data("id"));
+            }, 1);
         };
         
         // Check for unsaved changes
