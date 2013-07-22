@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-21-2013
+ Build version 0.1.0, 07-22-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -2384,19 +2384,21 @@ nodedit.editor = {
             case 'js': return 'javascript';
             case 'css': return 'css';
             case 'txt': case 'text': return 'text';
-            case 'scss': case 'sass': return 'scss';
+            case 'scss': return 'scss';
+            case 'sass': return 'sass';
             case 'less': return 'less';
             case 'php': case 'php5': return 'php';
             case 'jsp': return 'jsp';
             case 'coffee': return 'coffee';
             case 'json': return 'json';
-            case 'xml': return 'xml';
+            case 'xml': case 'svg': return 'xml';
             case 'sql': return 'sql';
             case 'md': return 'markdown';
             case 'py': return 'python';
             case 'sql': return 'sql';
             case 'xml': return 'xml';
             case 'sh': return 'sh';
+            case 'rb': return 'ruby';
             default: return false;
         }
     },
@@ -2506,7 +2508,8 @@ nodedit.editor = {
         });
     }
     
-};/**
+};
+/**
  * Creates namespace for individual plugins, no additional native methods or properties
  * @namespace nodedit.plugin
  */
