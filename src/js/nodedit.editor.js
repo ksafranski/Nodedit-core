@@ -11,6 +11,36 @@ nodedit.editor = {
     instances: {},
     instance_modes: {},
 
+    /*
+    	Here you can define the available editor extensions, the format is a valid json array, each key of the array is the extensions used and the value of that element is the editor type that should be interpreted.
+    */
+
+    available_extensions: {
+    	'html': 'html',
+    	'htm': 'html',
+    	'tpl': 'html',
+    	'twig': 'html',
+    	'js': 'javascript',
+    	'css': 'css',
+    	'txt': 'text',
+    	'text': 'text',
+    	'scss': 'scss',
+    	'sass': 'sass',
+    	'less': 'less',
+    	'php': 'php',
+    	'php5': 'php',
+    	'jsp': 'jsp',
+    	'coffee': 'coffee',
+    	'json': 'json',
+    	'xml': 'xml',
+    	'svg': 'xml',
+    	'sql': 'sql',
+    	'md': 'markdown',
+    	'py': 'python',
+    	'sh': 'sh',
+    	'rb': 'ruby'
+    }, 
+
     /**
      * Starts the editor
      * @method nodedit.editor.init
@@ -339,29 +369,10 @@ nodedit.editor = {
     getMode: function (ext) {
         // Check for hidden (.xxxxxx) files
         (ext.length>4) ? ext = 'text' : ext = ext;
-        // Switch to check extension
-        switch (ext) {
-            case 'html': case 'htm': case 'tpl': case 'twig': return 'html';
-            case 'js': return 'javascript';
-            case 'css': return 'css';
-            case 'txt': case 'text': return 'text';
-            case 'scss': return 'scss';
-            case 'sass': return 'sass';
-            case 'less': return 'less';
-            case 'php': case 'php5': return 'php';
-            case 'jsp': return 'jsp';
-            case 'coffee': return 'coffee';
-            case 'json': return 'json';
-            case 'xml': case 'svg': return 'xml';
-            case 'sql': return 'sql';
-            case 'md': return 'markdown';
-            case 'py': return 'python';
-            case 'sql': return 'sql';
-            case 'xml': return 'xml';
-            case 'sh': return 'sh';
-            case 'rb': return 'ruby';
-            default: return false;
-        }
+        // Is the extensions available?
+        if(this.available_extensions[ext])
+        	return this.available_extensions[ext];
+        return false;
     },
     
     /**
