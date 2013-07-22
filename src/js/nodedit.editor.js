@@ -12,33 +12,33 @@ nodedit.editor = {
     instance_modes: {},
 
     /*
-    	Here you can define the available editor extensions, the format is a valid json array, each key of the array is the extensions used and the value of that element is the editor type that should be interpreted.
+    Here you can define the available editor extensions, the format is a valid json array, each key of the array is the extensions used and the value of that element is the editor type that should be interpreted.
     */
 
     available_extensions: {
-    	'html': 'html',
-    	'htm': 'html',
-    	'tpl': 'html',
-    	'twig': 'html',
-    	'js': 'javascript',
-    	'css': 'css',
-    	'txt': 'text',
-    	'text': 'text',
-    	'scss': 'scss',
-    	'sass': 'sass',
-    	'less': 'less',
-    	'php': 'php',
-    	'php5': 'php',
-    	'jsp': 'jsp',
-    	'coffee': 'coffee',
-    	'json': 'json',
-    	'xml': 'xml',
-    	'svg': 'xml',
-    	'sql': 'sql',
-    	'md': 'markdown',
-    	'py': 'python',
-    	'sh': 'sh',
-    	'rb': 'ruby'
+        'html': 'html',
+        'htm': 'html',
+        'tpl': 'html',
+        'twig': 'html',
+        'js': 'javascript',
+        'css': 'css',
+        'txt': 'text',
+        'text': 'text',
+        'scss': 'scss',
+        'sass': 'sass',
+        'less': 'less',
+        'php': 'php',
+        'php5': 'php',
+        'jsp': 'jsp',
+        'coffee': 'coffee',
+        'json': 'json',
+        'xml': 'xml',
+        'svg': 'xml',
+        'sql': 'sql',
+        'md': 'markdown',
+        'py': 'python',
+        'sh': 'sh',
+        'rb': 'ruby'
     }, 
 
     /**

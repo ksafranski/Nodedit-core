@@ -1094,8 +1094,30 @@ nodedit.tabs = {
      * @param {number} id The id of the editor/tab instance
      */
     close: function (id) {
-        var _this = this;
-        nodedit.$el.find(_this.el).children('li').filterByData('id', id).remove();
+        var _this = this,
+            tab = nodedit.$el.find(_this.el).children('li').filterByData('id', id),
+            index = tab.index(),
+            maxIndex = (nodedit.$el.find(_this.el).children('li').size())-1,
+            openIndexOf;
+            
+        tab.remove();
+        // Find and switch to neighboring tab (if this is the active tab)
+        if (tab.hasClass('active')) {
+            if (index>0) {
+                // Prefer move to left, check that this isn't first tab
+                openIndexOf = index-1;
+            } else if (index<maxIndex) {
+                // If not the last item, open the item to right (will match the closed item's index)
+                openIndexOf = index;
+            }
+            
+            if (openIndexOf!==undefined) {
+                var newId = nodedit.$el.find(_this.el).children('li:eq('+openIndexOf+')').attr('data-id');
+                nodedit.editor.gotoInstance(newId);
+            }
+        }
+        
+        //Rebind sortable and overflow handlers
         _this.sortable();
         _this.overflow();
     },
@@ -1155,7 +1177,8 @@ nodedit.tabs = {
      */
     bindClose: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).find('li').filterByData('id', id).on('click', 'a', function () {
+        nodedit.$el.find(_this.el).find('li').filterByData('id', id).on('click', 'a', function (e) {
+            e.stopPropagation(); // Stop propagation to tab (li) item
             nodedit.editor.close(id);
         });
     },
@@ -2051,33 +2074,33 @@ nodedit.editor = {
     instance_modes: {},
 
     /*
-    	Here you can define the available editor extensions, the format is a valid json array, each key of the array is the extensions used and the value of that element is the editor type that should be interpreted.
+    Here you can define the available editor extensions, the format is a valid json array, each key of the array is the extensions used and the value of that element is the editor type that should be interpreted.
     */
 
     available_extensions: {
-    	'html': 'html',
-    	'htm': 'html',
-    	'tpl': 'html',
-    	'twig': 'html',
-    	'js': 'javascript',
-    	'css': 'css',
-    	'txt': 'text',
-    	'text': 'text',
-    	'scss': 'scss',
-    	'sass': 'sass',
-    	'less': 'less',
-    	'php': 'php',
-    	'php5': 'php',
-    	'jsp': 'jsp',
-    	'coffee': 'coffee',
-    	'json': 'json',
-    	'xml': 'xml',
-    	'svg': 'xml',
-    	'sql': 'sql',
-    	'md': 'markdown',
-    	'py': 'python',
-    	'sh': 'sh',
-    	'rb': 'ruby'
+        'html': 'html',
+        'htm': 'html',
+        'tpl': 'html',
+        'twig': 'html',
+        'js': 'javascript',
+        'css': 'css',
+        'txt': 'text',
+        'text': 'text',
+        'scss': 'scss',
+        'sass': 'sass',
+        'less': 'less',
+        'php': 'php',
+        'php5': 'php',
+        'jsp': 'jsp',
+        'coffee': 'coffee',
+        'json': 'json',
+        'xml': 'xml',
+        'svg': 'xml',
+        'sql': 'sql',
+        'md': 'markdown',
+        'py': 'python',
+        'sh': 'sh',
+        'rb': 'ruby'
     }, 
 
     /**
