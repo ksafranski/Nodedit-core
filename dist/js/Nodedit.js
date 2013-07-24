@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.1.0, 07-22-2013
+ Build version 0.1.0, 07-24-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -2413,13 +2413,22 @@ nodedit.editor = {
     },
     
     /**
-     * Returns the contents from the editor instance
+     * Returns the contents from the editor instance either by specified id or active
      * @method nodedit.editor.getContent
-     * @param {int} id The id of the editor instance
+     * @param {int} [id] The id of the editor instance
      */
     getContent: function(id){
         var _this = this;
-        return _this.instances[id].editor.getSession().getValue();
+            // Eiter pull contents of specified editor or get active instance
+            id = id || nodedit.tabs.getActive();
+            
+        // Return data
+        if (!id) {
+            // No active editor
+            return false;
+        } else {
+            return _this.instances[id].editor.getSession().getValue();    
+        } 
     },
     
     
