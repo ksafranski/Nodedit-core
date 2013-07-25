@@ -875,10 +875,10 @@ nodedit.settings = {
      */
     init: function () {
         // Check for local storage
-        if (!nodedit.store('nodedit_settings')) {
+        if (!nodedit.store("nodedit_settings")) {
             // Set defaults
-            nodedit.store('nodedit_settings', {
-                theme: 'twilight',
+            nodedit.store("nodedit_settings", {
+                theme: "twilight",
                 fontsize: 14,
                 printmargin: false,
                 highlightline: true,
@@ -893,7 +893,7 @@ nodedit.settings = {
      * @method nodedit.settings.get
      */
     get: function () {
-        return JSON.parse(nodedit.store('nodedit_settings'));
+        return JSON.parse(nodedit.store("nodedit_settings"));
     },
     
     /**
@@ -902,7 +902,7 @@ nodedit.settings = {
      * @param {object} settings The object with user settings
      */
     set: function (settings) {
-        nodedit.store('nodedit_settings', settings);
+        nodedit.store("nodedit_settings", settings);
         // Update editors
         nodedit.editor.setConfig();
     },
@@ -916,19 +916,19 @@ nodedit.settings = {
             settings = _this.get();
         
         // Open settings dialog in modal
-        nodedit.modal.open(500, 'Settings', 'settings.tpl', settings, function () {
+        nodedit.modal.open(500, "Settings", "settings.tpl", settings, function () {
             // Listen for changes - update settings real-time
             var isBool = function (v) {
-                if (v==='true') {
+                if (v==="true") {
                     return true;
-                } else if (v==='false') {
+                } else if (v==="false") {
                     return false;
                 } else {
                     return v;
                 }
             };
-            nodedit.$el.find(nodedit.modal.el).on('change', 'select', function (e) {
-                settings[$(this).attr('name')] = isBool($(this).val());
+            nodedit.$el.find(nodedit.modal.el).on("change", "select", function () {
+                settings[$(this).attr("name")] = isBool($(this).val());
                 _this.set(settings);
             });
         });
