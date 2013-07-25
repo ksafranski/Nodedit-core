@@ -23,7 +23,7 @@
     "predef": [
         "nodedit",
         "ace",
-        "handlebars",
+        "Handlebars",
         "difflib",
         "diffview"
     ]

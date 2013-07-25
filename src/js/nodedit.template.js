@@ -11,22 +11,22 @@ nodedit.template = function (tpl, data, fn) {
         tmpl;
     
     // Check for pathing - indicates a plugin template
-    if (tpl.indexOf('/') >= 0) {
+    if (tpl.indexOf("/") >= 0) {
         
         // This is a template, always load via XHR
         return $.ajax({
             url: tpl,
-            type: 'GET',
+            type: "GET",
             success: function (tmpl){ 
                 // Insert data
                 if (data) {
                     template = Handlebars.compile(tmpl);
-                    tmpl = template({'data': data});
+                    tmpl = template({"data": data});
                     fn(tmpl);
                 }
             },
             error: function (){
-                nodedit.message.error('Could not load template');
+                nodedit.message.error("Could not load template");
             }
         });
         
@@ -35,21 +35,21 @@ nodedit.template = function (tpl, data, fn) {
         // This is a system template
     
         // In src environment, load each template via xhr
-        if (nodedit.env === 'src') {
+        if (nodedit.env === "src") {
         
             return $.ajax({
                 url: nodedit.templates+tpl,
-                type: 'GET',
+                type: "GET",
                 success: function (tmpl){ 
                     // Insert data
                     if (data) {
                         template = Handlebars.compile(tmpl);
-                        tmpl = template({'data': data});
+                        tmpl = template({"data": data});
                         fn(tmpl);
                     }
                 },
                 error: function (){
-                    nodedit.message.error('Could not load template');
+                    nodedit.message.error("Could not load template");
                 }
             });
         
@@ -60,15 +60,15 @@ nodedit.template = function (tpl, data, fn) {
             defer = new $.Deferred();
             
             // Setup template
-            tmpl = $('script[id="' + tpl + '"]').html();
+            tmpl = $("script[id=\"" + tpl + "\"]").html();
             template = Handlebars.compile(tmpl);
-            tmpl = template({'data' : data });
+            tmpl = template({"data" : data });
             
             // Resolve the defer, pass in tmpl to call .done()
             defer.resolve(tmpl);
             
             // Check for callback if not using .done()
-            if ( typeof fn === 'function' ) {
+            if ( typeof fn === "function" ) {
                 fn(tmpl);
             }
             
@@ -81,16 +81,17 @@ nodedit.template = function (tpl, data, fn) {
 };
 
 // Handlebars helper for object key-value
-Handlebars.registerHelper('eachkeys', function (context, options) {
+Handlebars.registerHelper("eachkeys", function (context, options) {
     var fn = options.fn, inverse = options.inverse,
         ret = "",
-        empty = true;
+        empty = true,
+        key;
     
     for (key in context) { empty = false; break; }
     
     if (!empty) {
         for (key in context) {
-            ret = ret + fn({ 'key': key, 'value': context[key]});
+            ret = ret + fn({ "key": key, "value": context[key]});
         }
     } else {
         ret = inverse(this);
@@ -99,21 +100,21 @@ Handlebars.registerHelper('eachkeys', function (context, options) {
 });
 
 // Hanldebars helper for comparison operators
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
     switch (operator) {
-        case '==':
-            return (v1 == v2) ? options.fn(this) : options.inverse(this);
-        case '===':
-            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-        case '<':
-            return (v1 < v2) ? options.fn(this) : options.inverse(this);
-        case '<=':
-            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-        case '>':
-            return (v1 > v2) ? options.fn(this) : options.inverse(this);
-        case '>=':
-            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-        default:
-            return options.inverse(this);
+    case "==":
+        return (v1 == v2) ? options.fn(this) : options.inverse(this);
+    case "===":
+        return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case "<":
+        return (v1 < v2) ? options.fn(this) : options.inverse(this);
+    case "<=":
+        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+    case ">":
+        return (v1 > v2) ? options.fn(this) : options.inverse(this);
+    case ">=":
+        return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+    default:
+        return options.inverse(this);
     }
 });
