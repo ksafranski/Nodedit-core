@@ -54,6 +54,6 @@ $(function(){
 // Filter by data
 $.fn.filterByData = function(prop, val) {
     return this.filter(
-        function() { return $(this).data(prop)===val; }
+        function() { return $(this).data(prop)==val; } // Note, needs to be '==' not '==='
     );
 };
