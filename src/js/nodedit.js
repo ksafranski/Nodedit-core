@@ -4,9 +4,9 @@
  */
 var nodedit = {
 
-    templates: 'templates/',
+    templates: "templates/",
     
-    el: '#nodedit',
+    el: "#nodedit",
     
     /**
      * Initializes application
@@ -35,12 +35,12 @@ $(function(){
     nodedit.$el = $(nodedit.el);
     
     // Determine environment (dist or src)
-    nodedit.env = $('body').attr('data-env');
+    nodedit.env = $("body").attr("data-env");
     
     // If dist env, load templates into DOM
-    if (nodedit.env==='dist') {
-        $.get('dist/templates/system.tpl', function (tpls) {
-            $('body').append('<div id="nodedit-templates">'+tpls+'</div>');
+    if (nodedit.env==="dist") {
+        $.get("dist/templates/system.tpl", function (tpls) {
+            $("body").append("<div id=\"nodedit-templates\">"+tpls+"</div>");
         }).done(function () {
             // call init after we have populated the templates inline.
             nodedit.init();
@@ -54,6 +54,6 @@ $(function(){
 // Filter by data
 $.fn.filterByData = function(prop, val) {
     return this.filter(
-        function() { return $(this).data(prop)==val; }
+        function() { return $(this).data(prop)===val; }
     );
 };
