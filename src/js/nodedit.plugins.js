@@ -17,18 +17,18 @@ nodedit.plugins = {
      * @method nodedit.plugins.init
      */
     init: function () {
-        var _this = this,
-            plugin;
+        var _this = this;
         
         // Set plugin_dir based on environment
-        if(nodedit.env==='dist') {
-            nodedit.plugins.plugin_dir = 'plugins/';
+        if(nodedit.env==="dist") {
+            nodedit.plugins.plugin_dir = "plugins/";
         } else {
-            nodedit.plugins.plugin_dir = '../plugins/';
+            nodedit.plugins.plugin_dir = "../plugins/";
         }
         
         // Get plugins
-        $.get(nodedit.plugins.plugin_dir+'plugins.json', function (list) {
+        $.get(nodedit.plugins.plugin_dir+"plugins.json", function (list) {
+            var plugin;
             for (plugin in list) {
                 // Send to register method
                 _this.register(plugin, list[plugin]);
@@ -43,21 +43,17 @@ nodedit.plugins = {
      * @param {string} directory The directory name inside of /plugins
      */
     register: function (name, directory) {
-        var _this = this,
-            script = document.createElement( 'script' ),
-            plugin,
-            i, z,
-            deps = [],
-            tpl;
+        var _this = this;
         
-        $.get(_this.plugin_dir+directory+'/plugin.js', function (plugin) {
-            // This is an appropriate use-case for eval(). I don't want to see an issue in GitHub about
+        $.get(_this.plugin_dir+directory+"/plugin.js", function (plugin) {
+            var tpl;
+            // This is an appropriate use-case for eval(). I don"t want to see an issue in GitHub about
             // eval === evil unless you have imperical proof and code showing a more efficient way to 
             // accomplish this...
             plugin = eval(plugin);
             
             // Add to menu list
-            if (plugin.hasOwnProperty('onMenu')) {
+            if (plugin.hasOwnProperty("onMenu")) {
                 _this.plugin_menu[name] = {
                     icon: plugin.icon,
                     object: directory
@@ -65,39 +61,28 @@ nodedit.plugins = {
             }
             
             // Properly path templates
-            if (plugin.hasOwnProperty('templates')) {
+            if (plugin.hasOwnProperty("templates")) {
                 for (tpl in plugin.templates) {
-                    plugin.templates[tpl] = nodedit.plugins.plugin_dir + directory + '/' + plugin.templates[tpl];
+                    plugin.templates[tpl] = nodedit.plugins.plugin_dir + directory + "/" + plugin.templates[tpl];
                 }
             }
             
             // Check for and load dependencies
-            if (plugin.hasOwnProperty('dependencies') && plugin.dependencies.length>0) {
-                // Load dep's
-                _this.loadDependencies(plugin.dependencies, nodedit.plugins.plugin_dir+directory+'/', function () {
+            if (plugin.hasOwnProperty("dependencies") && plugin.dependencies.length>0) {
+                // Load dep"s
+                _this.loadDependencies(plugin.dependencies, nodedit.plugins.plugin_dir+directory+"/", function () {
                     // Fire init (if available)
-                    if (plugin.hasOwnProperty('init')) {
+                    if (plugin.hasOwnProperty("init")) {
                         plugin.init();
                     }
                 });
             } else {
-                // No dep's, fire init (if available)
-                if (plugin.hasOwnProperty('init')) {
+                // No dep"s, fire init (if available)
+                if (plugin.hasOwnProperty("init")) {
                     plugin.init();
                 }
             }
         });
-    },
-    
-    /**
-     * Adds menu object for plugin
-     * @param {string} name The name of the plugin
-     * @param {string} directory The directory of the plugin
-     * @param {string} icon The icon for the plugin
-     * @param {function} fn The function to call when menu object is clicked
-     */
-    addMenuObject: function (name, directory, icon, fn) {
-    
     },
     
     /**
@@ -107,39 +92,40 @@ nodedit.plugins = {
      * @param {requestCallback} fn The callback to fire on completion
      */
     loadDependencies: function(scripts, base_path, fn) {
-        var _this = this,
-            loadCount = 0,
+        var loadCount = 0,
             totalRequired = scripts.length;
         
         // Record loaded and callback once all scripts loaded
-        var loaded = function (evt) {
+        var loaded = function () {
             loadCount++;
-            if (loadCount == totalRequired && typeof fn == 'function') fn.call();
+            if (loadCount === totalRequired && typeof fn === "function") {
+                fn.call();
+            }
         };
         
         // Writes out dependency
         var writeScript = function (src) {
-            var ext = src.split('.').pop(),
+            var ext = src.split(".").pop(),
                 s;
                 
-            if (ext === 'js') {
+            if (ext === "js") {
                 // Create script ref
-                s = document.createElement('script');
+                s = document.createElement("script");
                 s.type = "text/javascript";
                 s.async = true;
                 s.src = base_path+src;
-                s.addEventListener('load', function (e) { loaded(e); }, false);
-                var body = document.getElementsByTagName('body')[0];
+                s.addEventListener("load", function (e) { loaded(e); }, false);
+                var body = document.getElementsByTagName("body")[0];
                 body.appendChild(s);
-            } else if (ext === 'css') {
+            } else if (ext === "css") {
                 // Create css link
-                s = document.createElement('link');    
+                s = document.createElement("link");    
                 s.type = "text/css";
                 s.rel = "stylesheet";
                 s.href = base_path+src;
                 s.async = true;
-                s.addEventListener('load', function (e) { loaded(e); }, false);
-                var head = document.getElementsByTagName('head')[0];
+                s.addEventListener("load", function (e) { loaded(e); }, false);
+                var head = document.getElementsByTagName("head")[0];
                 head.appendChild(s);
             } else {
                 // Not supported, call loaded
@@ -147,7 +133,7 @@ nodedit.plugins = {
             }
         };
         
-        // Loop through dep's
+        // Loop through dep"s
         for (var i = 0; i < scripts.length; i++) {
             writeScript(scripts[i]);
         }
@@ -160,36 +146,35 @@ nodedit.plugins = {
      */
     showList: function (e) {
         // Create element
-        nodedit.$el.append('<div id="plugin-menu"><ul></ul></div>');
+        nodedit.$el.append("<div id=\"plugin-menu\"><ul></ul></div>");
         
         var _this = this,
-            item,
-            output = '',
-            menu = nodedit.$el.find('#plugin-menu'),
+            output = "",
+            menu = nodedit.$el.find("#plugin-menu"),
             trigger = nodedit.$el.find(e.target),
             trigger_pos = trigger.position();
             
         if ($.isEmptyObject(_this.plugin_menu)) {
-            nodedit.message.error('No plugins have been installed');
+            nodedit.message.error("No plugins have been installed");
             menu.remove();
         } else {
             menu.css({
                 // Set top and left relative to trigger
-                top: (trigger_pos.top + trigger.outerHeight() + 5)+'px', 
-                left: trigger_pos.left-10+'px' 
+                top: (trigger_pos.top + trigger.outerHeight() + 5)+"px", 
+                left: trigger_pos.left-10+"px" 
             })
-            .on('mouseleave click', function () {
+            .on("mouseleave click", function () {
                 // Remove on mouseleave
                 menu.remove();
             });
             
             // Loop through and create DOM elements
             for (var plugin in _this.plugin_menu) {
-                output += '<li><a onclick="nodedit.plugin.'+_this.plugin_menu[plugin].object+'.onMenu();"><span class="'+_this.plugin_menu[plugin].icon+'"></span> '+plugin+'</a></li>';
+                output += "<li><a onclick=\"nodedit.plugin."+_this.plugin_menu[plugin].object+".onMenu();\"><span class=\""+_this.plugin_menu[plugin].icon+"\"></span> "+plugin+"</a></li>";
             }
             
             // Set in menu and show
-            menu.show().children('ul').html(output);
+            menu.show().children("ul").html(output);
             
         }
     }
