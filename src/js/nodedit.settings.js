@@ -62,7 +62,7 @@ nodedit.settings = {
                     return v;
                 }
             };
-            nodedit.$el.find(nodedit.modal.el).on("change", "select", function (e) {
+            nodedit.$el.find(nodedit.modal.el).on("change", "select", function () {
                 settings[$(this).attr("name")] = isBool($(this).val());
                 _this.set(settings);
             });
