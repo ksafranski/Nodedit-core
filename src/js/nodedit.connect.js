@@ -9,12 +9,12 @@ nodedit.connect = {
      * @method nodedit.connect.view
      */
     view: function () {
-        nodedit.template('connect.tpl')
+        nodedit.template("connect.tpl")
             .done(function (tmpl) {
                 // Load DOM
                 nodedit.$el.html(tmpl);
                 // Bind submission
-                $('form#connect').on('submit', function (e) {
+                $("form#connect").on("submit", function (e) {
                     e.preventDefault();
                     nodedit.connect.process($(this).serializeArray());
                 });
@@ -36,17 +36,17 @@ nodedit.connect = {
         // Run connection check
         nodedit.fsapi.check(session)
             .done(function (data) {
-                if (data.status === 'success') {
+                if (data.status === "success") {
                     //If return good, save to session
                     nodedit.session(session);
                     // Initialize the workspace
                     nodedit.workspace.init();
                 } else {
-                    nodedit.message.error('Could not connect to server');
+                    nodedit.message.error("Could not connect to server");
                 }
             })
             .fail(function () {
-               nodedit.message.error('Could not connect to server');
+                nodedit.message.error("Could not connect to server");
             });
     },
     
@@ -55,7 +55,7 @@ nodedit.connect = {
      * @method modedit.connect.close
      */
     close: function () {
-        nodedit.session('clear');
+        nodedit.session("clear");
         window.location.reload();
     }
 };
