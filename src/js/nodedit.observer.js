@@ -92,4 +92,4 @@ nodedit.observer = {
         return false;
     },
     
-}
+};
