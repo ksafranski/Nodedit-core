@@ -10,7 +10,7 @@ nodedit.fsapi = {
      * @param {object} session The object containing remote url and key
      */
     check: function (session) {
-        return $.get(session.url+'/'+session.key+'/dir/');    
+        return $.get(session.url+"/"+session.key+"/dir/");    
     },
     
     /**
@@ -77,7 +77,7 @@ nodedit.fsapi = {
      * Creates a file or directory
      * @method nodedit.fsapi.create
      * @param {string} path The full path to the file
-     * @param {string} type Either 'file' or 'dir'
+     * @param {string} type Either "file" or "dir"
      * @param {requestCallback} fn The callback on success
      */
     create: function (path, type, fn) {
@@ -118,7 +118,7 @@ nodedit.fsapi = {
     },
     
     /**
-     * Similar to 'Cut+Paste', copies the file, then deletes original
+     * Similar to "Cut+Paste", copies the file, then deletes original
      * @method nodedit.fsapi.move
      * @param {string} path The full path to the file
      * @param {string} destination The full path of the move-to destination
