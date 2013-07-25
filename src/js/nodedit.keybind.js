@@ -19,7 +19,7 @@ nodedit.keybind = function(params){
     
     // Holds currently entered combo
  
-    this.cur_combo = '';
+    this.cur_combo = "";
     
     // Starts the key listener, timer and check
  
@@ -31,7 +31,7 @@ nodedit.keybind = function(params){
             evt = evt || window.event;
             var name = _this.keycodes[evt.keyCode];
             if(_this.cur_combo.length>0){
-                _this.cur_combo += ' ';
+                _this.cur_combo += " ";
             }
             _this.cur_combo += name;
             _this.runTimer();
@@ -51,7 +51,7 @@ nodedit.keybind = function(params){
         }
         
         this.combotimer = setTimeout(function(){
-            _this.cur_combo = '';
+            _this.cur_combo = "";
         }, this.timeout);
     };
     
@@ -60,7 +60,7 @@ nodedit.keybind = function(params){
     this.checkCode = function(e){
         if (this.cur_combo.indexOf(this.code)!== -1 && this.callback){
             e.preventDefault();
-            this.cur_combo = '';
+            this.cur_combo = "";
             this.callback();
         }
     };
