@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.6.3, 07-24-2013
+ Build version 0.6.3, 07-25-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -8,9 +8,9 @@
  */
 var nodedit = {
 
-    templates: 'templates/',
+    templates: "templates/",
     
-    el: '#nodedit',
+    el: "#nodedit",
     
     /**
      * Initializes application
@@ -39,12 +39,12 @@ $(function(){
     nodedit.$el = $(nodedit.el);
     
     // Determine environment (dist or src)
-    nodedit.env = $('body').attr('data-env');
+    nodedit.env = $("body").attr("data-env");
     
     // If dist env, load templates into DOM
-    if (nodedit.env==='dist') {
-        $.get('dist/templates/system.tpl', function (tpls) {
-            $('body').append('<div id="nodedit-templates">'+tpls+'</div>');
+    if (nodedit.env==="dist") {
+        $.get("dist/templates/system.tpl", function (tpls) {
+            $("body").append("<div id=\"nodedit-templates\">"+tpls+"</div>");
         }).done(function () {
             // call init after we have populated the templates inline.
             nodedit.init();
@@ -58,7 +58,7 @@ $(function(){
 // Filter by data
 $.fn.filterByData = function(prop, val) {
     return this.filter(
-        function() { return $(this).data(prop)==val; }
+        function() { return $(this).data(prop)===val; }
     );
 };
 /**
@@ -82,7 +82,7 @@ nodedit.keybind = function(params){
     
     // Holds currently entered combo
  
-    this.cur_combo = '';
+    this.cur_combo = "";
     
     // Starts the key listener, timer and check
  
@@ -94,7 +94,7 @@ nodedit.keybind = function(params){
             evt = evt || window.event;
             var name = _this.keycodes[evt.keyCode];
             if(_this.cur_combo.length>0){
-                _this.cur_combo += ' ';
+                _this.cur_combo += " ";
             }
             _this.cur_combo += name;
             _this.runTimer();
@@ -114,7 +114,7 @@ nodedit.keybind = function(params){
         }
         
         this.combotimer = setTimeout(function(){
-            _this.cur_combo = '';
+            _this.cur_combo = "";
         }, this.timeout);
     };
     
@@ -123,7 +123,7 @@ nodedit.keybind = function(params){
     this.checkCode = function(e){
         if (this.cur_combo.indexOf(this.code)!== -1 && this.callback){
             e.preventDefault();
-            this.cur_combo = '';
+            this.cur_combo = "";
             this.callback();
         }
     };
@@ -249,28 +249,28 @@ nodedit.message = {
             blockHeight;
         
         // Remove any existing messages
-        $('#message').remove();
+        $("#message").remove();
         
-        (type==='success') ? icon = 'icon-thumbs-up' : icon = 'icon-thumbs-down'; 
+        (type==="success") ? icon = "icon-thumbs-up" : icon = "icon-thumbs-down"; 
         
         // Create new instance
-        $('body').append('<div id="message" class="'+type+'"><span class="'+icon+'"></span>&nbsp;'+msg+'</div>');
-        block = $('#message');
+        $("body").append("<div id=\"message\" class=\""+type+"\"><span class=\""+icon+"\"></span>&nbsp;"+msg+"</div>");
+        block = $("#message");
         blockHeight = block.outerHeight();
         
         // Slide up and fade in
         block
             // Set start
-            .css({'bottom':'-'+blockHeight+'px', 'opacity': '0'})
-            .animate({'bottom':'0', 'opacity': '1'}, 500)
+            .css({"bottom":"-"+blockHeight+"px", "opacity": "0"})
+            .animate({"bottom":"0", "opacity": "1"}, 500)
             
             // Wait 3 seconds
             .delay(3000)
             
             // Slide down and fade out
-            .animate({'bottom':'-'+blockHeight+'px', 'opacity': '0'}, { 'complete': function () {
+            .animate({"bottom":"-"+blockHeight+"px", "opacity": "0"}, { "complete": function () {
                 $(this).remove();
-            }}, 500)
+            }}, 500);
         
     },
     
@@ -280,7 +280,7 @@ nodedit.message = {
      * @param {string} msg Message to display
      */
     error: function (msg) {
-        nodedit.message.show(msg, 'error');
+        nodedit.message.show(msg, "error");
     },
     
     /**
@@ -289,9 +289,9 @@ nodedit.message = {
      * @param {string} msg Message to display
      */
     success: function (msg) {
-        nodedit.message.show(msg, 'success');
+        nodedit.message.show(msg, "success");
     }
-}/**
+};/**
  * Load the template
  * @method nodedit.template
  * @param {string} tpl The template file to be loaded
@@ -304,22 +304,22 @@ nodedit.template = function (tpl, data, fn) {
         tmpl;
     
     // Check for pathing - indicates a plugin template
-    if (tpl.indexOf('/') >= 0) {
+    if (tpl.indexOf("/") >= 0) {
         
         // This is a template, always load via XHR
         return $.ajax({
             url: tpl,
-            type: 'GET',
+            type: "GET",
             success: function (tmpl){ 
                 // Insert data
                 if (data) {
                     template = Handlebars.compile(tmpl);
-                    tmpl = template({'data': data});
+                    tmpl = template({"data": data});
                     fn(tmpl);
                 }
             },
             error: function (){
-                nodedit.message.error('Could not load template');
+                nodedit.message.error("Could not load template");
             }
         });
         
@@ -328,21 +328,21 @@ nodedit.template = function (tpl, data, fn) {
         // This is a system template
     
         // In src environment, load each template via xhr
-        if (nodedit.env === 'src') {
+        if (nodedit.env === "src") {
         
             return $.ajax({
                 url: nodedit.templates+tpl,
-                type: 'GET',
+                type: "GET",
                 success: function (tmpl){ 
                     // Insert data
                     if (data) {
                         template = Handlebars.compile(tmpl);
-                        tmpl = template({'data': data});
+                        tmpl = template({"data": data});
                         fn(tmpl);
                     }
                 },
                 error: function (){
-                    nodedit.message.error('Could not load template');
+                    nodedit.message.error("Could not load template");
                 }
             });
         
@@ -353,15 +353,15 @@ nodedit.template = function (tpl, data, fn) {
             defer = new $.Deferred();
             
             // Setup template
-            tmpl = $('script[id="' + tpl + '"]').html();
+            tmpl = $("script[id=\"" + tpl + "\"]").html();
             template = Handlebars.compile(tmpl);
-            tmpl = template({'data' : data });
+            tmpl = template({"data" : data });
             
             // Resolve the defer, pass in tmpl to call .done()
             defer.resolve(tmpl);
             
             // Check for callback if not using .done()
-            if ( typeof fn === 'function' ) {
+            if ( typeof fn === "function" ) {
                 fn(tmpl);
             }
             
@@ -374,16 +374,17 @@ nodedit.template = function (tpl, data, fn) {
 };
 
 // Handlebars helper for object key-value
-Handlebars.registerHelper('eachkeys', function (context, options) {
+Handlebars.registerHelper("eachkeys", function (context, options) {
     var fn = options.fn, inverse = options.inverse,
         ret = "",
-        empty = true;
+        empty = true,
+        key;
     
     for (key in context) { empty = false; break; }
     
     if (!empty) {
         for (key in context) {
-            ret = ret + fn({ 'key': key, 'value': context[key]});
+            ret = ret + fn({ "key": key, "value": context[key]});
         }
     } else {
         ret = inverse(this);
@@ -392,22 +393,22 @@ Handlebars.registerHelper('eachkeys', function (context, options) {
 });
 
 // Hanldebars helper for comparison operators
-Handlebars.registerHelper('ifCond', function (v1, operator, v2, options) {
+Handlebars.registerHelper("ifCond", function (v1, operator, v2, options) {
     switch (operator) {
-        case '==':
-            return (v1 == v2) ? options.fn(this) : options.inverse(this);
-        case '===':
-            return (v1 === v2) ? options.fn(this) : options.inverse(this);
-        case '<':
-            return (v1 < v2) ? options.fn(this) : options.inverse(this);
-        case '<=':
-            return (v1 <= v2) ? options.fn(this) : options.inverse(this);
-        case '>':
-            return (v1 > v2) ? options.fn(this) : options.inverse(this);
-        case '>=':
-            return (v1 >= v2) ? options.fn(this) : options.inverse(this);
-        default:
-            return options.inverse(this);
+    case "==":
+        return (v1 == v2) ? options.fn(this) : options.inverse(this);
+    case "===":
+        return (v1 === v2) ? options.fn(this) : options.inverse(this);
+    case "<":
+        return (v1 < v2) ? options.fn(this) : options.inverse(this);
+    case "<=":
+        return (v1 <= v2) ? options.fn(this) : options.inverse(this);
+    case ">":
+        return (v1 > v2) ? options.fn(this) : options.inverse(this);
+    case ">=":
+        return (v1 >= v2) ? options.fn(this) : options.inverse(this);
+    default:
+        return options.inverse(this);
     }
 });
 /**
@@ -422,7 +423,7 @@ nodedit.fsapi = {
      * @param {object} session The object containing remote url and key
      */
     check: function (session) {
-        return $.get(session.url+'/'+session.key+'/dir/');    
+        return $.get(session.url+"/"+session.key+"/dir/");    
     },
     
     /**
@@ -489,7 +490,7 @@ nodedit.fsapi = {
      * Creates a file or directory
      * @method nodedit.fsapi.create
      * @param {string} path The full path to the file
-     * @param {string} type Either 'file' or 'dir'
+     * @param {string} type Either "file" or "dir"
      * @param {requestCallback} fn The callback on success
      */
     create: function (path, type, fn) {
@@ -530,7 +531,7 @@ nodedit.fsapi = {
     },
     
     /**
-     * Similar to 'Cut+Paste', copies the file, then deletes original
+     * Similar to "Cut+Paste", copies the file, then deletes original
      * @method nodedit.fsapi.move
      * @param {string} path The full path to the file
      * @param {string} destination The full path of the move-to destination
@@ -585,24 +586,24 @@ nodedit.fsapi = {
 };/**
  * Sets or gets session information
  * @method nodedit.session
- * @param {object|string} arg With format { url: 'ENDPOINT', key: 'API_KEY' } sets the session, 'clear' removes it, no value returns current session (or bool false)
+ * @param {object|string} arg With format { url: "ENDPOINT", key: "API_KEY" } sets the session, "clear" removes it, no value returns current session (or bool false)
  */
 nodedit.session = function () {
     
     // Set or get
     if (arguments.length) {
-        if (typeof arguments[0] === 'object') {
+        if (typeof arguments[0] === "object") {
             // Session object passed in; store
-            nodedit.store('nodedit_session', arguments[0]); 
-        } else if (arguments[0] === 'clear') {
+            nodedit.store("nodedit_session", arguments[0]); 
+        } else if (arguments[0] === "clear") {
             // Clear session
-            nodedit.store('nodedit_session', null);
+            nodedit.store("nodedit_session", null);
         }
     } else {
         // No object passed
-        if (nodedit.store('nodedit_session')) {
+        if (nodedit.store("nodedit_session")) {
             // Session set, return data
-            var session = JSON.parse(nodedit.store('nodedit_session'));
+            var session = JSON.parse(nodedit.store("nodedit_session"));
             return {
                 url: session.url,
                 key: session.key
@@ -652,12 +653,12 @@ nodedit.connect = {
      * @method nodedit.connect.view
      */
     view: function () {
-        nodedit.template('connect.tpl')
+        nodedit.template("connect.tpl")
             .done(function (tmpl) {
                 // Load DOM
                 nodedit.$el.html(tmpl);
                 // Bind submission
-                $('form#connect').on('submit', function (e) {
+                $("form#connect").on("submit", function (e) {
                     e.preventDefault();
                     nodedit.connect.process($(this).serializeArray());
                 });
@@ -679,17 +680,17 @@ nodedit.connect = {
         // Run connection check
         nodedit.fsapi.check(session)
             .done(function (data) {
-                if (data.status === 'success') {
+                if (data.status === "success") {
                     //If return good, save to session
                     nodedit.session(session);
                     // Initialize the workspace
                     nodedit.workspace.init();
                 } else {
-                    nodedit.message.error('Could not connect to server');
+                    nodedit.message.error("Could not connect to server");
                 }
             })
             .fail(function () {
-               nodedit.message.error('Could not connect to server');
+                nodedit.message.error("Could not connect to server");
             });
     },
     
@@ -698,7 +699,7 @@ nodedit.connect = {
      * @method modedit.connect.close
      */
     close: function () {
-        nodedit.session('clear');
+        nodedit.session("clear");
         window.location.reload();
     }
 };/**
@@ -795,15 +796,15 @@ nodedit.observer = {
         return false;
     },
     
-}/**
+};/**
  * Controls for modal window actions
  * @namespace nodedit.modal
  */
 nodedit.modal = {
     
-    el: '#modal',
+    el: "#modal",
     
-    overlay: '#modal-overlay',
+    overlay: "#modal-overlay",
 
     /**
      * Opens an instance of the modal
@@ -822,20 +823,22 @@ nodedit.modal = {
         fn = fn || null;
         
         // Declare variables
-        var _this = this,
-            modal = nodedit.$el.append('<div id="'+_this.overlay.replace('#','')+'"></div><div id="'+_this.el.replace('#','')+'"></div>');
+        var _this = this;
+        
+        // Build DOM container
+        nodedit.$el.append("<div id=\""+_this.overlay.replace("#","")+"\"></div><div id=\""+_this.el.replace("#","")+"\"></div>");
         
         // Create DOM element
-        nodedit.$el.find(_this.el).css({ 'width': width+'px', 'margin-left':'-'+Math.round(width/2)+'px' });
+        nodedit.$el.find(_this.el).css({ "width": width+"px", "margin-left":"-"+Math.round(width/2)+"px" });
         
         // Load content template
         nodedit.template(template, data, function (content) {
             // Load modal template
-            nodedit.template('modal.tpl', { title: title }, function (tmpl) {
+            nodedit.template("modal.tpl", { title: title }, function (tmpl) {
                 // Show content
-                nodedit.$el.find(_this.el).html(tmpl).children('#modal-content')
+                nodedit.$el.find(_this.el).html(tmpl).children("#modal-content")
                     .html(content)
-                    .find('input:not([type=hidden]):first')
+                    .find("input:not([type=hidden]):first")
                     .focus();
                 // Fire callback
                 if (fn) {
@@ -845,7 +848,7 @@ nodedit.modal = {
         });
         
         // Bind close
-        nodedit.$el.find(_this.el).on('click', 'a.icon-remove', function () {
+        nodedit.$el.find(_this.el).on("click", "a.icon-remove", function () {
             _this.close();
         });
     },
@@ -857,7 +860,7 @@ nodedit.modal = {
     close: function () {
         var _this = this;
         // Remove DOM element
-        nodedit.$el.find(_this.el+','+_this.overlay).remove();
+        nodedit.$el.find(_this.el+","+_this.overlay).remove();
     }
 
 };/**
@@ -946,7 +949,7 @@ nodedit.workspace = {
         // Ensure the session
         if (nodedit.session()) {
             // Load the workspace
-            nodedit.template('workspace.tpl')
+            nodedit.template("workspace.tpl")
                 .done(function (tmpl) {
                     // Load DOM
                     nodedit.$el.html(tmpl);
@@ -959,7 +962,7 @@ nodedit.workspace = {
                 });
         } else {
             // Failed session
-            nodedit.message.error('Could not load session');
+            nodedit.message.error("Could not load session");
         }
         
     }
@@ -970,7 +973,7 @@ nodedit.workspace = {
  */
 nodedit.tabs = {
     
-    el: '#tabs',
+    el: "#tabs",
     
     overflow_timeout: null,
     
@@ -983,8 +986,9 @@ nodedit.tabs = {
         var _this = this,
             path = nodedit.editor.getPath(id),
             name = nodedit.filemanager.getFileName(path);
+
         // Compile template
-        nodedit.template('tab.tpl', {id: id, path: path, name: name}, function(tmpl) {
+        nodedit.template("tab.tpl", {id: id, path: path, name: name}, function(tmpl) {
             // Add tab
             nodedit.$el.find(_this.el).append(tmpl); 
             _this.setActive(id);
@@ -1002,10 +1006,10 @@ nodedit.tabs = {
     sortable: function () {
         var _this = this;
         nodedit.$el.find(_this.el).sortable({ 
-            axis: 'x', 
-            items: 'li',
-            containment: 'parent',
-            placeholder: 'tab-sort-placeholder',
+            axis: "x", 
+            items: "li",
+            containment: "parent",
+            placeholder: "tab-sort-placeholder",
             distance: 5
         });  
     },
@@ -1016,7 +1020,7 @@ nodedit.tabs = {
      */
     overflow: function () {
         var _this = this,
-            tab_els = nodedit.$el.find(_this.el).children('li'),
+            tab_els = nodedit.$el.find(_this.el).children("li"),
             w_available = nodedit.$el.find(_this.el).outerWidth(),
             tab_w, tab_count, cur_tab, new_tab, remainder;
         
@@ -1025,47 +1029,53 @@ nodedit.tabs = {
         // Get tab count
         tab_count = tab_els.length;
         
+        var bindNewTab = function (new_tab) {
+            
+            // Bind click on tab
+            new_tab.on("click", function () {
+                nodedit.editor.gotoInstance($(this).data("id"));
+            });
+            
+            // Bind click on close
+            new_tab.on("click","a", function () {
+                nodedit.editor.close($(this).parent("li").data("id")); 
+            });
+            
+        };
+        
         // Out of space?
         if ((tab_w*tab_count) > w_available-30) {
             // Clear any existing contents
-            nodedit.$el.find('#tabs-reveal-menu').remove();
+            nodedit.$el.find("#tabs-reveal-menu").remove();
             // Find remainder
             remainder = Math.ceil(((tab_w*tab_count)-(w_available-30))/tab_w);
             // Create reveal icon
-            nodedit.$el.find(_this.el).append('<a id="tabs-reveal" class="icon-double-angle-right"></a>');
+            nodedit.$el.find(_this.el).append("<a id=\"tabs-reveal\" class=\"icon-double-angle-right\"></a>");
             // Create reveal menu
-            nodedit.$el.append('<ul id="tabs-reveal-menu"></ul>');
+            nodedit.$el.append("<ul id=\"tabs-reveal-menu\"></ul>");
             
             // Loop in remainder tabs
             for (var i=tab_count-remainder, z=tab_count; i<z; i++){
                 // Get current tab
-                cur_tab = nodedit.$el.find(_this.el).children('li:eq('+i+')');
+                cur_tab = nodedit.$el.find(_this.el).children("li:eq("+i+")");
                 
                 // Add element to menu
-                nodedit.$el.find('#tabs-reveal-menu').append('<li data-id="'+cur_tab.data('id')+'">'+cur_tab.html()+'</li>');
+                nodedit.$el.find("#tabs-reveal-menu").append("<li data-id=\""+cur_tab.data("id")+"\">"+cur_tab.html()+"</li>");
                 
                 // Get new tab
-                new_tab = nodedit.$el.find('#tabs-reveal-menu').children('li[data-id="'+cur_tab.data('id')+'"]');
+                new_tab = nodedit.$el.find("#tabs-reveal-menu").children("li[data-id=\""+cur_tab.data("id")+"\"]");
                 
-                // Bind click on tab
-                new_tab.on('click', function () {
-                    nodedit.editor.gotoInstance($(this).data('id'));
-                });
-                
-                // Bind click on close
-                new_tab.on('click','a', function () {
-                   nodedit.editor.close($(this).parent('li').data('id')); 
-                });
+                bindNewTab(new_tab);
                 
             }
             
             // Bind click to show menu
-            nodedit.$el.find(_this.el).children('#tabs-reveal').on('click', function () { 
-                nodedit.$el.find('#tabs-reveal-menu').show();    
+            nodedit.$el.find(_this.el).children("#tabs-reveal").on("click", function () { 
+                nodedit.$el.find("#tabs-reveal-menu").show();    
             });
             
             // Hide menu on mouseleave
-            nodedit.$el.find('#tabs-reveal-menu').on('mouseleave', function() {
+            nodedit.$el.find("#tabs-reveal-menu").on("mouseleave", function() {
                 $(this).hide();
             });
             
@@ -1073,8 +1083,8 @@ nodedit.tabs = {
             _this.setActive(_this.getActive());
             
         } else {
-            nodedit.$el.find(_this.el).children('#tabs-reveal').remove();
-            nodedit.$el.find('#tabs-reveal-menu').remove();
+            nodedit.$el.find(_this.el).children("#tabs-reveal").remove();
+            nodedit.$el.find("#tabs-reveal-menu").remove();
         }
         
         // Bind to resize, use timeouts to prevent rapid-fire during resize
@@ -1095,24 +1105,24 @@ nodedit.tabs = {
      */
     close: function (id) {
         var _this = this,
-            tab = nodedit.$el.find(_this.el).children('li').filterByData('id', id),
+            tab = nodedit.$el.find(_this.el).children("li").filterByData("id", id),
             index = tab.index(),
-            maxIndex = (nodedit.$el.find(_this.el).children('li').size())-1,
+            maxIndex = (nodedit.$el.find(_this.el).children("li").size())-1,
             openIndexOf;
             
         tab.remove();
         // Find and switch to neighboring tab (if this is the active tab)
-        if (tab.hasClass('active')) {
+        if (tab.hasClass("active")) {
             if (index>0) {
-                // Prefer move to left, check that this isn't first tab
+                // Prefer move to left, check that this isn"t first tab
                 openIndexOf = index-1;
             } else if (index<maxIndex) {
-                // If not the last item, open the item to right (will match the closed item's index)
+                // If not the last item, open the item to right (will match the closed item"s index)
                 openIndexOf = index;
             }
             
             if (openIndexOf!==undefined) {
-                var newId = nodedit.$el.find(_this.el).children('li:eq('+openIndexOf+')').attr('data-id');
+                var newId = nodedit.$el.find(_this.el).children("li:eq("+openIndexOf+")").attr("data-id");
                 nodedit.editor.gotoInstance(newId);
             }
         }
@@ -1131,15 +1141,15 @@ nodedit.tabs = {
      */
     rename: function (oldPath, newPath, id) {
         var _this = this,
-            tab = nodedit.$el.find(_this.el).children('li').filterByData('id', id),
-            curPath = tab.attr('title');
+            tab = nodedit.$el.find(_this.el).children("li").filterByData("id", id),
+            curPath = tab.attr("title");
         
         // Change title attr
-        tab.attr('title', tab.attr('title').replace(oldPath, newPath));
+        tab.attr("title", tab.attr("title").replace(oldPath, newPath));
         
         if (curPath===oldPath) {
             // Full path match, change label
-            tab.children('label').text(nodedit.filemanager.getFileName(newPath));
+            tab.children("label").text(nodedit.filemanager.getFileName(newPath));
         }
         
     },
@@ -1151,10 +1161,10 @@ nodedit.tabs = {
      */
     setActive: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('li').removeClass('active');
-        nodedit.$el.find('#tabs-reveal-menu').children('li').removeClass('active');
-        nodedit.$el.find(_this.el).children('li').filterByData('id', id).addClass('active');
-        nodedit.$el.find('#tabs-reveal-menu').children('li').filterByData('id', id).addClass('active');
+        nodedit.$el.find(_this.el).children("li").removeClass("active");
+        nodedit.$el.find("#tabs-reveal-menu").children("li").removeClass("active");
+        nodedit.$el.find(_this.el).children("li").filterByData("id", id).addClass("active");
+        nodedit.$el.find("#tabs-reveal-menu").children("li").filterByData("id", id).addClass("active");
     },
     
     /**
@@ -1163,8 +1173,8 @@ nodedit.tabs = {
      */
     getActive: function () {
         var _this = this;
-        if (nodedit.$el.find(_this.el).children('li.active').length!==0) {
-            return nodedit.$el.find(_this.el).children('li.active').data('id');
+        if (nodedit.$el.find(_this.el).children("li.active").length!==0) {
+            return nodedit.$el.find(_this.el).children("li.active").data("id");
         } else {
             return false;
         }
@@ -1177,7 +1187,7 @@ nodedit.tabs = {
      */
     bindClose: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).find('li').filterByData('id', id).on('click', 'a', function (e) {
+        nodedit.$el.find(_this.el).find("li").filterByData("id", id).on("click", "a", function (e) {
             e.stopPropagation(); // Stop propagation to tab (li) item
             nodedit.editor.close(id);
         });
@@ -1190,7 +1200,7 @@ nodedit.tabs = {
      */
     bindClick: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).find('li').filterByData('id', id).on('click', function () {
+        nodedit.$el.find(_this.el).find("li").filterByData("id", id).on("click", function () {
             nodedit.editor.gotoInstance(id);
         });
     },
@@ -1202,11 +1212,11 @@ nodedit.tabs = {
      */
     markChanged: function (id) {
         var _this = this,
-            label = nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label');
+            label = nodedit.$el.find(_this.el).children("li").filterByData("id", id).children("label");
         
         // Compare to initial state
-        if (nodedit.editor.getContent(id)!=nodedit.editor.instances[id].content) {
-            label.addClass('changed');
+        if (nodedit.editor.getContent(id)!==nodedit.editor.instances[id].content) {
+            label.addClass("changed");
         } else {
             _this.markUnchanged(id);
         }
@@ -1219,7 +1229,7 @@ nodedit.tabs = {
      */
     markUnchanged: function (id) {
         var _this = this;
-        nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label').removeClass('changed');
+        nodedit.$el.find(_this.el).children("li").filterByData("id", id).children("label").removeClass("changed");
     },
     
     /**
@@ -1232,12 +1242,12 @@ nodedit.tabs = {
             i;
         if (id) {
             // Check for specific editor with unsaved changes
-            if (nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label').hasClass('changed')) {
+            if (nodedit.$el.find(_this.el).children("li").filterByData("id", id).children("label").hasClass("changed")) {
                 return true;
             }
         } else {
             for (i in nodedit.editor.instances) {
-                if (nodedit.$el.find(_this.el).children('li').filterByData('id', id).children('label').hasClass('changed')) {
+                if (nodedit.$el.find(_this.el).children("li").filterByData("id", id).children("label").hasClass("changed")) {
                     return true;
                 }
             }
@@ -1255,7 +1265,7 @@ nodedit.tabs = {
 nodedit.bookmarks = {
     
     // Nodedit bookmarks file (saves to root)
-    nebfile: '/.nebmarks',
+    nebfile: "/.nebmarks",
     
     /**
      * Retreives list of bookmarks from node
@@ -1283,52 +1293,51 @@ nodedit.bookmarks = {
      */
     showList: function (e) {
         // Create element
-        nodedit.$el.append('<div id="bookmark-menu"><ul></ul><hr><a id="edit-bookmarks"><span class="icon-edit"></span> Edit Bookmarks</a></div>');
+        nodedit.$el.append("<div id=\"bookmark-menu\"><ul></ul><hr><a id=\"edit-bookmarks\"><span class=\"icon-edit\"></span> Edit Bookmarks</a></div>");
         
         var _this = this,
-            item,
             output,
-            menu = nodedit.$el.find('#bookmark-menu'),
+            menu = nodedit.$el.find("#bookmark-menu"),
             trigger = nodedit.$el.find(e.target),
             trigger_pos = trigger.position();
         
         // Get list
         _this.getList(function (list) {
             if (!list) {
-                nodedit.message.error('No bookmarks. Right-click directory to bookmark.');
+                nodedit.message.error("No bookmarks. Right-click directory to bookmark.");
                 menu.remove();
             } else {
                 menu.css({
                     // Set top and left relative to trigger
-                    top: (trigger_pos.top + trigger.outerHeight() + 5)+'px', 
-                    left: trigger_pos.left-10+'px' 
+                    top: (trigger_pos.top + trigger.outerHeight() + 5)+"px", 
+                    left: trigger_pos.left-10+"px" 
                 })
-                .on('mouseleave click', function () {
+                .on("mouseleave click", function () {
                     // Remove on mouseleave
                     menu.remove();
                 });
                 
                 // Set root first
-                output = '<li><a data-name="'+nodedit.filemanager.root_name+'" data-path="/"><span class="icon-cloud"></span> '+nodedit.filemanager.root_name+'</a></li>';
+                output = "<li><a data-name=\""+nodedit.filemanager.root_name+"\" data-path=\"/\"><span class=\"icon-cloud\"></span> "+nodedit.filemanager.root_name+"</a></li>";
                 
                 // Build list
                 for (var item in list) {
-                    output += '<li><a data-name="'+item+'" data-path="'+list[item]+'"><span class="icon-star"></span> '+item+'</a></li>';
+                    output += "<li><a data-name=\""+item+"\" data-path=\""+list[item]+"\"><span class=\"icon-star\"></span> "+item+"</a></li>";
                 }
                 
                 // Set in menu and show
-                menu.show().children('ul').html(output);
+                menu.show().children("ul").html(output);
                 
                 // Bind click on items
-                menu.find('a').click(function () {
-                    if ($(this).data('path')==='/') {
+                menu.find("a").click(function () {
+                    if ($(this).data("path")==="/") {
                         // Clear bookmark if root
                         _this.clearCurrent();
-                    } else if ($(this).attr('id')==='edit-bookmarks'){
+                    } else if ($(this).attr("id")==="edit-bookmarks"){
                         _this.openDialog();
                     }else {
                         // Set current bookmark
-                        _this.setCurrent($(this).data('name'), $(this).data('path'));
+                        _this.setCurrent($(this).data("name"), $(this).data("path"));
                     }
                 });
                 
@@ -1342,16 +1351,16 @@ nodedit.bookmarks = {
      * @param {object} [add] Object containing name and path of a new bookmark
      */
     openDialog: function (add) {
-        var _this = this,
-            tmpl_data = {},
-            item,
-            i = 0,
-            save_data_raw = [],
-            save_data_formatted = {},
-            cur_node;
+        var _this = this;
         
         // Get list of current bookmarks
         _this.getList(function (list) {
+            var tmpl_data = {},
+                item,
+                i = 0, z,
+                save_data_raw = [],
+                save_data_formatted = {},
+                cur_node;
             
             // If adding, create new node for template
             if (add) {
@@ -1366,41 +1375,40 @@ nodedit.bookmarks = {
             }
             
             // Open modal and load template
-            nodedit.modal.open(500, 'Bookmarks', 'bookmarks.tpl', tmpl_data, function () {
+            nodedit.modal.open(500, "Bookmarks", "bookmarks.tpl", tmpl_data, function () {
                 
                 // Bind to delete icons
-                nodedit.$el.find(nodedit.modal.el).on('click', '.icon-trash', function (e) {
-                    $(this).parent('td').parent('tr').remove();
+                nodedit.$el.find(nodedit.modal.el).on("click", ".icon-trash", function () {
+                    $(this).parent("td").parent("tr").remove();
                 });
                 
                 var fixHelper = function(e, tr) {
                     var $originals = tr.children();
                     var $helper = tr.clone();
-                    $helper.children().each(function(index)
-                    {
-                      $(this).width($originals.eq(index).width())
+                    $helper.children().each(function (index) {
+                        $(this).width($originals.eq(index).width());
                     });
                     return $helper;
                 };
                 
-                nodedit.$el.find(nodedit.modal.el).find('table tbody').sortable({ 
-                    items: 'tr',
-                    handle: '.icon-resize-vertical',
+                nodedit.$el.find(nodedit.modal.el).find("table tbody").sortable({ 
+                    items: "tr",
+                    handle: ".icon-resize-vertical",
                     start: function(e, ui){
                         ui.placeholder.height(ui.item.height());
-                        ui.item.css('border','none');
+                        ui.item.css("border","none");
                     },
                     helper: fixHelper
                 }).disableSelection(); 
                 
                 // Handle form submission
-                nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+                nodedit.$el.find(nodedit.modal.el).on("submit", "form", function (e) {
                     e.preventDefault();
                     // Serialize form data to array
                     save_data_raw = $(this).serializeArray();
                     // Format data to object
                     for (i=0, z=save_data_raw.length; i<z; i++) {
-                        if(save_data_raw[i].name==='name'){
+                        if(save_data_raw[i].name==="name"){
                             // Sets the key
                             cur_node = save_data_raw[i].value;
                         } else {
@@ -1423,20 +1431,20 @@ nodedit.bookmarks = {
      * @param {object} [add] Object containing name and path of a new bookmark
      */
     addBookmark: function (add) {
-        var _this = this,
-            item;
+        var _this = this;
         _this.getList(function (list) {
+            var item;
             for (item in list) {
                 if (list[item]===add.path) {
                     // Bookmark already exists
-                    nodedit.message.error('Already bookmarked as '+item);
+                    nodedit.message.error("Already bookmarked as "+item);
                     return false;
                 }
             }
             
-            // Can't bookmark root
-            if (add.path==='/') {
-                nodedit.message.error('You don&apos;t need to bookmark root');
+            // Can"t bookmark root
+            if (add.path==="/") {
+                nodedit.message.error("You don&apos;t need to bookmark root");
                 return false;
             }
             
@@ -1456,7 +1464,7 @@ nodedit.bookmarks = {
         nodedit.fsapi.createFile(_this.nebfile, function () {
             // Put contents in file
             nodedit.fsapi.save(_this.nebfile, JSON.stringify(bookmarks, null, 4), function () {
-                nodedit.message.success('Bookmarks successfully saved');    
+                nodedit.message.success("Bookmarks successfully saved");    
             });
         });
     },
@@ -1468,7 +1476,7 @@ nodedit.bookmarks = {
      * @param {string} path The path (from root)
      */
     setCurrent: function (name, path) {
-        nodedit.store('nodedit_bookmark', { name: name, path: path });
+        nodedit.store("nodedit_bookmark", { name: name, path: path });
         // Reinitialize filemanager
         nodedit.filemanager.init();
     },
@@ -1478,7 +1486,7 @@ nodedit.bookmarks = {
      * @method nodedit.bookmarks.clearCurrent
      */
     clearCurrent: function () {
-        nodedit.store('nodedit_bookmark', null);
+        nodedit.store("nodedit_bookmark", null);
         // Reinitialize filemanager
         nodedit.filemanager.init();
     },
@@ -1488,7 +1496,7 @@ nodedit.bookmarks = {
      * @method nodedit.bookmarks.getCurrent
      */
     getCurrent: function () {
-        return JSON.parse(nodedit.store('nodedit_bookmark'));
+        return JSON.parse(nodedit.store("nodedit_bookmark"));
     }
     
 };/**
@@ -1497,11 +1505,11 @@ nodedit.bookmarks = {
  */
 nodedit.filemanager = {
     
-    el: '#filemanager',
+    el: "#filemanager",
     
     clipboard: null,
     
-    root_name: 'Node Root',
+    root_name: "Node Root",
 
     /**
      * Starts the filemanager
@@ -1514,7 +1522,7 @@ nodedit.filemanager = {
             isBookmark = false;
             
         // Clear out filemanager
-        nodedit.$el.find(_this.el).html('');
+        nodedit.$el.find(_this.el).html("");
             
         // Check for bookmark
         if (nodedit.bookmarks.getCurrent()) {
@@ -1524,12 +1532,12 @@ nodedit.filemanager = {
         }
         
         // Check and destroy resize binding
-        if (_this.hasOwnProperty('bound')) {
+        if (_this.hasOwnProperty("bound")) {
             nodedit.$el.find(_this.el).resizable( "destroy" );
         }
         
         // Load up filemanager
-        nodedit.template('filemanager.tpl', {root: root, root_name: root_name, bookmark: isBookmark}, function (tmpl) {
+        nodedit.template("filemanager.tpl", {root: root, root_name: root_name, bookmark: isBookmark}, function (tmpl) {
             // Load DOM
             nodedit.$el.find(_this.el).html(tmpl);
             // Open root 
@@ -1548,21 +1556,21 @@ nodedit.filemanager = {
         
         // Resize
         nodedit.$el.find(_this.el).resizable({  
-            handles: { 'e': '#resize-handle', 'w': '#resize-handle' },
+            handles: { "e": "#resize-handle", "w": "#resize-handle" },
             minWidth: 65,
             resize: function(event, ui){
                 // Resize editors
-                nodedit.editor.resize(ui.size.width+'px');
+                nodedit.editor.resize(ui.size.width+"px");
             }
         });
         
         // Prevent re-binds
-        if (!_this.hasOwnProperty('bound')) {
+        if (!_this.hasOwnProperty("bound")) {
             
             // Bind directory click
-            nodedit.$el.find(_this.el).on('click', 'a.directory', function () {
-                var path = $(this).parent('li').data('path');
-                if($(this).parent('li').hasClass('open')) {
+            nodedit.$el.find(_this.el).on("click", "a.directory", function () {
+                var path = $(this).parent("li").data("path");
+                if($(this).parent("li").hasClass("open")) {
                     _this.closeDirectory(path);
                 } else {
                     _this.openDirectory(path);
@@ -1570,54 +1578,54 @@ nodedit.filemanager = {
             });
             
             // Bind file click
-            nodedit.$el.find(_this.el).on('click', 'a.file', function () {
-                nodedit.filemanager.openFile($(this).parent('li').data('path'));
+            nodedit.$el.find(_this.el).on("click", "a.file", function () {
+                nodedit.filemanager.openFile($(this).parent("li").data("path"));
             });
             
             // Add data transfer to jQ props
             $.event.props.push("dataTransfer");
             // Bind Upload Handlers
-            nodedit.$el.find(_this.el).on('dragover', 'a.directory', function (e) {
+            nodedit.$el.find(_this.el).on("dragover", "a.directory", function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                e.dataTransfer.dropEffect = 'copy';
-                $('.dragover').removeClass('dragover');
-                $(this).addClass('dragover');
+                e.dataTransfer.dropEffect = "copy";
+                $(".dragover").removeClass("dragover");
+                $(this).addClass("dragover");
                 // Remove class
-                nodedit.$el.on('mouseover dragover', function () {
-                    $('.dragover').removeClass('dragover');
+                nodedit.$el.on("mouseover dragover", function () {
+                    $(".dragover").removeClass("dragover");
                 });
             });
             
             // Bind drop of files
-            nodedit.$el.find(_this.el).on('drop', 'a.directory', function (e) {
+            nodedit.$el.find(_this.el).on("drop", "a.directory", function (e) {
                 e.stopPropagation();
                 e.preventDefault();
-                _this.uploadDropFiles(e, $(this).parent('li').data('path'));
+                _this.uploadDropFiles(e, $(this).parent("li").data("path"));
             });
             
             // Bind context menu
-            nodedit.$el.find(_this.el).on('contextmenu', 'a', function (e) {
-                _this.contextMenu($(this).attr('class'), $(this).parent('li').data('path'), e);
+            nodedit.$el.find(_this.el).on("contextmenu", "a", function (e) {
+                _this.contextMenu($(this).attr("class"), $(this).parent("li").data("path"), e);
             });
             
             // Bind Exit Button
-            nodedit.$el.find(_this.el).on('click', '#disconnect', function () {
+            nodedit.$el.find(_this.el).on("click", "#disconnect", function () {
                 nodedit.connect.close();
             });
             
             // Bind Bookmarks Button
-            nodedit.$el.find(_this.el).on('click', '#bookmarks', function (e) {
+            nodedit.$el.find(_this.el).on("click", "#bookmarks", function (e) {
                 nodedit.bookmarks.showList(e);
             });
             
             // Bind Plugins Button
-            nodedit.$el.find(_this.el).on('click', '#plugins', function (e) {
+            nodedit.$el.find(_this.el).on("click", "#plugins", function (e) {
                 nodedit.plugins.showList(e);
             });
             
             // Bind Settings Button
-            nodedit.$el.find(_this.el).on('click', '#settings', function () {
+            nodedit.$el.find(_this.el).on("click", "#settings", function () {
                 nodedit.settings.edit();
             });
             
@@ -1637,66 +1645,66 @@ nodedit.filemanager = {
     contextMenu: function (type, path, e) {
         
         // Remove existing context menus
-        nodedit.$el.find(this.el).find('.context-menu').remove();
+        nodedit.$el.find(this.el).find(".context-menu").remove();
         
         // Prevent default context menu
         e.preventDefault();
         
         var _this = this,
-            object = nodedit.$el.find(_this.el).find('li').filterByData('path', path).children('a'),
+            object = nodedit.$el.find(_this.el).find("li").filterByData("path", path).children("a"),
             tplDir;
             
-        (type==='directory') ? tplDir = 'dir' : tplDir = null;
+        (type==="directory") ? tplDir = "dir" : tplDir = null;
         
-        nodedit.template('filemanager_context_menu.tpl', { dir: tplDir, clipboard: _this.clipboard }, function (tmpl) {
+        nodedit.template("filemanager_context_menu.tpl", { dir: tplDir, clipboard: _this.clipboard }, function (tmpl) {
             nodedit.$el.find(_this.el).append(tmpl);
-            nodedit.$el.find(_this.el).children('.context-menu').css({
+            nodedit.$el.find(_this.el).children(".context-menu").css({
                 top: e.pageY-20,
                 left: e.pageX-20
             });
             
             // Highlight object
-            object.addClass('menu-open');
+            object.addClass("menu-open");
             
             // Bind item click
-            $('.context-menu').on('click', 'a', function () {
-               switch ($(this).attr('id')) {     
-                    case 'new_file':
-                        _this.createObject(path, 'file');
-                        break;
-                    case 'new_directory':
-                        _this.createObject(path, 'directory');
-                        break;
-                    case 'bookmark':
-                        nodedit.bookmarks.addBookmark({ name: _this.getFileName(path), path: path });
-                        break;
-                    case 'rename':
-                        _this.renameObject(path);
-                        break;
-                    case 'copy':
-                        _this.copyObject(path);
-                        break;
-                    case 'paste':
-                        _this.pasteObject(path);
-                        break;
-                    case 'delete':
-                        _this.deleteObject(path);
-                        break;
-               }   
+            $(".context-menu").on("click", "a", function () {
+                switch ($(this).attr("id")) {     
+                case "new_file":
+                    _this.createObject(path, "file");
+                    break;
+                case "new_directory":
+                    _this.createObject(path, "directory");
+                    break;
+                case "bookmark":
+                    nodedit.bookmarks.addBookmark({ name: _this.getFileName(path), path: path });
+                    break;
+                case "rename":
+                    _this.renameObject(path);
+                    break;
+                case "copy":
+                    _this.copyObject(path);
+                    break;
+                case "paste":
+                    _this.pasteObject(path);
+                    break;
+                case "delete":
+                    _this.deleteObject(path);
+                    break;
+                }   
             });
             
             // Hide on click
-            $('body').on('click', function () {
-                nodedit.$el.find(_this.el).children('.context-menu').remove();
+            $("body").on("click", function () {
+                nodedit.$el.find(_this.el).children(".context-menu").remove();
                 // Remove highlighting from node
-                object.removeClass('menu-open');
+                object.removeClass("menu-open");
             });
             
             // Hide on mouseleave
-            $('.context-menu').on('mouseleave', function () {
+            $(".context-menu").on("mouseleave", function () {
                 $(this).remove();
                 // Remove highlighting from node
-                object.removeClass('menu-open');
+                object.removeClass("menu-open");
             });
         });
     },
@@ -1714,22 +1722,22 @@ nodedit.filemanager = {
             var file = this, reader = new FileReader(), content, object;
             reader.onload = function () {
                 content = this.result;
-                (path!=='/') ? object = path+'/'+file.name : object = path+file.name;
+                (path!=="/") ? object = path+"/"+file.name : object = path+file.name;
                 
                 nodedit.fsapi.createFile(object, function (res) {
                     if (res) {
                         nodedit.fsapi.save(object, content, function (res) {
                             if (res) {
                                 // Success, save object
-                                _this.appendObject(path, object, 'file');
-                                nodedit.message.success('Successfully uploaded '+file.name);
+                                _this.appendObject(path, object, "file");
+                                nodedit.message.success("Successfully uploaded "+file.name);
                             } else {
-                                nodedit.message.error('Could not save contents of '+file.name);
+                                nodedit.message.error("Could not save contents of "+file.name);
                             }
-                        })
+                        });
                     } else {
                         // Error
-                        nodedit.message.error('Could not create '+file.name);
+                        nodedit.message.error("Could not create "+file.name);
                     }
                 });
             };
@@ -1752,24 +1760,25 @@ nodedit.filemanager = {
             if (data) {
                 // Add icon property to object
                 for (var item in data) {
-                    if (data[item].type==='directory') {
-                        data[item].icon = 'icon-folder-close';
+                    if (data[item].type==="directory") {
+                        data[item].icon = "icon-folder-close";
                     } else {
-                        data[item].icon = 'icon-file';
+                        data[item].icon = "icon-file";
                     }
                 }
                 // Load and compile template
-                nodedit.template('filemanager_dir.tpl', data, function (tmpl) {
-                    object = nodedit.$el.find(_this.el+' li').filterByData('path', path);
+                nodedit.template("filemanager_dir.tpl", data, function (tmpl) {
+                    var object;
+                    object = nodedit.$el.find(_this.el+" li").filterByData("path", path);
                     // Open and append content
-                    object.addClass('open').append(tmpl);
+                    object.addClass("open").append(tmpl);
                     // Change icon (except root)
-                    if (object.attr('id')!=='root') {
-                        object.children('a').children('span').attr('class','icon-folder-open');
+                    if (object.attr("id")!=="root") {
+                        object.children("a").children("span").attr("class","icon-folder-open");
                     }
                 });
             } else {
-                nodedit.message.error('Could not load directory');
+                nodedit.message.error("Could not load directory");
             }
         });
     },
@@ -1781,17 +1790,17 @@ nodedit.filemanager = {
      */
     closeDirectory: function (path) {
         var _this = this;
-        var object = nodedit.$el.find(_this.el+' li').filterByData('path', path);
+        var object = nodedit.$el.find(_this.el+" li").filterByData("path", path);
         
-        // Don't close root
-        if (object.attr('id')==='root') {
+        // Don"t close root
+        if (object.attr("id")==="root") {
             return false;
         }
         
         // Close and remove content
-        object.removeClass('open').children('ul').remove();
+        object.removeClass("open").children("ul").remove();
         // Change icon
-        object.children('a').children('span').attr('class','icon-folder-close');
+        object.children("a").children("span").attr("class","icon-folder-close");
     },
     
     /**
@@ -1802,11 +1811,11 @@ nodedit.filemanager = {
     openFile: function (path) {
         nodedit.fsapi.open(path, function (contents) {
             if (contents) {
-                // Returns 'true' on blank file, fix that s#@t
-                (contents.toString()==='true') ? contents = '' : contents = contents;
+                // Returns "true" on blank file, fix that s#@t
+                (contents.toString()==="true") ? contents = "" : contents = contents;
                 nodedit.editor.open(path, contents);
             } else {
-                nodedit.message.error('Could not open file');
+                nodedit.message.error("Could not open file");
             }
         });
     },
@@ -1823,10 +1832,10 @@ nodedit.filemanager = {
             // Check status
             if (status) {
                 // Show success
-                nodedit.message.success('File has been successfully saved');
+                nodedit.message.success("File has been successfully saved");
             } else {
                 // Show error
-                nodedit.message.error('The file could not be saved');
+                nodedit.message.error("The file could not be saved");
             }
             
             // Fire callback if preset
@@ -1843,7 +1852,7 @@ nodedit.filemanager = {
      * @param {string} path The path of the file
      */
     getFileName: function (path) {
-        var arrPath = path.split('/');
+        var arrPath = path.split("/");
         return arrPath[arrPath.length-1];
     },
     
@@ -1853,7 +1862,7 @@ nodedit.filemanager = {
      * @param {string} path The path of the file
      */
     getFileExtension: function (path) {
-        var arrName = this.getFileName(path).split('.');
+        var arrName = this.getFileName(path).split(".");
         return arrName[arrName.length-1];
     },
     
@@ -1869,17 +1878,17 @@ nodedit.filemanager = {
             newName,
             createType;
         // Open dialog
-        nodedit.modal.open(350, 'Create '+type, 'filemanager_create.tpl', {type: type}, function () {
+        nodedit.modal.open(350, "Create "+type, "filemanager_create.tpl", {type: type}, function () {
             // Listen for submit
-            nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+            nodedit.$el.find(nodedit.modal.el).on("submit", "form", function (e) {
                 e.preventDefault();
-                newName = $(this).children('[name="name"]').val();
-                if (newName==='') {
-                    nodedit.message.error('Please enter a '+type+' name');
+                newName = $(this).children("[name=\"name\"]").val();
+                if (newName==="") {
+                    nodedit.message.error("Please enter a "+type+" name");
                 } else {
-                    newObj = (path + '/' + newName).replace('//','/');
+                    newObj = (path + "/" + newName).replace("//","/");
                     // Create object
-                    (type==='directory') ? createType = 'dir' : createType = type;
+                    (type==="directory") ? createType = "dir" : createType = type;
                     nodedit.fsapi.create(newObj, createType, function (res) {
                         if (res) {
                             // Success, create object
@@ -1888,7 +1897,7 @@ nodedit.filemanager = {
                             nodedit.modal.close();
                         } else {
                             // Error
-                            nodedit.message.error('Could not create '+type);
+                            nodedit.message.error("Could not create "+type);
                         }
                     });
                 }
@@ -1905,20 +1914,20 @@ nodedit.filemanager = {
      */
     appendObject: function (parent, object, type) {
         var _this = this,
-            parentObj = nodedit.$el.find(_this.el).find('li').filterByData('path', parent),
+            parentObj = nodedit.$el.find(_this.el).find("li").filterByData("path", parent),
             name = _this.getFileName(object),
             icon;
             
         // Prevent duplicates
-        if (parentObj.find('li').filterByData('path', object).length!==0) {
+        if (parentObj.find("li").filterByData("path", object).length!==0) {
             return false;
         }
         
         // Ensure folder is open
-        if (parentObj.hasClass('open')) {
-            (type==='directory') ? icon = 'icon-folder-close' : icon = 'icon-file';
-            parentObj.children('ul')
-                .append('<li data-path="'+object+'"><a class="'+type+'"><span class="'+icon+'"></span>'+name+'</a></li>');
+        if (parentObj.hasClass("open")) {
+            (type==="directory") ? icon = "icon-folder-close" : icon = "icon-file";
+            parentObj.children("ul")
+                .append("<li data-path=\""+object+"\"><a class=\""+type+"\"><span class=\""+icon+"\"></span>"+name+"</a></li>");
         }
     },
     
@@ -1930,46 +1939,46 @@ nodedit.filemanager = {
     renameObject: function (path) {
         var _this = this,
             origName = _this.getFileName(path),
-            object = nodedit.$el.find(_this.el).find('li').filterByData('path', path),
+            object = nodedit.$el.find(_this.el).find("li").filterByData("path", path),
             type,
             newName,
             newObject,
             newPath;
             
-        // Don't rename root
-        if (object.attr('id')==='root') {
+        // Don"t rename root
+        if (object.attr("id")==="root") {
             nodedit.modal.close();
-            nodedit.message.error('Cannot rename the node root');
+            nodedit.message.error("Cannot rename the node root");
             return false;
         }
         
         // Get type
-        (object.children('a').attr('class').indexOf('directory') !== -1) ? type = 'directory' : type = 'file';
+        (object.children("a").attr("class").indexOf("directory") !== -1) ? type = "directory" : type = "file";
         
         // Open dialog
-        nodedit.modal.open(350, 'Rename', 'filemanager_rename.tpl', {path: path, name: origName }, function () {
+        nodedit.modal.open(350, "Rename", "filemanager_rename.tpl", {path: path, name: origName }, function () {
             // Listen for submit
-            nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+            nodedit.$el.find(nodedit.modal.el).on("submit", "form", function (e) {
                 e.preventDefault();
-                newName = $(this).children('[name="name"]').val();
+                newName = $(this).children("[name=\"name\"]").val();
                 // Ensure new name is supplied
-                if (newName==='' || newName===origName) {
-                    nodedit.message.error('Please enter a new '+type+' name');
+                if (newName==="" || newName===origName) {
+                    nodedit.message.error("Please enter a new "+type+" name");
                 } else {
                     // Process rename
                     nodedit.fsapi.rename(path, newName, function (res) {
                         if (res) {
                             // Change object
                             newPath = path.replace(origName, newName);
-                            object.data('path',newPath);
-                            newObject = object.children('a').html().replace(origName, newName);
-                            object.children('a').html(newObject);
+                            object.data("path",newPath);
+                            newObject = object.children("a").html().replace(origName, newName);
+                            object.children("a").html(newObject);
                             // Change any children paths
-                            if (type==='directory') {
+                            if (type==="directory") {
                                 // Change any sub-paths
-                                $.each(nodedit.$el.find(_this.el).find('li'), function () {
-                                    if ($(this).data('path').indexOf(path)===0 && $(this).data('path')!==newPath) {
-                                        $(this).data('path', $(this).data('path').replace(path, newPath));   
+                                $.each(nodedit.$el.find(_this.el).find("li"), function () {
+                                    if ($(this).data("path").indexOf(path)===0 && $(this).data("path")!==newPath) {
+                                        $(this).data("path", $(this).data("path").replace(path, newPath));   
                                     } 
                                 });
                             }
@@ -1978,7 +1987,7 @@ nodedit.filemanager = {
                             // Close modal
                             nodedit.modal.close();
                         } else {
-                            nodedit.message.error('Could not rename '+type);
+                            nodedit.message.error("Could not rename "+type);
                         }    
                     });
                 }
@@ -1994,7 +2003,7 @@ nodedit.filemanager = {
     copyObject: function (path) {
         var _this = this;
         _this.clipboard = path;
-        nodedit.message.success('Copied to clipboard');
+        nodedit.message.success("Copied to clipboard");
     },
     
     /**
@@ -2005,21 +2014,21 @@ nodedit.filemanager = {
     pasteObject: function (path) {
         var _this = this,
             name = _this.getFileName(_this.clipboard),
-            type = nodedit.$el.find(_this.el).find('li').filterByData('path', _this.clipboard).children('a').attr('class');
+            type = nodedit.$el.find(_this.el).find("li").filterByData("path", _this.clipboard).children("a").attr("class");
             
         // Check for duplicate condition
-        if(nodedit.$el.find(_this.el).find('li').filterByData('path', path+'/'+name).length>0) {
-            name = 'copy_of_'+name;
+        if(nodedit.$el.find(_this.el).find("li").filterByData("path", path+"/"+name).length>0) {
+            name = "copy_of_"+name;
         }
         
         // Create copy
-        nodedit.fsapi.copy(_this.clipboard, path+'/'+name, function (res) {
+        nodedit.fsapi.copy(_this.clipboard, path+"/"+name, function (res) {
             if (res) {
                 // Append to filemanager
-                _this.appendObject(path, path+'/'+name, type);
+                _this.appendObject(path, path+"/"+name, type);
             } else {
                 // Copy procedure failed
-                nodedit.message.error('Could not create a copy');
+                nodedit.message.error("Could not create a copy");
             }
         });
     },
@@ -2033,27 +2042,27 @@ nodedit.filemanager = {
         var _this = this;
         
         // Block deleting root
-        if (path==='/') {
+        if (path==="/") {
             nodedit.modal.close();
-            nodedit.message.error('Cannot delete the node root');
+            nodedit.message.error("Cannot delete the node root");
             return false;
         }
         
         // Open dialog
-        nodedit.modal.open(350, 'Delete?', 'filemanager_delete.tpl', {path: path}, function () {
+        nodedit.modal.open(350, "Delete?", "filemanager_delete.tpl", {path: path}, function () {
             // Listen for submit
-            nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+            nodedit.$el.find(nodedit.modal.el).on("submit", "form", function (e) {
                 e.preventDefault();
                 // Delete object
                 nodedit.fsapi.delete(path, function (res) {
                     if (res) {
                         // Remove object
-                        nodedit.$el.find(_this.el).find('li').filterByData('path', path).remove();
+                        nodedit.$el.find(_this.el).find("li").filterByData("path", path).remove();
                         // Close modal
                         nodedit.modal.close();
                     } else {
                         // Failed to delete
-                        nodedit.message.error('Could not delete object');
+                        nodedit.message.error("Could not delete object");
                     }
                 });
             });
@@ -2066,9 +2075,9 @@ nodedit.filemanager = {
  */
 nodedit.editor = {
     
-    el: '#editor',
+    el: "#editor",
     
-    instance_el: '#instances',
+    instance_el: "#instances",
     
     instances: {},
     instance_modes: {},
@@ -2078,29 +2087,29 @@ nodedit.editor = {
     */
 
     available_extensions: {
-        'html': 'html',
-        'htm': 'html',
-        'tpl': 'html',
-        'twig': 'html',
-        'js': 'javascript',
-        'css': 'css',
-        'txt': 'text',
-        'text': 'text',
-        'scss': 'scss',
-        'sass': 'sass',
-        'less': 'less',
-        'php': 'php',
-        'php5': 'php',
-        'jsp': 'jsp',
-        'coffee': 'coffee',
-        'json': 'json',
-        'xml': 'xml',
-        'svg': 'xml',
-        'sql': 'sql',
-        'md': 'markdown',
-        'py': 'python',
-        'sh': 'sh',
-        'rb': 'ruby'
+        "html": "html",
+        "htm": "html",
+        "tpl": "html",
+        "twig": "html",
+        "js": "javascript",
+        "css": "css",
+        "txt": "text",
+        "text": "text",
+        "scss": "scss",
+        "sass": "sass",
+        "less": "less",
+        "php": "php",
+        "php5": "php",
+        "jsp": "jsp",
+        "coffee": "coffee",
+        "json": "json",
+        "xml": "xml",
+        "svg": "xml",
+        "sql": "sql",
+        "md": "markdown",
+        "py": "python",
+        "sh": "sh",
+        "rb": "ruby"
     }, 
 
     /**
@@ -2113,13 +2122,13 @@ nodedit.editor = {
             observer = nodedit.observer;
         
         // Load editor template
-        nodedit.template('editor.tpl')
+        nodedit.template("editor.tpl")
             .done(function (tmpl) {
                 // Load DOM
                 nodedit.$el.find(_this.el).html(tmpl);
                 // Adjust height for top-bar
-                var calcHeight = nodedit.$el.outerHeight() - nodedit.$el.find('.top-bar').outerHeight(true);
-                nodedit.$el.find(_this.el).css({'height':calcHeight+'px'});
+                var calcHeight = nodedit.$el.outerHeight() - nodedit.$el.find(".top-bar").outerHeight(true);
+                nodedit.$el.find(_this.el).css({"height":calcHeight+"px"});
             });
         
         // Bind save key
@@ -2131,7 +2140,7 @@ nodedit.editor = {
         });
         
         // Subscribe to changes to editors
-        observer.subscribe('editor_change', function (id) {
+        observer.subscribe("editor_change", function (id) {
             nodedit.tabs.markChanged(id);
         });
         
@@ -2148,11 +2157,9 @@ nodedit.editor = {
         var _this = this,
             ext = nodedit.filemanager.getFileExtension(path),
             mode = _this.getMode(ext),
-            editor = [],
             i,
             id,
-            exists = false,
-            config = nodedit.settings.get();
+            exists = false;
         
         // Check for path in instances
         for (i in _this.instances) {
@@ -2165,7 +2172,7 @@ nodedit.editor = {
         // Check for invalid mode/extension
         if (!mode) {
             // Mode not supported
-            nodedit.message.error('Can not open file type '+ext);
+            nodedit.message.error("Can not open file type "+ext);
             return false;
         }
         
@@ -2182,10 +2189,10 @@ nodedit.editor = {
             };
             
             // New Editor Instance
-            nodedit.$el.find(_this.instance_el).append('<li class="editor" id="editor'+id+'" data-id="'+id+'"></li>');
+            nodedit.$el.find(_this.instance_el).append("<li class=\"editor\" id=\"editor"+id+"\" data-id=\""+id+"\"></li>");
             
             // Instantiates Ace editor
-            _this.instances[id].editor = ace.edit('editor'+id);
+            _this.instances[id].editor = ace.edit("editor"+id);
             
             // Set editor mode
             _this.setMode(mode, id);
@@ -2200,7 +2207,7 @@ nodedit.editor = {
             _this.setContent(content, id);
             
             // New tab
-            nodedit.tabs.open(id, nodedit.filemanager.getFileName(path));
+            nodedit.tabs.open(id);
             
             // Focus
             _this.instances[id].editor.focus();
@@ -2223,7 +2230,7 @@ nodedit.editor = {
             i,
             setConf = function(_this, config, id) {
                 _this.setTheme(config.theme, id);
-                _this.setFontSize(parseInt(config.fontsize), id);
+                _this.setFontSize(parseInt(config.fontsize,10), id);
                 _this.setPrintMargin(config.printmargin, id);
                 _this.setHighlightLine(config.highlightline, id);
                 _this.setIndentGuides(config.indentguides, id);
@@ -2248,9 +2255,10 @@ nodedit.editor = {
      * @param {number} w The width of the sidebar (translates to margin-left of #editor)
      */
     resize: function(w){
-        var _this = this;
+        var _this = this,
+            i;
         nodedit.$el.find(_this.el).css({ 
-            'margin-left': w
+            "margin-left": w
         });
         for (i in _this.instances) {
             _this.instances[i].editor.resize();
@@ -2270,7 +2278,7 @@ nodedit.editor = {
             // Close tab
             nodedit.tabs.close(id);
             // Remove editor instance from DOM
-            nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).remove();    
+            nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).remove();    
             // Remove instance
             delete _this.instances[id];
         };
@@ -2278,11 +2286,11 @@ nodedit.editor = {
         // Check for unsaved changes
         if (nodedit.tabs.checkChanged(id)) {            
             // Open dialog
-            nodedit.modal.open(500, 'Close Without Saving?', 'editor_confirm_close.tpl', {}, function () {
+            nodedit.modal.open(500, "Close Without Saving?", "editor_confirm_close.tpl", {}, function () {
                 // Show diff
-                $(nodedit.modal.el).find('#diffreg').html(_this.getDiff(id));
+                $(nodedit.modal.el).find("#diffreg").html(_this.getDiff(id));
                 // Listen for submit
-                nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+                nodedit.$el.find(nodedit.modal.el).on("submit", "form", function (e) {
                     e.preventDefault();
                     // Close
                     closeIt(_this, id);
@@ -2351,7 +2359,7 @@ nodedit.editor = {
         // Check for active tab
         if (!id) {
             // No active tabs, show error
-            nodedit.message.error('No active files to save');
+            nodedit.message.error("No active files to save");
         } else {
             // Get content
             content = _this.getContent(id);
@@ -2380,8 +2388,8 @@ nodedit.editor = {
         nodedit.tabs.setActive(id);
         
         // Show editor
-        nodedit.$el.find(_this.instance_el).children('li').hide();
-        nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).show();
+        nodedit.$el.find(_this.instance_el).children("li").hide();
+        nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).show();
     },
     
     /**
@@ -2393,7 +2401,7 @@ nodedit.editor = {
         var _this = this,
             cur_id;
         for (cur_id in _this.instances) {
-            if (cur_id == id) {
+            if (parseInt(cur_id,10) === parseInt(id,10)) {
                 return _this.instances[id].path; 
             }
         }
@@ -2419,8 +2427,9 @@ nodedit.editor = {
      */
     getContent: function(id){
         var _this = this;
-            // Eiter pull contents of specified editor or get active instance
-            id = id || nodedit.tabs.getActive();
+            
+        // Eiter pull contents of specified editor or get active instance
+        id = id || nodedit.tabs.getActive();
             
         // Return data
         if (!id) {
@@ -2439,11 +2448,13 @@ nodedit.editor = {
      */
     getMode: function (ext) {
         // Check for hidden (.xxxxxx) files
-        (ext.length>4) ? ext = 'text' : ext = ext;
+        (ext.length>4) ? ext = "text" : ext = ext;
         // Is the extensions available?
-        if(this.available_extensions[ext])
-        	return this.available_extensions[ext];
-        return false;
+        if (this.available_extensions[ext]) {
+            return this.available_extensions[ext];
+        } else {
+            return false;
+        }
     },
     
     /**
@@ -2536,18 +2547,18 @@ nodedit.editor = {
             observer = nodedit.observer;
         
         // Change
-        _this.instances[id].editor.on('change', function () {
-            observer.publish('editor_change', id);
+        _this.instances[id].editor.on("change", function () {
+            observer.publish("editor_change", id);
         });
         
         // Blur
-        _this.instances[id].editor.on('blur', function () {
-            observer.publish('editor_blur', id);
+        _this.instances[id].editor.on("blur", function () {
+            observer.publish("editor_blur", id);
         });
         
         // Focus
-        _this.instances[id].editor.on('focus', function () {
-            observer.publish('editor_focus', id);
+        _this.instances[id].editor.on("focus", function () {
+            observer.publish("editor_focus", id);
         });
     }
     
@@ -2571,18 +2582,18 @@ nodedit.plugins = {
      * @method nodedit.plugins.init
      */
     init: function () {
-        var _this = this,
-            plugin;
+        var _this = this;
         
         // Set plugin_dir based on environment
-        if(nodedit.env==='dist') {
-            nodedit.plugins.plugin_dir = 'plugins/';
+        if(nodedit.env==="dist") {
+            nodedit.plugins.plugin_dir = "plugins/";
         } else {
-            nodedit.plugins.plugin_dir = '../plugins/';
+            nodedit.plugins.plugin_dir = "../plugins/";
         }
         
         // Get plugins
-        $.get(nodedit.plugins.plugin_dir+'plugins.json', function (list) {
+        $.get(nodedit.plugins.plugin_dir+"plugins.json", function (list) {
+            var plugin;
             for (plugin in list) {
                 // Send to register method
                 _this.register(plugin, list[plugin]);
@@ -2597,21 +2608,17 @@ nodedit.plugins = {
      * @param {string} directory The directory name inside of /plugins
      */
     register: function (name, directory) {
-        var _this = this,
-            script = document.createElement( 'script' ),
-            plugin,
-            i, z,
-            deps = [],
-            tpl;
+        var _this = this;
         
-        $.get(_this.plugin_dir+directory+'/plugin.js', function (plugin) {
-            // This is an appropriate use-case for eval(). I don't want to see an issue in GitHub about
+        $.get(_this.plugin_dir+directory+"/plugin.js", function (plugin) {
+            var tpl;
+            // This is an appropriate use-case for eval(). I don"t want to see an issue in GitHub about
             // eval === evil unless you have imperical proof and code showing a more efficient way to 
             // accomplish this...
             plugin = eval(plugin);
             
             // Add to menu list
-            if (plugin.hasOwnProperty('onMenu')) {
+            if (plugin.hasOwnProperty("onMenu")) {
                 _this.plugin_menu[name] = {
                     icon: plugin.icon,
                     object: directory
@@ -2619,39 +2626,28 @@ nodedit.plugins = {
             }
             
             // Properly path templates
-            if (plugin.hasOwnProperty('templates')) {
+            if (plugin.hasOwnProperty("templates")) {
                 for (tpl in plugin.templates) {
-                    plugin.templates[tpl] = nodedit.plugins.plugin_dir + directory + '/' + plugin.templates[tpl];
+                    plugin.templates[tpl] = nodedit.plugins.plugin_dir + directory + "/" + plugin.templates[tpl];
                 }
             }
             
             // Check for and load dependencies
-            if (plugin.hasOwnProperty('dependencies') && plugin.dependencies.length>0) {
-                // Load dep's
-                _this.loadDependencies(plugin.dependencies, nodedit.plugins.plugin_dir+directory+'/', function () {
+            if (plugin.hasOwnProperty("dependencies") && plugin.dependencies.length>0) {
+                // Load dep"s
+                _this.loadDependencies(plugin.dependencies, nodedit.plugins.plugin_dir+directory+"/", function () {
                     // Fire init (if available)
-                    if (plugin.hasOwnProperty('init')) {
+                    if (plugin.hasOwnProperty("init")) {
                         plugin.init();
                     }
                 });
             } else {
-                // No dep's, fire init (if available)
-                if (plugin.hasOwnProperty('init')) {
+                // No dep"s, fire init (if available)
+                if (plugin.hasOwnProperty("init")) {
                     plugin.init();
                 }
             }
         });
-    },
-    
-    /**
-     * Adds menu object for plugin
-     * @param {string} name The name of the plugin
-     * @param {string} directory The directory of the plugin
-     * @param {string} icon The icon for the plugin
-     * @param {function} fn The function to call when menu object is clicked
-     */
-    addMenuObject: function (name, directory, icon, fn) {
-    
     },
     
     /**
@@ -2661,39 +2657,40 @@ nodedit.plugins = {
      * @param {requestCallback} fn The callback to fire on completion
      */
     loadDependencies: function(scripts, base_path, fn) {
-        var _this = this,
-            loadCount = 0,
+        var loadCount = 0,
             totalRequired = scripts.length;
         
         // Record loaded and callback once all scripts loaded
-        var loaded = function (evt) {
+        var loaded = function () {
             loadCount++;
-            if (loadCount == totalRequired && typeof fn == 'function') fn.call();
+            if (loadCount === totalRequired && typeof fn === "function") {
+                fn.call();
+            }
         };
         
         // Writes out dependency
         var writeScript = function (src) {
-            var ext = src.split('.').pop(),
+            var ext = src.split(".").pop(),
                 s;
                 
-            if (ext === 'js') {
+            if (ext === "js") {
                 // Create script ref
-                s = document.createElement('script');
+                s = document.createElement("script");
                 s.type = "text/javascript";
                 s.async = true;
                 s.src = base_path+src;
-                s.addEventListener('load', function (e) { loaded(e); }, false);
-                var body = document.getElementsByTagName('body')[0];
+                s.addEventListener("load", function (e) { loaded(e); }, false);
+                var body = document.getElementsByTagName("body")[0];
                 body.appendChild(s);
-            } else if (ext === 'css') {
+            } else if (ext === "css") {
                 // Create css link
-                s = document.createElement('link');    
+                s = document.createElement("link");    
                 s.type = "text/css";
                 s.rel = "stylesheet";
                 s.href = base_path+src;
                 s.async = true;
-                s.addEventListener('load', function (e) { loaded(e); }, false);
-                var head = document.getElementsByTagName('head')[0];
+                s.addEventListener("load", function (e) { loaded(e); }, false);
+                var head = document.getElementsByTagName("head")[0];
                 head.appendChild(s);
             } else {
                 // Not supported, call loaded
@@ -2701,7 +2698,7 @@ nodedit.plugins = {
             }
         };
         
-        // Loop through dep's
+        // Loop through dep"s
         for (var i = 0; i < scripts.length; i++) {
             writeScript(scripts[i]);
         }
@@ -2714,36 +2711,35 @@ nodedit.plugins = {
      */
     showList: function (e) {
         // Create element
-        nodedit.$el.append('<div id="plugin-menu"><ul></ul></div>');
+        nodedit.$el.append("<div id=\"plugin-menu\"><ul></ul></div>");
         
         var _this = this,
-            item,
-            output = '',
-            menu = nodedit.$el.find('#plugin-menu'),
+            output = "",
+            menu = nodedit.$el.find("#plugin-menu"),
             trigger = nodedit.$el.find(e.target),
             trigger_pos = trigger.position();
             
         if ($.isEmptyObject(_this.plugin_menu)) {
-            nodedit.message.error('No plugins have been installed');
+            nodedit.message.error("No plugins have been installed");
             menu.remove();
         } else {
             menu.css({
                 // Set top and left relative to trigger
-                top: (trigger_pos.top + trigger.outerHeight() + 5)+'px', 
-                left: trigger_pos.left-10+'px' 
+                top: (trigger_pos.top + trigger.outerHeight() + 5)+"px", 
+                left: trigger_pos.left-10+"px" 
             })
-            .on('mouseleave click', function () {
+            .on("mouseleave click", function () {
                 // Remove on mouseleave
                 menu.remove();
             });
             
             // Loop through and create DOM elements
             for (var plugin in _this.plugin_menu) {
-                output += '<li><a onclick="nodedit.plugin.'+_this.plugin_menu[plugin].object+'.onMenu();"><span class="'+_this.plugin_menu[plugin].icon+'"></span> '+plugin+'</a></li>';
+                output += "<li><a onclick=\"nodedit.plugin."+_this.plugin_menu[plugin].object+".onMenu();\"><span class=\""+_this.plugin_menu[plugin].icon+"\"></span> "+plugin+"</a></li>";
             }
             
             // Set in menu and show
-            menu.show().children('ul').html(output);
+            menu.show().children("ul").html(output);
             
         }
     }
