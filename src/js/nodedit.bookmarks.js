@@ -5,7 +5,7 @@
 nodedit.bookmarks = {
     
     // Nodedit bookmarks file (saves to root)
-    nebfile: '/.nebmarks',
+    nebfile: "/.nebmarks",
     
     /**
      * Retreives list of bookmarks from node
@@ -33,52 +33,51 @@ nodedit.bookmarks = {
      */
     showList: function (e) {
         // Create element
-        nodedit.$el.append('<div id="bookmark-menu"><ul></ul><hr><a id="edit-bookmarks"><span class="icon-edit"></span> Edit Bookmarks</a></div>');
+        nodedit.$el.append("<div id=\"bookmark-menu\"><ul></ul><hr><a id=\"edit-bookmarks\"><span class=\"icon-edit\"></span> Edit Bookmarks</a></div>");
         
         var _this = this,
-            item,
             output,
-            menu = nodedit.$el.find('#bookmark-menu'),
+            menu = nodedit.$el.find("#bookmark-menu"),
             trigger = nodedit.$el.find(e.target),
             trigger_pos = trigger.position();
         
         // Get list
         _this.getList(function (list) {
             if (!list) {
-                nodedit.message.error('No bookmarks. Right-click directory to bookmark.');
+                nodedit.message.error("No bookmarks. Right-click directory to bookmark.");
                 menu.remove();
             } else {
                 menu.css({
                     // Set top and left relative to trigger
-                    top: (trigger_pos.top + trigger.outerHeight() + 5)+'px', 
-                    left: trigger_pos.left-10+'px' 
+                    top: (trigger_pos.top + trigger.outerHeight() + 5)+"px", 
+                    left: trigger_pos.left-10+"px" 
                 })
-                .on('mouseleave click', function () {
+                .on("mouseleave click", function () {
                     // Remove on mouseleave
                     menu.remove();
                 });
                 
                 // Set root first
-                output = '<li><a data-name="'+nodedit.filemanager.root_name+'" data-path="/"><span class="icon-cloud"></span> '+nodedit.filemanager.root_name+'</a></li>';
+                output = "<li><a data-name=\""+nodedit.filemanager.root_name+"\" data-path=\"/\"><span class=\"icon-cloud\"></span> "+nodedit.filemanager.root_name+"</a></li>";
                 
                 // Build list
                 for (var item in list) {
-                    output += '<li><a data-name="'+item+'" data-path="'+list[item]+'"><span class="icon-star"></span> '+item+'</a></li>';
+                    output += "<li><a data-name=\""+item+"\" data-path=\""+list[item]+"\"><span class=\"icon-star\"></span> "+item+"</a></li>";
                 }
                 
                 // Set in menu and show
-                menu.show().children('ul').html(output);
+                menu.show().children("ul").html(output);
                 
                 // Bind click on items
-                menu.find('a').click(function () {
-                    if ($(this).data('path')==='/') {
+                menu.find("a").click(function () {
+                    if ($(this).data("path")==="/") {
                         // Clear bookmark if root
                         _this.clearCurrent();
-                    } else if ($(this).attr('id')==='edit-bookmarks'){
+                    } else if ($(this).attr("id")==="edit-bookmarks"){
                         _this.openDialog();
                     }else {
                         // Set current bookmark
-                        _this.setCurrent($(this).data('name'), $(this).data('path'));
+                        _this.setCurrent($(this).data("name"), $(this).data("path"));
                     }
                 });
                 
@@ -92,16 +91,16 @@ nodedit.bookmarks = {
      * @param {object} [add] Object containing name and path of a new bookmark
      */
     openDialog: function (add) {
-        var _this = this,
-            tmpl_data = {},
-            item,
-            i = 0,
-            save_data_raw = [],
-            save_data_formatted = {},
-            cur_node;
+        var _this = this;
         
         // Get list of current bookmarks
         _this.getList(function (list) {
+            var tmpl_data = {},
+                item,
+                i = 0, z,
+                save_data_raw = [],
+                save_data_formatted = {},
+                cur_node;
             
             // If adding, create new node for template
             if (add) {
@@ -116,41 +115,40 @@ nodedit.bookmarks = {
             }
             
             // Open modal and load template
-            nodedit.modal.open(500, 'Bookmarks', 'bookmarks.tpl', tmpl_data, function () {
+            nodedit.modal.open(500, "Bookmarks", "bookmarks.tpl", tmpl_data, function () {
                 
                 // Bind to delete icons
-                nodedit.$el.find(nodedit.modal.el).on('click', '.icon-trash', function (e) {
-                    $(this).parent('td').parent('tr').remove();
+                nodedit.$el.find(nodedit.modal.el).on("click", ".icon-trash", function () {
+                    $(this).parent("td").parent("tr").remove();
                 });
                 
                 var fixHelper = function(e, tr) {
                     var $originals = tr.children();
                     var $helper = tr.clone();
-                    $helper.children().each(function(index)
-                    {
-                      $(this).width($originals.eq(index).width())
+                    $helper.children().each(function (index) {
+                        $(this).width($originals.eq(index).width());
                     });
                     return $helper;
                 };
                 
-                nodedit.$el.find(nodedit.modal.el).find('table tbody').sortable({ 
-                    items: 'tr',
-                    handle: '.icon-resize-vertical',
+                nodedit.$el.find(nodedit.modal.el).find("table tbody").sortable({ 
+                    items: "tr",
+                    handle: ".icon-resize-vertical",
                     start: function(e, ui){
                         ui.placeholder.height(ui.item.height());
-                        ui.item.css('border','none');
+                        ui.item.css("border","none");
                     },
                     helper: fixHelper
                 }).disableSelection(); 
                 
                 // Handle form submission
-                nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+                nodedit.$el.find(nodedit.modal.el).on("submit", "form", function (e) {
                     e.preventDefault();
                     // Serialize form data to array
                     save_data_raw = $(this).serializeArray();
                     // Format data to object
                     for (i=0, z=save_data_raw.length; i<z; i++) {
-                        if(save_data_raw[i].name==='name'){
+                        if(save_data_raw[i].name==="name"){
                             // Sets the key
                             cur_node = save_data_raw[i].value;
                         } else {
@@ -173,20 +171,20 @@ nodedit.bookmarks = {
      * @param {object} [add] Object containing name and path of a new bookmark
      */
     addBookmark: function (add) {
-        var _this = this,
-            item;
+        var _this = this;
         _this.getList(function (list) {
+            var item;
             for (item in list) {
                 if (list[item]===add.path) {
                     // Bookmark already exists
-                    nodedit.message.error('Already bookmarked as '+item);
+                    nodedit.message.error("Already bookmarked as "+item);
                     return false;
                 }
             }
             
-            // Can't bookmark root
-            if (add.path==='/') {
-                nodedit.message.error('You don&apos;t need to bookmark root');
+            // Can"t bookmark root
+            if (add.path==="/") {
+                nodedit.message.error("You don&apos;t need to bookmark root");
                 return false;
             }
             
@@ -206,7 +204,7 @@ nodedit.bookmarks = {
         nodedit.fsapi.createFile(_this.nebfile, function () {
             // Put contents in file
             nodedit.fsapi.save(_this.nebfile, JSON.stringify(bookmarks, null, 4), function () {
-                nodedit.message.success('Bookmarks successfully saved');    
+                nodedit.message.success("Bookmarks successfully saved");    
             });
         });
     },
@@ -218,7 +216,7 @@ nodedit.bookmarks = {
      * @param {string} path The path (from root)
      */
     setCurrent: function (name, path) {
-        nodedit.store('nodedit_bookmark', { name: name, path: path });
+        nodedit.store("nodedit_bookmark", { name: name, path: path });
         // Reinitialize filemanager
         nodedit.filemanager.init();
     },
@@ -228,7 +226,7 @@ nodedit.bookmarks = {
      * @method nodedit.bookmarks.clearCurrent
      */
     clearCurrent: function () {
-        nodedit.store('nodedit_bookmark', null);
+        nodedit.store("nodedit_bookmark", null);
         // Reinitialize filemanager
         nodedit.filemanager.init();
     },
@@ -238,7 +236,7 @@ nodedit.bookmarks = {
      * @method nodedit.bookmarks.getCurrent
      */
     getCurrent: function () {
-        return JSON.parse(nodedit.store('nodedit_bookmark'));
+        return JSON.parse(nodedit.store("nodedit_bookmark"));
     }
     
 };

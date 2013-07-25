@@ -8,6 +8,8 @@
     "undef": true,
     "unused": true,
     "maxerr": 100,
+    "eqeqeq": true,
+    "indent": 4,
 
     "eqnull": true,
     "evil": false,
@@ -19,7 +21,6 @@
     "jquery": true,
 
     "predef": [
-        "require",
-        "define"
+        "nodedit"
     ]
 }
