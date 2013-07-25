@@ -4,9 +4,9 @@
  */
 nodedit.modal = {
     
-    el: '#modal',
+    el: "#modal",
     
-    overlay: '#modal-overlay',
+    overlay: "#modal-overlay",
 
     /**
      * Opens an instance of the modal
@@ -25,20 +25,22 @@ nodedit.modal = {
         fn = fn || null;
         
         // Declare variables
-        var _this = this,
-            modal = nodedit.$el.append('<div id="'+_this.overlay.replace('#','')+'"></div><div id="'+_this.el.replace('#','')+'"></div>');
+        var _this = this;
+        
+        // Build DOM container
+        nodedit.$el.append("<div id=\""+_this.overlay.replace("#","")+"\"></div><div id=\""+_this.el.replace("#","")+"\"></div>");
         
         // Create DOM element
-        nodedit.$el.find(_this.el).css({ 'width': width+'px', 'margin-left':'-'+Math.round(width/2)+'px' });
+        nodedit.$el.find(_this.el).css({ "width": width+"px", "margin-left":"-"+Math.round(width/2)+"px" });
         
         // Load content template
         nodedit.template(template, data, function (content) {
             // Load modal template
-            nodedit.template('modal.tpl', { title: title }, function (tmpl) {
+            nodedit.template("modal.tpl", { title: title }, function (tmpl) {
                 // Show content
-                nodedit.$el.find(_this.el).html(tmpl).children('#modal-content')
+                nodedit.$el.find(_this.el).html(tmpl).children("#modal-content")
                     .html(content)
-                    .find('input:not([type=hidden]):first')
+                    .find("input:not([type=hidden]):first")
                     .focus();
                 // Fire callback
                 if (fn) {
@@ -48,7 +50,7 @@ nodedit.modal = {
         });
         
         // Bind close
-        nodedit.$el.find(_this.el).on('click', 'a.icon-remove', function () {
+        nodedit.$el.find(_this.el).on("click", "a.icon-remove", function () {
             _this.close();
         });
     },
@@ -60,7 +62,7 @@ nodedit.modal = {
     close: function () {
         var _this = this;
         // Remove DOM element
-        nodedit.$el.find(_this.el+','+_this.overlay).remove();
+        nodedit.$el.find(_this.el+","+_this.overlay).remove();
     }
 
 };
