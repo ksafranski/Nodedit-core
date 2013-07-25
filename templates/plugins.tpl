@@ -2,6 +2,16 @@
 
 <p>Plugins allow you to easily add features and functionality to Nodedit.</p>
 
+<h3>Plugins List</h3>
+
+<p>Given the relative newness of the application, plugins are limited at this point, though we are actively working on more.</p>
+
+<p>
+    <ul>
+        <li><a href="https://github.com/Fluidbyte/Nodedit-Plugin-JSLint" target="_blank">JSLint - Configure &amp; Run JSLint on Files in the Editor</a></li>
+    </ul>
+</p>
+
 <h3>Installing Plugins</h3>
 
 <p>To install a plugin simply download it and place it's folder in the <code>/plugins</code> directory. 
