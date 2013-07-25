@@ -21,6 +21,10 @@
     "jquery": true,
 
     "predef": [
-        "nodedit"
+        "nodedit",
+        "ace",
+        "handlebars",
+        "difflib",
+        "diffview"
     ]
 }

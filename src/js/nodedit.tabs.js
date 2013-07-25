@@ -17,6 +17,7 @@ nodedit.tabs = {
         var _this = this,
             path = nodedit.editor.getPath(id),
             name = nodedit.filemanager.getFileName(path);
+
         // Compile template
         nodedit.template('tab.tpl', {id: id, path: path, name: name}, function(tmpl) {
             // Add tab

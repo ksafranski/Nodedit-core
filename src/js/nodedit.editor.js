@@ -4,9 +4,9 @@
  */
 nodedit.editor = {
     
-    el: '#editor',
+    el: "#editor",
     
-    instance_el: '#instances',
+    instance_el: "#instances",
     
     instances: {},
     instance_modes: {},
@@ -16,29 +16,29 @@ nodedit.editor = {
     */
 
     available_extensions: {
-        'html': 'html',
-        'htm': 'html',
-        'tpl': 'html',
-        'twig': 'html',
-        'js': 'javascript',
-        'css': 'css',
-        'txt': 'text',
-        'text': 'text',
-        'scss': 'scss',
-        'sass': 'sass',
-        'less': 'less',
-        'php': 'php',
-        'php5': 'php',
-        'jsp': 'jsp',
-        'coffee': 'coffee',
-        'json': 'json',
-        'xml': 'xml',
-        'svg': 'xml',
-        'sql': 'sql',
-        'md': 'markdown',
-        'py': 'python',
-        'sh': 'sh',
-        'rb': 'ruby'
+        "html": "html",
+        "htm": "html",
+        "tpl": "html",
+        "twig": "html",
+        "js": "javascript",
+        "css": "css",
+        "txt": "text",
+        "text": "text",
+        "scss": "scss",
+        "sass": "sass",
+        "less": "less",
+        "php": "php",
+        "php5": "php",
+        "jsp": "jsp",
+        "coffee": "coffee",
+        "json": "json",
+        "xml": "xml",
+        "svg": "xml",
+        "sql": "sql",
+        "md": "markdown",
+        "py": "python",
+        "sh": "sh",
+        "rb": "ruby"
     }, 
 
     /**
@@ -51,13 +51,13 @@ nodedit.editor = {
             observer = nodedit.observer;
         
         // Load editor template
-        nodedit.template('editor.tpl')
+        nodedit.template("editor.tpl")
             .done(function (tmpl) {
                 // Load DOM
                 nodedit.$el.find(_this.el).html(tmpl);
                 // Adjust height for top-bar
-                var calcHeight = nodedit.$el.outerHeight() - nodedit.$el.find('.top-bar').outerHeight(true);
-                nodedit.$el.find(_this.el).css({'height':calcHeight+'px'});
+                var calcHeight = nodedit.$el.outerHeight() - nodedit.$el.find(".top-bar").outerHeight(true);
+                nodedit.$el.find(_this.el).css({"height":calcHeight+"px"});
             });
         
         // Bind save key
@@ -69,7 +69,7 @@ nodedit.editor = {
         });
         
         // Subscribe to changes to editors
-        observer.subscribe('editor_change', function (id) {
+        observer.subscribe("editor_change", function (id) {
             nodedit.tabs.markChanged(id);
         });
         
@@ -86,11 +86,9 @@ nodedit.editor = {
         var _this = this,
             ext = nodedit.filemanager.getFileExtension(path),
             mode = _this.getMode(ext),
-            editor = [],
             i,
             id,
-            exists = false,
-            config = nodedit.settings.get();
+            exists = false;
         
         // Check for path in instances
         for (i in _this.instances) {
@@ -103,7 +101,7 @@ nodedit.editor = {
         // Check for invalid mode/extension
         if (!mode) {
             // Mode not supported
-            nodedit.message.error('Can not open file type '+ext);
+            nodedit.message.error("Can not open file type "+ext);
             return false;
         }
         
@@ -120,10 +118,10 @@ nodedit.editor = {
             };
             
             // New Editor Instance
-            nodedit.$el.find(_this.instance_el).append('<li class="editor" id="editor'+id+'" data-id="'+id+'"></li>');
+            nodedit.$el.find(_this.instance_el).append("<li class=\"editor\" id=\"editor"+id+"\" data-id=\""+id+"\"></li>");
             
             // Instantiates Ace editor
-            _this.instances[id].editor = ace.edit('editor'+id);
+            _this.instances[id].editor = ace.edit("editor"+id);
             
             // Set editor mode
             _this.setMode(mode, id);
@@ -138,7 +136,7 @@ nodedit.editor = {
             _this.setContent(content, id);
             
             // New tab
-            nodedit.tabs.open(id, nodedit.filemanager.getFileName(path));
+            nodedit.tabs.open(id);
             
             // Focus
             _this.instances[id].editor.focus();
@@ -161,7 +159,7 @@ nodedit.editor = {
             i,
             setConf = function(_this, config, id) {
                 _this.setTheme(config.theme, id);
-                _this.setFontSize(parseInt(config.fontsize), id);
+                _this.setFontSize(parseInt(config.fontsize,10), id);
                 _this.setPrintMargin(config.printmargin, id);
                 _this.setHighlightLine(config.highlightline, id);
                 _this.setIndentGuides(config.indentguides, id);
@@ -186,9 +184,10 @@ nodedit.editor = {
      * @param {number} w The width of the sidebar (translates to margin-left of #editor)
      */
     resize: function(w){
-        var _this = this;
+        var _this = this,
+            i;
         nodedit.$el.find(_this.el).css({ 
-            'margin-left': w
+            "margin-left": w
         });
         for (i in _this.instances) {
             _this.instances[i].editor.resize();
@@ -208,7 +207,7 @@ nodedit.editor = {
             // Close tab
             nodedit.tabs.close(id);
             // Remove editor instance from DOM
-            nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).remove();    
+            nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).remove();    
             // Remove instance
             delete _this.instances[id];
         };
@@ -216,11 +215,11 @@ nodedit.editor = {
         // Check for unsaved changes
         if (nodedit.tabs.checkChanged(id)) {            
             // Open dialog
-            nodedit.modal.open(500, 'Close Without Saving?', 'editor_confirm_close.tpl', {}, function () {
+            nodedit.modal.open(500, "Close Without Saving?", "editor_confirm_close.tpl", {}, function () {
                 // Show diff
-                $(nodedit.modal.el).find('#diffreg').html(_this.getDiff(id));
+                $(nodedit.modal.el).find("#diffreg").html(_this.getDiff(id));
                 // Listen for submit
-                nodedit.$el.find(nodedit.modal.el).on('submit', 'form', function (e) {
+                nodedit.$el.find(nodedit.modal.el).on("submit", "form", function (e) {
                     e.preventDefault();
                     // Close
                     closeIt(_this, id);
@@ -289,7 +288,7 @@ nodedit.editor = {
         // Check for active tab
         if (!id) {
             // No active tabs, show error
-            nodedit.message.error('No active files to save');
+            nodedit.message.error("No active files to save");
         } else {
             // Get content
             content = _this.getContent(id);
@@ -318,8 +317,8 @@ nodedit.editor = {
         nodedit.tabs.setActive(id);
         
         // Show editor
-        nodedit.$el.find(_this.instance_el).children('li').hide();
-        nodedit.$el.find(_this.instance_el).children('li').filterByData('id', id).show();
+        nodedit.$el.find(_this.instance_el).children("li").hide();
+        nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).show();
     },
     
     /**
@@ -331,7 +330,7 @@ nodedit.editor = {
         var _this = this,
             cur_id;
         for (cur_id in _this.instances) {
-            if (cur_id == id) {
+            if (parseInt(cur_id,10) === parseInt(id,10)) {
                 return _this.instances[id].path; 
             }
         }
@@ -357,8 +356,9 @@ nodedit.editor = {
      */
     getContent: function(id){
         var _this = this;
-            // Eiter pull contents of specified editor or get active instance
-            id = id || nodedit.tabs.getActive();
+            
+        // Eiter pull contents of specified editor or get active instance
+        id = id || nodedit.tabs.getActive();
             
         // Return data
         if (!id) {
@@ -377,11 +377,13 @@ nodedit.editor = {
      */
     getMode: function (ext) {
         // Check for hidden (.xxxxxx) files
-        (ext.length>4) ? ext = 'text' : ext = ext;
+        (ext.length>4) ? ext = "text" : ext = ext;
         // Is the extensions available?
-        if(this.available_extensions[ext])
-        	return this.available_extensions[ext];
-        return false;
+        if (this.available_extensions[ext]) {
+            return this.available_extensions[ext];
+        } else {
+            return false;
+        }
     },
     
     /**
@@ -474,18 +476,18 @@ nodedit.editor = {
             observer = nodedit.observer;
         
         // Change
-        _this.instances[id].editor.on('change', function () {
-            observer.publish('editor_change', id);
+        _this.instances[id].editor.on("change", function () {
+            observer.publish("editor_change", id);
         });
         
         // Blur
-        _this.instances[id].editor.on('blur', function () {
-            observer.publish('editor_blur', id);
+        _this.instances[id].editor.on("blur", function () {
+            observer.publish("editor_blur", id);
         });
         
         // Focus
-        _this.instances[id].editor.on('focus', function () {
-            observer.publish('editor_focus', id);
+        _this.instances[id].editor.on("focus", function () {
+            observer.publish("editor_focus", id);
         });
     }
     
