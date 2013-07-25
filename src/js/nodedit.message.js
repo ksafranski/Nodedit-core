@@ -18,28 +18,28 @@ nodedit.message = {
             blockHeight;
         
         // Remove any existing messages
-        $('#message').remove();
+        $("#message").remove();
         
-        (type==='success') ? icon = 'icon-thumbs-up' : icon = 'icon-thumbs-down'; 
+        (type==="success") ? icon = "icon-thumbs-up" : icon = "icon-thumbs-down"; 
         
         // Create new instance
-        $('body').append('<div id="message" class="'+type+'"><span class="'+icon+'"></span>&nbsp;'+msg+'</div>');
-        block = $('#message');
+        $("body").append("<div id=\"message\" class=\""+type+"\"><span class=\""+icon+"\"></span>&nbsp;"+msg+"</div>");
+        block = $("#message");
         blockHeight = block.outerHeight();
         
         // Slide up and fade in
         block
             // Set start
-            .css({'bottom':'-'+blockHeight+'px', 'opacity': '0'})
-            .animate({'bottom':'0', 'opacity': '1'}, 500)
+            .css({"bottom":"-"+blockHeight+"px", "opacity": "0"})
+            .animate({"bottom":"0", "opacity": "1"}, 500)
             
             // Wait 3 seconds
             .delay(3000)
             
             // Slide down and fade out
-            .animate({'bottom':'-'+blockHeight+'px', 'opacity': '0'}, { 'complete': function () {
+            .animate({"bottom":"-"+blockHeight+"px", "opacity": "0"}, { "complete": function () {
                 $(this).remove();
-            }}, 500)
+            }}, 500);
         
     },
     
@@ -49,7 +49,7 @@ nodedit.message = {
      * @param {string} msg Message to display
      */
     error: function (msg) {
-        nodedit.message.show(msg, 'error');
+        nodedit.message.show(msg, "error");
     },
     
     /**
@@ -58,6 +58,6 @@ nodedit.message = {
      * @param {string} msg Message to display
      */
     success: function (msg) {
-        nodedit.message.show(msg, 'success');
+        nodedit.message.show(msg, "success");
     }
-}
+};
