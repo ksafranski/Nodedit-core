@@ -13,7 +13,7 @@ nodedit.workspace = {
         // Ensure the session
         if (nodedit.session()) {
             // Load the workspace
-            nodedit.template('workspace.tpl')
+            nodedit.template("workspace.tpl")
                 .done(function (tmpl) {
                     // Load DOM
                     nodedit.$el.html(tmpl);
@@ -26,7 +26,7 @@ nodedit.workspace = {
                 });
         } else {
             // Failed session
-            nodedit.message.error('Could not load session');
+            nodedit.message.error("Could not load session");
         }
         
     }
