@@ -22,6 +22,13 @@ var nodedit = {
             // No session, show connect view
             nodedit.connect.view();
         }
+        
+        // Block context menu
+        nodedit.$el.on('contextmenu', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        
         // Init plugins
         nodedit.plugins.init();
     }

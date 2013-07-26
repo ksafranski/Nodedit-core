@@ -26,6 +26,13 @@ var nodedit = {
             // No session, show connect view
             nodedit.connect.view();
         }
+        
+        // Block context menu
+        nodedit.$el.on('contextmenu', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+        });
+        
         // Init plugins
         nodedit.plugins.init();
     }
@@ -2203,6 +2210,9 @@ nodedit.editor = {
             // Bind to emitter
             _this.emitter(id);
             
+            // Bind context menu
+            _this.bindContextMenu(id);
+            
             // Set contents
             _this.setContent(content, id);
             
@@ -2247,6 +2257,48 @@ nodedit.editor = {
                 setConf(_this, config, i);
             }
         }
+    },
+    
+    /**
+     * Binds the context menu
+     * @method nodedit.editor.bindContextMenu
+     * @param {number} id The id of the editor
+     */
+    bindContextMenu: function (id) {
+        var _this = this;
+        _this.instances[id].editor.textInput.onContextMenu = function (e) {
+            e.preventDefault();
+            
+            nodedit.template("editor_context_menu.tpl", { id: id }, function (tmpl) {
+                nodedit.$el.find(_this.el).append(tmpl);
+                nodedit.$el.find(_this.el).children(".context-menu").css({
+                    top: e.pageY-20,
+                    left: e.pageX-20
+                });
+                
+                // Bind item click
+                $(".context-menu").on("click", "a", function () {
+                    switch ($(this).attr("id")) {     
+                    case "save":
+                        _this.saveActive();
+                        break;
+                    case "close":
+                        _this.close(id);
+                        break;
+                    }   
+                });
+                
+                // Hide on click
+                $("body").on("click", function () {
+                    nodedit.$el.find(_this.el).children(".context-menu").remove();
+                });
+                
+                // Hide on mouseleave
+                $(".context-menu").on("mouseleave", function () {
+                    $(this).remove();
+                });
+            });
+        };
     },
     
     /**

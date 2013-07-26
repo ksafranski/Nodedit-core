@@ -65,6 +65,14 @@
 </form>
 </script>
 
+<!-- editor_context_menu.tpl -->
+<script id="editor_context_menu.tpl" type="text/x-handlebars-template">
+<ul class="context-menu">
+    <li><a id="save"><span class="icon-ok"></span> Save</a></li>
+    <li><a id="close"><span class="icon-remove"></span> Close</a></li>
+</ul>
+</script>
+
 <!-- filemanager.tpl -->
 <script id="filemanager.tpl" type="text/x-handlebars-template">
 <div id="resize-handle" class="ui-resizable-handle ui-resizable-e ui-resizable-w" style="float: right">||</div>

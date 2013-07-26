@@ -347,7 +347,7 @@ table label, table input, table select {
     margin: 0 0 0 20px;
 }
 
-#filemanager ul a, #filemanager .context-menu a {
+#filemanager ul a, #filemanager .context-menu a, #editor .context-menu a {
     display: block;
     padding: 6px 10px;
     cursor: pointer;
@@ -358,7 +358,8 @@ table label, table input, table select {
 
 #filemanager ul a:hover,
 #filemanager ul a.menu-open,
-#filemanager .context-menu a:hover {
+#filemanager .context-menu a:hover,
+#editor .context-menu a:hover{
     background-color: #2e2e2e;
     border: 1px solid #3d3d3d;
 }
@@ -393,7 +394,7 @@ table label, table input, table select {
     color: #fff;
 }
 
-#filemanager .context-menu {
+#filemanager .context-menu, #editor .context-menu {
     position: absolute;
     width: 150px;
     background-color: #1f1e1f;
@@ -405,7 +406,7 @@ table label, table input, table select {
     padding: 10px;
 }
 
-#filemanager .context-menu a span {
+#filemanager .context-menu a span, #editor .context-menu a span {
     display: inline-block;
     width: 18px;
     text-align: center;
