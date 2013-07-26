@@ -9,6 +9,7 @@
 <p>
     <ul>
         <li><a href="https://github.com/Fluidbyte/Nodedit-Plugin-JSLint" target="_blank">JSLint - Configure &amp; Run JSLint on Files in the Editor</a></li>
+        <li><a href="https://github.com/Fluidbyte/Nodedit-Plugin-ColorUtil" target="_blank">ColorUtil - Pallette chooser and HEX-RGB color code tool</a></li>
     </ul>
 </p>
 
