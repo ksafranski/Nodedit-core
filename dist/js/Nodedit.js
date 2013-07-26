@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.6.3, 07-25-2013
+ Build version 0.6.3, 07-26-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -58,7 +58,7 @@ $(function(){
 // Filter by data
 $.fn.filterByData = function(prop, val) {
     return this.filter(
-        function() { return $(this).data(prop)===val; }
+        function() { return $(this).data(prop)==val; } // Note, needs to be '==' not '==='
     );
 };
 /**
