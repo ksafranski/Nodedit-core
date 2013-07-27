@@ -16,29 +16,29 @@ nodedit.editor = {
     */
 
     available_extensions: {
+        "coffee": "coffee",
+        "css": "css",
         "html": "html",
         "htm": "html",
         "tpl": "html",
         "twig": "html",
         "js": "javascript",
-        "css": "css",
-        "txt": "text",
-        "text": "text",
-        "scss": "scss",
-        "sass": "sass",
+        "json": "json",
+        "jsp": "jsp",
         "less": "less",
+        "md": "markdown",
         "php": "php",
         "php5": "php",
-        "jsp": "jsp",
-        "coffee": "coffee",
-        "json": "json",
-        "xml": "xml",
-        "svg": "xml",
-        "sql": "sql",
-        "md": "markdown",
         "py": "python",
+        "rb": "ruby",
+        "sass": "sass",
+        "scss": "scss",
         "sh": "sh",
-        "rb": "ruby"
+        "sql": "sql",
+        "txt": "text",
+        "text": "text",
+        "xml": "xml",
+        "svg": "xml"  
     }, 
 
     /**
@@ -135,6 +135,9 @@ nodedit.editor = {
             // Bind context menu
             _this.bindContextMenu(id);
             
+            // Track cursor position
+            _this.trackCursor(id);
+            
             // Set contents
             _this.setContent(content, id);
             
@@ -220,11 +223,6 @@ nodedit.editor = {
                     }
                 });
                 
-                // Hide on click
-                $('body').on('click', function () {
-                    $('.context-menu').remove();
-                });
-                
                 // Hide on mouseleave
                 $(".context-menu").on("mouseleave", function (e) {
                     e.stopPropagation();
@@ -232,6 +230,25 @@ nodedit.editor = {
                 });
             });
         };
+    },
+    
+    /**
+     * Tracks the cursor line and character position
+     * @method nodedit.editor.trackCursor
+     * @param {number} id The id of the editor instance
+     * @fires nodedit.observer.publish#editor_cursor 
+     */
+    trackCursor: function (id) {
+        var _this = this,
+            line, char;
+        
+        // Get current line and char
+        _this.instances[id].editor.selection.on("changeCursor", function () {
+            line = _this.instances[id].editor.getCursorPosition().row + 1;
+            char = _this.instances[id].editor.getCursorPosition().column + 1;
+            // Fire publish
+            nodedit.observer.publish('editor_cursor', { id: id, line: line, char: char });
+        });
     },
     
     /**
@@ -255,8 +272,6 @@ nodedit.editor = {
                 modes[_this.available_extensions[mode]] = sel;
             }
         }
-        
-        console.log(modes);
         
         // Open dialog
         nodedit.modal.open(350, "Editor Mode", "editor_change_mode.tpl", { modes: modes, curmode: curmode }, function () {
