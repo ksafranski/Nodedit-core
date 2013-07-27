@@ -54,6 +54,20 @@
 <ul id="instances"></ul>
 </script>
 
+<!-- editor_change_mode.tpl -->
+<script id="editor_change_mode.tpl" type="text/x-handlebars-template">
+<form>
+    <select name="mode">
+        {{#eachkeys data.modes}}
+        <option{{#if this.value}} selected="selected" {{/if}} value="{{this.key}}">{{this.key}}</option>
+        {{/eachkeys}}
+    </select>
+    
+    <button class="btn-left">Set Mode</button>
+    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Cancel</button>
+</form>
+</script>
+
 <!-- editor_confirm_close.tpl -->
 <script id="editor_confirm_close.tpl" type="text/x-handlebars-template">
 <form>
@@ -68,8 +82,13 @@
 <!-- editor_context_menu.tpl -->
 <script id="editor_context_menu.tpl" type="text/x-handlebars-template">
 <ul class="context-menu">
+    {{modes}}
     <li><a id="save"><span class="icon-ok"></span> Save</a></li>
     <li><a id="close"><span class="icon-remove"></span> Close</a></li>
+    <hr>
+    <li><a id="mode"><span class="icon-code"></span> {{data.curmode}}</a></li>
+    <hr>
+    <li><a id="settings"><span class="icon-cogs"></span> Settings</a></li>
 </ul>
 </script>
 

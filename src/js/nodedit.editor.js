@@ -187,11 +187,15 @@ nodedit.editor = {
      * @param {number} id The id of the editor
      */
     bindContextMenu: function (id) {
-        var _this = this;
+        var _this = this,
+            mode;
         _this.instances[id].editor.textInput.onContextMenu = function (e) {
             e.preventDefault();
             
-            nodedit.template("editor_context_menu.tpl", { id: id }, function (tmpl) {
+            // Get current mode
+            mode = _this.instances[id].mode;
+            
+            nodedit.template("editor_context_menu.tpl", { id: id, curmode: mode }, function (tmpl) {
                 nodedit.$el.find(_this.el).append(tmpl);
                 nodedit.$el.find(_this.el).children(".context-menu").css({
                     top: e.pageY-20,
@@ -207,20 +211,63 @@ nodedit.editor = {
                     case "close":
                         _this.close(id);
                         break;
-                    }   
+                    case "mode":
+                        _this.changeMode(id, mode);
+                        break;
+                    case "settings":
+                        nodedit.settings.edit();
+                        break;
+                    }
                 });
                 
                 // Hide on click
-                $("body").on("click", function () {
-                    nodedit.$el.find(_this.el).children(".context-menu").remove();
+                $('body').on('click', function () {
+                    $('.context-menu').remove();
                 });
                 
                 // Hide on mouseleave
-                $(".context-menu").on("mouseleave", function () {
+                $(".context-menu").on("mouseleave", function (e) {
+                    e.stopPropagation();
                     $(this).remove();
                 });
             });
         };
+    },
+    
+    /**
+     * Opens mode selector dialog and processes change
+     * @method nodedit.editor.changeMode
+     * @param {number} id The id of the editor instance
+     * @param {string} curmode The current selected mode
+     */
+    changeMode: function (id, curmode) {
+        
+        var _this = this,
+            mode, modes = {}, sel;
+        
+        // Build available modes array
+        for (mode in _this.available_extensions) {
+            if ($.inArray(_this.available_extensions[mode], modes) === -1) {
+                sel = false;
+                if (_this.available_extensions[mode]===curmode) {
+                    sel = true;
+                }
+                modes[_this.available_extensions[mode]] = sel;
+            }
+        }
+        
+        console.log(modes);
+        
+        // Open dialog
+        nodedit.modal.open(350, "Editor Mode", "editor_change_mode.tpl", { modes: modes, curmode: curmode }, function () {
+            // Process mode change
+            nodedit.$el.find(nodedit.modal.el).find('form').on("submit", function (e) {
+                e.preventDefault();
+                _this.setMode($(this).children("select[name=\"mode\"]").children("option:selected").val(), id);
+                nodedit.modal.close();
+            });
+        });
+        
     },
     
     /**
@@ -439,7 +486,10 @@ nodedit.editor = {
      */
     setMode: function (m,id) {
         var _this = this;
+        // Set editor
         _this.instances[id].editor.getSession().setMode("ace/mode/"+m);
+        // Store current mode
+        _this.instances[id].mode = m;
     },
     
     /**
