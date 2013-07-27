@@ -239,15 +239,24 @@ nodedit.editor = {
      * @fires nodedit.observer.publish#editor_cursor 
      */
     trackCursor: function (id) {
-        var _this = this,
-            line, char;
+        var _this = this;
         
         // Get current line and char
         _this.instances[id].editor.selection.on("changeCursor", function () {
+            var line, char, cursor_el, cursor_offset, cursor_top, cursor_left;
+            // Get line and char
             line = _this.instances[id].editor.getCursorPosition().row + 1;
             char = _this.instances[id].editor.getCursorPosition().column + 1;
-            // Fire publish
-            nodedit.observer.publish('editor_cursor', { id: id, line: line, char: char });
+            // Get cursor top and left
+            cursor_el = nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).find(".ace_cursor");
+            // Force breif delay for DOM catch-up
+            setTimeout(function () {
+                cursor_offset = cursor_el.offset();
+                cursor_top = cursor_offset.top;
+                cursor_left = cursor_offset.left;
+                // Fire publish
+                nodedit.observer.publish("editor_cursor", { id: id, line: line, char: char, top: cursor_top, left: cursor_left });
+            }, 4);
         });
     },
     
@@ -276,7 +285,7 @@ nodedit.editor = {
         // Open dialog
         nodedit.modal.open(350, "Editor Mode", "editor_change_mode.tpl", { modes: modes, curmode: curmode }, function () {
             // Process mode change
-            nodedit.$el.find(nodedit.modal.el).find('form').on("submit", function (e) {
+            nodedit.$el.find(nodedit.modal.el).find("form").on("submit", function (e) {
                 e.preventDefault();
                 _this.setMode($(this).children("select[name=\"mode\"]").children("option:selected").val(), id);
                 nodedit.modal.close();
