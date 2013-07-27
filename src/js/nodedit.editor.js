@@ -135,9 +135,6 @@ nodedit.editor = {
             // Bind context menu
             _this.bindContextMenu(id);
             
-            // Track cursor position
-            _this.trackCursor(id);
-            
             // Set contents
             _this.setContent(content, id);
             
@@ -230,34 +227,6 @@ nodedit.editor = {
                 });
             });
         };
-    },
-    
-    /**
-     * Tracks the cursor line and character position
-     * @method nodedit.editor.trackCursor
-     * @param {number} id The id of the editor instance
-     * @fires nodedit.observer.publish#editor_cursor 
-     */
-    trackCursor: function (id) {
-        var _this = this;
-        
-        // Get current line and char
-        _this.instances[id].editor.selection.on("changeCursor", function () {
-            var line, char, cursor_el, cursor_offset, cursor_top, cursor_left;
-            // Get line and char
-            line = _this.instances[id].editor.getCursorPosition().row + 1;
-            char = _this.instances[id].editor.getCursorPosition().column + 1;
-            // Get cursor top and left
-            cursor_el = nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).find(".ace_cursor");
-            // Force breif delay for DOM catch-up
-            setTimeout(function () {
-                cursor_offset = cursor_el.offset();
-                cursor_top = cursor_offset.top;
-                cursor_left = cursor_offset.left;
-                // Fire publish
-                nodedit.observer.publish("editor_cursor", { id: id, line: line, char: char, top: cursor_top, left: cursor_left });
-            }, 4);
-        });
     },
     
     /**
@@ -589,24 +558,66 @@ nodedit.editor = {
      * @fires nodedit.observer.publish#editor_change
      * @fires nodedit.observer.publish#editor_blur
      * @fires nodedit.observer.publish#editor_focus
+     * @fires nodedit.observer.publish#editor_cursor
      */
     emitter: function (id) {
         var _this = this,
             observer = nodedit.observer;
         
-        // Change
+        /**
+         * Editor content change event
+         * @event nodedit.observer.publish#editor_change 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         */
         _this.instances[id].editor.on("change", function () {
             observer.publish("editor_change", id);
         });
         
-        // Blur
+        /**
+         * Editor blur event
+         * @event nodedit.observer.publish#editor_blur 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         */
         _this.instances[id].editor.on("blur", function () {
             observer.publish("editor_blur", id);
         });
         
-        // Focus
+        /**
+         * Editor focus event
+         * @event nodedit.observer.publish#editor_focus 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         */
         _this.instances[id].editor.on("focus", function () {
             observer.publish("editor_focus", id);
+        });
+        
+        /**
+         * Editor cursor change event
+         * @event nodedit.observer.publish#editor_cursor 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         * @property {number} line The current line number
+         * @property {number} char The current character position
+         * @property {number} top The top coordinate relative to the document
+         * @property {number} left The left coordinate relative to the document
+         */
+        _this.instances[id].editor.selection.on("changeCursor", function () {
+            var line, char, cursor_el, cursor_offset, cursor_top, cursor_left;
+            // Get line and char
+            line = _this.instances[id].editor.getCursorPosition().row + 1;
+            char = _this.instances[id].editor.getCursorPosition().column + 1;
+            // Get cursor top and left
+            cursor_el = nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).find(".ace_cursor");
+            // Force brief delay for DOM catch-up
+            setTimeout(function () {
+                cursor_offset = cursor_el.offset();
+                cursor_top = cursor_offset.top;
+                cursor_left = cursor_offset.left;
+                nodedit.observer.publish("editor_cursor", { id: id, line: line, char: char, top: cursor_top, left: cursor_left });
+            }, 4);
         });
     }
     

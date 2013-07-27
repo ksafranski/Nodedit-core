@@ -88,6 +88,32 @@
 					</ul>
 				</li>
 				
+				<li class="dropdown">
+					<a href="events.list.html" class="dropdown-toggle" data-toggle="dropdown">Events<b
+						class="caret"></b></a>
+
+					<ul class="dropdown-menu ">
+						
+						<li>
+							<a href="nodedit.observer.html#publish#event:editor_blur">editor_blur</a>
+						</li>
+						
+						<li>
+							<a href="nodedit.observer.html#publish#event:editor_change">editor_change</a>
+						</li>
+						
+						<li>
+							<a href="nodedit.observer.html#publish#event:editor_cursor">editor_cursor</a>
+						</li>
+						
+						<li>
+							<a href="nodedit.observer.html#publish#event:editor_focus">editor_focus</a>
+						</li>
+						
+
+					</ul>
+				</li>
+				
 			</ul>
 		</div>
 	</div>
@@ -2201,29 +2227,29 @@ nodedit.editor = {
     */
 
     available_extensions: {
+        "coffee": "coffee",
+        "css": "css",
         "html": "html",
         "htm": "html",
         "tpl": "html",
         "twig": "html",
         "js": "javascript",
-        "css": "css",
-        "txt": "text",
-        "text": "text",
-        "scss": "scss",
-        "sass": "sass",
+        "json": "json",
+        "jsp": "jsp",
         "less": "less",
+        "md": "markdown",
         "php": "php",
         "php5": "php",
-        "jsp": "jsp",
-        "coffee": "coffee",
-        "json": "json",
-        "xml": "xml",
-        "svg": "xml",
-        "sql": "sql",
-        "md": "markdown",
         "py": "python",
+        "rb": "ruby",
+        "sass": "sass",
+        "scss": "scss",
         "sh": "sh",
-        "rb": "ruby"
+        "sql": "sql",
+        "txt": "text",
+        "text": "text",
+        "xml": "xml",
+        "svg": "xml"  
     }, 
 
     /**
@@ -2405,11 +2431,6 @@ nodedit.editor = {
                     }
                 });
                 
-                // Hide on click
-                $('body').on('click', function () {
-                    $('.context-menu').remove();
-                });
-                
                 // Hide on mouseleave
                 $(".context-menu").on("mouseleave", function (e) {
                     e.stopPropagation();
@@ -2441,12 +2462,10 @@ nodedit.editor = {
             }
         }
         
-        console.log(modes);
-        
         // Open dialog
         nodedit.modal.open(350, "Editor Mode", "editor_change_mode.tpl", { modes: modes, curmode: curmode }, function () {
             // Process mode change
-            nodedit.$el.find(nodedit.modal.el).find('form').on("submit", function (e) {
+            nodedit.$el.find(nodedit.modal.el).find("form").on("submit", function (e) {
                 e.preventDefault();
                 _this.setMode($(this).children("select[name=\"mode\"]").children("option:selected").val(), id);
                 nodedit.modal.close();
@@ -2750,24 +2769,66 @@ nodedit.editor = {
      * @fires nodedit.observer.publish#editor_change
      * @fires nodedit.observer.publish#editor_blur
      * @fires nodedit.observer.publish#editor_focus
+     * @fires nodedit.observer.publish#editor_cursor
      */
     emitter: function (id) {
         var _this = this,
             observer = nodedit.observer;
         
-        // Change
+        /**
+         * Editor content change event
+         * @event nodedit.observer.publish#editor_change 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         */
         _this.instances[id].editor.on("change", function () {
             observer.publish("editor_change", id);
         });
         
-        // Blur
+        /**
+         * Editor blur event
+         * @event nodedit.observer.publish#editor_blur 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         */
         _this.instances[id].editor.on("blur", function () {
             observer.publish("editor_blur", id);
         });
         
-        // Focus
+        /**
+         * Editor focus event
+         * @event nodedit.observer.publish#editor_focus 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         */
         _this.instances[id].editor.on("focus", function () {
             observer.publish("editor_focus", id);
+        });
+        
+        /**
+         * Editor cursor change event
+         * @event nodedit.observer.publish#editor_cursor 
+         * @type {object}
+         * @property {number} id The ID of the editor instance
+         * @property {number} line The current line number
+         * @property {number} char The current character position
+         * @property {number} top The top coordinate relative to the document
+         * @property {number} left The left coordinate relative to the document
+         */
+        _this.instances[id].editor.selection.on("changeCursor", function () {
+            var line, char, cursor_el, cursor_offset, cursor_top, cursor_left;
+            // Get line and char
+            line = _this.instances[id].editor.getCursorPosition().row + 1;
+            char = _this.instances[id].editor.getCursorPosition().column + 1;
+            // Get cursor top and left
+            cursor_el = nodedit.$el.find(_this.instance_el).children("li").filterByData("id", id).find(".ace_cursor");
+            // Force brief delay for DOM catch-up
+            setTimeout(function () {
+                cursor_offset = cursor_el.offset();
+                cursor_top = cursor_offset.top;
+                cursor_left = cursor_offset.left;
+                nodedit.observer.publish("editor_cursor", { id: id, line: line, char: char, top: cursor_top, left: cursor_left });
+            }, 4);
         });
     }
     
@@ -2969,7 +3030,7 @@ nodedit.plugins = {
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a>
-		on Sat Jul 27 2013 15:23:21 GMT-0000 (UTC) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		on Sat Jul 27 2013 21:40:31 GMT-0000 (UTC) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
 			</div>
