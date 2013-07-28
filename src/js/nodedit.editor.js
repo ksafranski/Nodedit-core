@@ -73,6 +73,19 @@ nodedit.editor = {
             nodedit.tabs.markChanged(id);
         });
         
+        // Subscribe to cursor change
+        observer.subscribe("editor_cursor", function (pos_data) {
+            var position = nodedit.$el.find(_this.el).children('#position');
+            clearTimeout(_this.postimer);
+            position.css({ 'opacity': 0.7 });
+            position.children('.ln').html('Line '+pos_data.line);
+            position.children('.ch').html('Char '+pos_data.char);
+            _this.postimer = setTimeout(function () {
+                position.css({ 'opacity': 0.3 });
+            }, 1000);
+            
+        });
+        
     },
     
     /**

@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.6.3, 07-27-2013
+ Build version 0.6.3, 07-28-2013
 */
 /* RESET */
 
@@ -427,6 +427,30 @@ table label, table input, table select {
     height: 100%;
     margin-left: 350px;
     z-index: 2;
+}
+
+#editor #position {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    z-index: 998;
+    width: auto;
+    background: #1a1a1a;
+    border: 1px solid #333;
+    border-bottom: none;
+    font-size: 11px;
+    color: #ccc;
+    border-radius: 5px 0px 0px 0px;
+    opacity: 0.7;
+}
+
+#editor #position span {
+    display: inline-block;
+    padding: 5px 8px 3px 8px;
+}
+
+#editor #position span.ln {
+    border-right: 1px solid #333;
 }
 
 #editor #instances {
