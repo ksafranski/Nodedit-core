@@ -28,3 +28,17 @@
 <p>Contibutions can make or break an application. Basically the goal is to submit solid, well documented code. Bugs happen, but if the code is well documented and 
     follows a standard these bugs can be quickly fixed.
 </p>
+
+<h3>Environment &amp; Process</h3>
+
+<p>The project utilizes a <code>package.json</code> file so if you're running <a href="http://www.nodejs.org" target="_blank">NodeJS</a> you can simply run <code>npm install</code> to 
+    install dev dependencies.
+</p>
+
+<p>Once your environment is setup you can develop (and test) inside the <code>/src</code> directory. When your code is tested please use the <code>.jshintrc</code> configuration to 
+    run <code>jshint</code> on any files you manipulated and verify the code meets the configuration.
+</p>
+
+<p>Prior to submitting a pull request please build the source using <code>grunt</code>. This will compress and concatenate files into the <code>/dist</code> directory where they run in 
+    production.
+</p>
