@@ -16,7 +16,7 @@
         <td><a class="icon-resize-vertical"></a></td>
         <td><input name="name" value="{{name}}"></td>
         <td><input name="path" value="{{path}}"></td>
-        <td style="padding-top: 5px;"><a class="icon-trash icon-large"></a></td>
+        <td><a class="icon-trash icon-large"></a></td>
     </tr>
     {{/each}}
     </tbody>

@@ -16,16 +16,6 @@ You can also access an instance with the latest build at [Noded.it](http://noded
 
 Both the Nodedit Client and Server are released under the MIT-style open source license and are free to use, modify, break, tweak, etc to your hearts content. All that is asked is you mention your use of the code somewhere.
 
-## Contributing
+## More Information & Documentation
 
-The system is still very new. While there has been extensive testing and building of stuff to prevent any data-breaking there still are a myriad of things that can be tested, improved upon, added to, and so on and so forth.
-
-If you'd like to contribute please follow these steps:
-
-1. Create an issue. Select an appropriate label from the list and describe what you've found, intend to change, add, etc...
-2. Fork and create a branch. Won't get to picky here, but good branching results in easier (and faster) pulls
-3. Follow code conventions. They're pretty obvious. Also, comment your code. No comments === No pull.
-4. Make good commits. Don't just put "fixed it", if we need to revert or just follow the path of changes to identify an issue we want some details
-5. Submit a pull request. Please don't just submit something crappy. Give a title, some moderately in-depth description and maybe some testing criteria.
-
-Good open-source (and code in general) is well organized. Taking a little extra time to ensure your code is understandable goes a long way in keeping things in order and growing a solid application instead of a monolithic beast.
+For more information on setup, usage, contributing, and API documentation please check out the [Nodedit Website](http://nodedit.com).
