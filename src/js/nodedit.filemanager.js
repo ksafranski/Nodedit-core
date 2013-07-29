@@ -105,7 +105,9 @@ nodedit.filemanager = {
             
             // Bind context menu
             nodedit.$el.find(_this.el).on("contextmenu", "a", function (e) {
-                _this.contextMenu($(this).attr("class"), $(this).parent("li").data("path"), e);
+                if($(this).parent().attr("class") !== "top-bar") {
+                    _this.contextMenu($(this).attr("class"), $(this).parent("li").data("path"), e);
+                }
             });
             
             // Bind Exit Button
