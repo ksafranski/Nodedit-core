@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.6.7, 07-28-2013
+ Build version 0.6.7, 07-29-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -1613,7 +1613,9 @@ nodedit.filemanager = {
             
             // Bind context menu
             nodedit.$el.find(_this.el).on("contextmenu", "a", function (e) {
-                _this.contextMenu($(this).attr("class"), $(this).parent("li").data("path"), e);
+                if($(this).parent().attr("class") !== "top-bar") {
+                    _this.contextMenu($(this).attr("class"), $(this).parent("li").data("path"), e);
+                }
             });
             
             // Bind Exit Button
@@ -2076,7 +2078,8 @@ nodedit.filemanager = {
         });
     }
 
-};/**
+};
+/**
  * Handles all functions for the editor
  * @namespace nodedit.editor
  */
