@@ -1,0 +1,21 @@
+{
+  "name": "Nodedit",
+  "version": "0.6.10",
+  "manifest_version": 2,
+  "app": {
+    "launch": {
+      "local_path": "index.html"
+    }
+  },
+  "description": "Web-Based Thin-Client IDE",
+  "homepage_url": "http://nodedit.com",
+  "default_locale": "en",
+  "icons": {
+    "16": "logos/nodedit_16.png",
+    "48": "logos/nodedit_48.png",
+    "128": "logos/nodedit_128.png"
+  },
+  "permissions": [
+    "storage"
+  ]
+}
