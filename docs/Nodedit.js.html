@@ -133,7 +133,7 @@
         <article>
             <pre class="sunlight-highlight-javascript linenums">/*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.6.3, 07-27-2013
+ Build version 0.6.7, 08-01-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -1746,7 +1746,9 @@ nodedit.filemanager = {
             
             // Bind context menu
             nodedit.$el.find(_this.el).on("contextmenu", "a", function (e) {
-                _this.contextMenu($(this).attr("class"), $(this).parent("li").data("path"), e);
+                if($(this).parent().attr("class") !== "top-bar") {
+                    _this.contextMenu($(this).attr("class"), $(this).parent("li").data("path"), e);
+                }
             });
             
             // Bind Exit Button
@@ -1767,6 +1769,12 @@ nodedit.filemanager = {
             // Bind Settings Button
             nodedit.$el.find(_this.el).on("click", "#settings", function () {
                 nodedit.settings.edit();
+            });
+            
+            // Bind Rescan Buton
+            // Bind Settings Button
+            nodedit.$el.find(_this.el).on("click", "#rescan", function () {
+                _this.rescan();
             });
             
             // Set re-bind prevention property
@@ -1890,6 +1898,52 @@ nodedit.filemanager = {
     },
     
     /**
+     * Rescans current directory tree to check for remote syncronization
+     * @method nodedit.filemanager.rescan
+     */
+    rescan: function () {
+        var _this = this,
+            objects = [],
+            i = 0,
+            spinner = nodedit.$el.find(_this.el).children("#fm-container").children("#rescan");
+            
+        // Spinner
+        spinner.addClass('icon-spin');
+        
+        // Populate array
+        nodedit.$el.find(_this.el).children("#fm-container").find("li").filterByData("type","directory").each(function () {
+            if ($(this).hasClass("open")) {
+                objects.push($(this).attr("data-path"));
+            }
+        });
+        
+        // Runs the rescan by firing openDirectory, waiting for response publisher, then moving to next iteration
+        var runRescan = function(i, objects, spinner, _this) {
+            _this.openDirectory(objects[i]);
+            // Wait for emitter
+            var listen = nodedit.observer.subscribe('filemanager_opendir', function (data) {
+                // Ensure correct publish instance
+                if (data === objects[i]) {
+                    // Unsubscribe the observer
+                    nodedit.observer.unsubscribe(listen);
+                    if (i&lt;(objects.length)-1) {
+                        // Iterate and rescan next node
+                        i++;
+                        runRescan(i, objects, spinner, _this);
+                    } else {
+                        // Stop spinner
+                        spinner.removeClass('icon-spin');
+                    }
+                }
+            });
+        };
+        
+        // Start rescan
+        runRescan(i, objects, spinner, _this);
+        
+    },
+    
+    /**
      * Opens a directory and displays contents
      * @method nodedit.filemanager.openDirectory
      * @param {string} path The path to load contents of
@@ -1910,12 +1964,16 @@ nodedit.filemanager = {
                 nodedit.template("filemanager_dir.tpl", data, function (tmpl) {
                     var object;
                     object = nodedit.$el.find(_this.el+" li").filterByData("path", path);
+                    // Remove any existing content (rescan)
+                    object.children("ul").remove();
                     // Open and append content
                     object.addClass("open").append(tmpl);
                     // Change icon (except root)
                     if (object.attr("id")!=="root") {
                         object.children("a").children("span").attr("class","icon-folder-open");
                     }
+                    // Fire emitter
+                    nodedit.observer.publish('filemanager_opendir', path);
                 });
             } else {
                 nodedit.message.error("Could not load directory");
@@ -2209,7 +2267,8 @@ nodedit.filemanager = {
         });
     }
 
-};/**
+};
+/**
  * Handles all functions for the editor
  * @namespace nodedit.editor
  */
@@ -2282,6 +2341,19 @@ nodedit.editor = {
         // Subscribe to changes to editors
         observer.subscribe("editor_change", function (id) {
             nodedit.tabs.markChanged(id);
+        });
+        
+        // Subscribe to cursor change
+        observer.subscribe("editor_cursor", function (pos_data) {
+            var position = nodedit.$el.find(_this.el).children('#position');
+            clearTimeout(_this.postimer);
+            position.css({ 'opacity': 0.7 });
+            position.children('.ln').html('Line '+pos_data.line);
+            position.children('.ch').html('Char '+pos_data.char);
+            _this.postimer = setTimeout(function () {
+                position.css({ 'opacity': 0.3 });
+            }, 1000);
+            
         });
         
     },
@@ -3030,7 +3102,7 @@ nodedit.plugins = {
 					
 		<span class="jsdoc-message">
 		Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.2.0-dev</a>
-		on Sat Jul 27 2013 21:40:31 GMT-0000 (UTC) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
+		on Thu Aug 01 2013 21:43:51 GMT-0000 (UTC) using the <a href="https://github.com/terryweiss/docstrap">DocStrap template</a>.
 		</span>
 				</footer>
 			</div>

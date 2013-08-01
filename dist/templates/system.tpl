@@ -109,8 +109,9 @@
     
 </div>
 <div id="fm-container">
+<a id="rescan" title="Rescan"><span class="icon-refresh"></span></a>
 <ul>
-   <li id="root" data-path="{{data.root}}"><a class="directory"><span class="icon-{{#if data.bookmark}}star{{else}}cloud{{/if}}"></span>{{data.root_name}}</a></li> 
+   <li id="root" data-path="{{data.root}}" data-type="directory" class="open"><a class="directory"><span class="icon-{{#if data.bookmark}}star{{else}}cloud{{/if}}"></span>{{data.root_name}}</a></li> 
 </ul>
 </div>
 </script>
@@ -159,7 +160,7 @@
 <script id="filemanager_dir.tpl" type="text/x-handlebars-template">
 <ul>
 {{#eachkeys data}}
-    <li data-path="{{this.value.path}}"><a class="{{this.value.type}}"><span class="{{this.value.icon}}"></span>{{this.key}}</a></li>
+    <li data-path="{{this.value.path}}" data-type="{{this.value.type}}"><a class="{{this.value.type}}"><span class="{{this.value.icon}}"></span>{{this.key}}</a></li>
 {{/eachkeys}}
 </ul>
 </script>

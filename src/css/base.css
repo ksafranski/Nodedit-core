@@ -282,6 +282,14 @@ table label, table input, table select {
     -moz-user-select:none;
 }
 
+#filemanager #rescan {
+    float: right;
+    font-size: 16px;
+    padding: 13px;
+    margin-top: 4px;
+    margin-right: 3px;
+}
+
 #filemanager #resize-handle {
     position: absolute;
     right: 0;

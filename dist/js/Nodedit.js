@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.6.7, 07-29-2013
+ Build version 0.6.7, 08-01-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -1638,6 +1638,12 @@ nodedit.filemanager = {
                 nodedit.settings.edit();
             });
             
+            // Bind Rescan Buton
+            // Bind Settings Button
+            nodedit.$el.find(_this.el).on("click", "#rescan", function () {
+                _this.rescan();
+            });
+            
             // Set re-bind prevention property
             _this.bound = true;
             
@@ -1759,6 +1765,52 @@ nodedit.filemanager = {
     },
     
     /**
+     * Rescans current directory tree to check for remote syncronization
+     * @method nodedit.filemanager.rescan
+     */
+    rescan: function () {
+        var _this = this,
+            objects = [],
+            i = 0,
+            spinner = nodedit.$el.find(_this.el).children("#fm-container").children("#rescan");
+            
+        // Spinner
+        spinner.addClass('icon-spin');
+        
+        // Populate array
+        nodedit.$el.find(_this.el).children("#fm-container").find("li").filterByData("type","directory").each(function () {
+            if ($(this).hasClass("open")) {
+                objects.push($(this).attr("data-path"));
+            }
+        });
+        
+        // Runs the rescan by firing openDirectory, waiting for response publisher, then moving to next iteration
+        var runRescan = function(i, objects, spinner, _this) {
+            _this.openDirectory(objects[i]);
+            // Wait for emitter
+            var listen = nodedit.observer.subscribe('filemanager_opendir', function (data) {
+                // Ensure correct publish instance
+                if (data === objects[i]) {
+                    // Unsubscribe the observer
+                    nodedit.observer.unsubscribe(listen);
+                    if (i<(objects.length)-1) {
+                        // Iterate and rescan next node
+                        i++;
+                        runRescan(i, objects, spinner, _this);
+                    } else {
+                        // Stop spinner
+                        spinner.removeClass('icon-spin');
+                    }
+                }
+            });
+        };
+        
+        // Start rescan
+        runRescan(i, objects, spinner, _this);
+        
+    },
+    
+    /**
      * Opens a directory and displays contents
      * @method nodedit.filemanager.openDirectory
      * @param {string} path The path to load contents of
@@ -1779,12 +1831,19 @@ nodedit.filemanager = {
                 nodedit.template("filemanager_dir.tpl", data, function (tmpl) {
                     var object;
                     object = nodedit.$el.find(_this.el+" li").filterByData("path", path);
+                    // Remove any existing content (rescan)
+                    object.children("ul").remove();
                     // Open and append content
                     object.addClass("open").append(tmpl);
                     // Change icon (except root)
                     if (object.attr("id")!=="root") {
                         object.children("a").children("span").attr("class","icon-folder-open");
                     }
+                    // Fire emitter (short timeout allows DOM to catch-up on large traversals)
+                    setTimeout(function() {
+                        nodedit.observer.publish('filemanager_opendir', path);
+                    }, 15);
+                    
                 });
             } else {
                 nodedit.message.error("Could not load directory");
