@@ -60,6 +60,17 @@ module.exports = function(grunt) {
         src: '<%= concat.css.dest %>',
         dest: 'dist/css/screen.min.css'
       }
+    },
+    chromifest: {
+      main: {
+        src: 'src/manifest.json',
+        dest: 'manifest.json',
+        vars: {
+            name: '<%= pkg.name %>',
+            description: '<%= pkg.description %>',
+            version: '<%= pkg.version %>'
+        }
+      }
     }
   });
 
@@ -67,7 +78,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   
-  grunt.registerMultiTask('templates', 'Wraps templates with header and footer, then concats into single file', function() {
+  
+  // Template mutlitask
+  grunt.registerMultiTask('templates', 'Wraps templates with header and footer, then concats into single file', function () {
         var data = this.data,
             path = require('path'),
             dest = grunt.template.process(data.dest),
@@ -84,7 +97,22 @@ module.exports = function(grunt) {
         grunt.log.writeln('Template created');
   });
   
+  // Chrome App Manifest multitask
+  grunt.registerMultiTask('chromifest', 'Creates Chrome App manifest.json from package.json data', function () {
+        var data = this.data,
+            vars = data.vars,
+            tmpl = grunt.file.read(data.src),
+            output;
+            
+        output = tmpl.replace(/\{\{([^}]+)\}\}/g, function (i, match) {
+            return vars[match];
+        });
+        
+        grunt.file.write(data.dest, output);
+        grunt.log.writeln('Chrome Manifest Created');   
+  });
+  
   // Default task(s).
-  grunt.registerTask('default', ['templates','concat','uglify','cssmin']);
+  grunt.registerTask('default', ['templates','concat','uglify','cssmin','chromifest']);
 
 };
