@@ -27,7 +27,7 @@ nodedit.plugins = {
         }
         
         // Get plugins
-        $.get(nodedit.plugins.plugin_dir+"plugins.json", function (list) {
+        $.getJSON(nodedit.plugins.plugin_dir+"plugins.json", function (list) {
             var plugin;
             for (plugin in list) {
                 // Send to register method
