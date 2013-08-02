@@ -9,7 +9,6 @@
   },
   "description": "Web-Based Thin-Client IDE",
   "homepage_url": "http://nodedit.com",
-  "default_locale": "en",
   "icons": {
     "16": "logos/nodedit_16.png",
     "48": "logos/nodedit_48.png",
@@ -17,5 +16,6 @@
   },
   "permissions": [
     "storage"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'"
 }
