@@ -3,5 +3,5 @@
     </div>
     
     <button class="btn-left">Discard</button>
-    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Cancel</button>
+    <button class="btn-right" id="btn-modal-close">Cancel</button>
 </form>

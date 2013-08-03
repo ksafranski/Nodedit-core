@@ -109,6 +109,6 @@
         
     </table>
     
-    <button onclick="nodedit.modal.close(); return false;">Close</button>
+    <button id="btn-modal-close">Close</button>
     
 </form>

@@ -6,5 +6,5 @@
     </select>
     
     <button class="btn-left">Set Mode</button>
-    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Cancel</button>
+    <button class="btn-right" id="btn-modal-close">Cancel</button>
 </form>

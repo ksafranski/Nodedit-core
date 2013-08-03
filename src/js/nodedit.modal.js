@@ -50,7 +50,8 @@ nodedit.modal = {
         });
         
         // Bind close
-        nodedit.$el.find(_this.el).on("click", "a.icon-remove", function () {
+        nodedit.$el.find(_this.el).on("click", "a.icon-remove, #btn-modal-close", function (e) {
+            e.preventDefault();
             _this.close();
         });
     },

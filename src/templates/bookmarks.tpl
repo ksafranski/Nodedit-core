@@ -24,5 +24,5 @@
     </div>
     
     <button class="btn-left">Save</button>
-    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Close</button>
+    <button class="btn-right" id="btn-modal-close">Close</button>
 </form>
