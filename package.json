@@ -1,6 +1,6 @@
 {
   "name": "Nodedit",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "author": "Kent Safranski <kent@fluidbyte.net>",
   "description": "A thin-client web-based interactive develoment environment for interacting with remote file systems",
   "devDependencies": {
