@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.7.0, 08-02-2013
+ Build version 0.7.0, 08-03-2013
 */
 /**
  * Creates the application object and initial configuration
@@ -855,7 +855,8 @@ nodedit.modal = {
         });
         
         // Bind close
-        nodedit.$el.find(_this.el).on("click", "a.icon-remove", function () {
+        nodedit.$el.find(_this.el).on("click", "a.icon-remove, #btn-modal-close", function (e) {
+            e.preventDefault();
             _this.close();
         });
     },
@@ -2947,11 +2948,26 @@ nodedit.plugins = {
             
             // Loop through and create DOM elements
             for (var plugin in _this.plugin_menu) {
-                output += "<li><a onclick=\"nodedit.plugin."+_this.plugin_menu[plugin].object+".onMenu();\"><span class=\""+_this.plugin_menu[plugin].icon+"\"></span> "+plugin+"</a></li>";
+                // Output
+                output += "<li><a id=\"plugin-"+_this.plugin_menu[plugin].object+"\"><span class=\""+_this.plugin_menu[plugin].icon+"\"></span> "+plugin+"</a></li>";
             }
             
             // Set in menu and show
             menu.show().children("ul").html(output);
+            
+            // Plugin bind
+            var bindPluginOnMenu = function (plugin) {
+                $("#plugin-"+plugin).bind("click", function () {
+                    if (nodedit.plugin[plugin].hasOwnProperty('onMenu')) {
+                        nodedit.plugin[plugin].onMenu();
+                    }
+                });
+            };
+            
+            // Bind onMenu calls
+            for (plugin in nodedit.plugin) {
+                bindPluginOnMenu(plugin);
+            }
             
         }
     }

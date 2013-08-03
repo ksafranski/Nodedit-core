@@ -27,7 +27,7 @@
     </div>
     
     <button class="btn-left">Save</button>
-    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Close</button>
+    <button class="btn-right" id="btn-modal-close">Close</button>
 </form>
 </script>
 
@@ -65,7 +65,7 @@
     </select>
     
     <button class="btn-left">Set Mode</button>
-    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Cancel</button>
+    <button class="btn-right" id="btn-modal-close">Cancel</button>
 </form>
 </script>
 
@@ -76,7 +76,7 @@
     </div>
     
     <button class="btn-left">Discard</button>
-    <button class="btn-right" onclick="nodedit.modal.close(); return false;">Cancel</button>
+    <button class="btn-right" id="btn-modal-close">Cancel</button>
 </form>
 </script>
 
@@ -296,7 +296,7 @@
         
     </table>
     
-    <button onclick="nodedit.modal.close(); return false;">Close</button>
+    <button id="btn-modal-close">Close</button>
     
 </form>
 </script>
