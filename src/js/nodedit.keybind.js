@@ -11,7 +11,7 @@ nodedit.keybind = function(params){
     
     // Timeout before cur_combo resets
  
-    this.timeout = params.timeout || 1000;
+    this.timeout = params.timeout || 2000;
     
     // Callback
  
