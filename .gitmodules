@@ -1,3 +1,6 @@
 [submodule "plugins/colorutil"]
 	path = plugins/colorutil
 	url = https://github.com/Fluidbyte/Nodedit-Plugin-ColorUtil.git
+[submodule "plugins/jslint"]
+	path = plugins/jslint
+	url = https://github.com/Fluidbyte/Nodedit-Plugin-JSLint.git
