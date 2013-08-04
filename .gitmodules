@@ -1,0 +1,3 @@
+[submodule "plugins/colorutil"]
+	path = plugins/colorutil
+	url = https://github.com/Fluidbyte/Nodedit-Plugin-ColorUtil.git
