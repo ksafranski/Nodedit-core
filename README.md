@@ -4,6 +4,15 @@
 
 Nodedit is a thin-client IDE that runs completely in the browser. To work with files you connect to an instance of the [Nodedit-Server](https://github.com/Fluidbyte/Nodedit-Server) which controls I/O with the remote filesystem. Simply provide the URL (and port) as well as an API key and that's it.
 
+## Plugin Submodules
+
+When you pull/clone the source it's important to init and update the submodules. There is a bash script provided, simply do the following:
+
+1. Ensure the bash file `getPlugins.sh` has execute rights, typically `chmod +x getPlugins.sh` will work.
+2. Run the bash file via `./getPlugins.sh`
+
+This will initialize and pull the plugins so they work properly.
+
 ## Running Nodedit
 
 As mentioned above, ensure that you have an instance of [Nodedit-Server](https://github.com/Fluidbyte/Nodedit-Server) running on a server.
