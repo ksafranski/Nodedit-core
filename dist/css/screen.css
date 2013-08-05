@@ -1,6 +1,6 @@
 /*!
  Nodedit is free software released without warranty under the MIT license by Kent Safranski
- Build version 0.7.5, 08-04-2013
+ Build version 0.7.5, 08-05-2013
 */
 /* RESET */
 
@@ -603,6 +603,7 @@ table label, table input, table select {
     overflow: hidden;
     cursor: pointer;
     text-transform: none;
+    white-space: nowrap;
 }
 
 #tabs li label.changed::before, #tabs-reveal-menu li label.changed:before {
